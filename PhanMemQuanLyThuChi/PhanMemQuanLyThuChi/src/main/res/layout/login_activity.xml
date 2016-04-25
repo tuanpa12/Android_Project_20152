@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@android:color/holo_blue_dark"
+    android:background="#0045A4"
     android:gravity="center"
     android:orientation="vertical">
 
@@ -15,7 +15,7 @@
         android:gravity="center_horizontal"
         android:text="Quản Lý Chi Tiêu"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:textColor="@android:color/holo_red_light"
+        android:textColor="#FFFF"
         android:textSize="30sp"
         android:textStyle="normal|bold" />
 

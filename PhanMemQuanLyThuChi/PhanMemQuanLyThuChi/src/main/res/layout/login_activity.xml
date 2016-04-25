@@ -17,6 +17,7 @@
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:textColor="#FFFF"
         android:textSize="30sp"
+        android:fontFamily="sans-serif-condensed"
         android:textStyle="normal|bold" />
 
     <EditText

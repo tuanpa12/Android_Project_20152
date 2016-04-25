@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<instant-run
+    abi="armeabi-v7a,armeabi"
+    api-level="23"
+    density="xxhdpi"
+    format="7"
+    timestamp="62999521774012" >
+
+    <task
+        name="javac"
+        duration="0" />
+    <task
+        name="instant-run-dex"
+        duration="0" />
+    <task
+        name="instant-run-transform"
+        duration="0" />
+    <task
+        name="verifier"
+        duration="0" />
+
+    <artifact
+        location="C:\Users\Legendary\Documents\GitHub\Android_IT3660_20152\PhanMemQuanLyThuChi\PhanMemQuanLyThuChi\build\outputs\apk\phanMemQuanLyThuChi-debug.apk"
+        type="MAIN" />
+
+    <build timestamp="62999521774012" >
+        <artifact
+            location="C:\Users\Legendary\Documents\GitHub\Android_IT3660_20152\PhanMemQuanLyThuChi\PhanMemQuanLyThuChi\build\outputs\apk\phanMemQuanLyThuChi-debug.apk"
+            type="MAIN" />
+    </build>
+
+</instant-run>

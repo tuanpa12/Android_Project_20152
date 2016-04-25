@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="example.phanmemquanlythuchi"
+    android:versionCode="1"
+    android:versionName="1.0">
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+
+    <application
+        android:fullBackupContent="true"
+        android:icon="@drawable/ic_launcher"
+        android:label="@string/app_name"
+        android:theme="@style/AppTheme">
+        <activity android:name=".Login">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".MainActivity"
+            android:label="@string/app_name" />
+        <activity
+            android:name=".TienChi"
+            android:label="Ghi chép chi tiêu"
+            android:parentActivityName=".MainActivity" />
+        <activity
+            android:name=".TienThu"
+            android:label="Ghi chép thu nhập"
+            android:parentActivityName=".MainActivity" />
+        <activity
+            android:name=".DanhSachThuChi"
+            android:label="Danh sách thu chi"
+            android:parentActivityName=".MainActivity" />
+        <activity
+            android:name=".BaoCaoThuChi"
+            android:label="Thống kê - Biểu đồ"
+            android:parentActivityName=".MainActivity" />
+        <activity
+            android:name=".NgoaiTe"
+            android:label="Quy đổi tiền tệ"
+            android:parentActivityName=".MainActivity" />
+        <activity
+            android:name="org.achartengine.GraphicalActivity"
+            android:parentActivityName=".BaoCaoThuChi"
+            android:theme="@style/addTheme" />
+        <activity
+            android:name=".LaiXuat"
+            android:label="Lãi xuất ngân hàng"
+            android:parentActivityName=".MainActivity" />
+        <!--<activity
+            android:name=".CircleActivity"
+            android:label="MENU" />-->
+    </application>
+
+</manifest>

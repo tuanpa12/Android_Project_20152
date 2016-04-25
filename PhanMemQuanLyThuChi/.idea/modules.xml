@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<project version="4">
-  <component name="ProjectModuleManager">
-    <modules>
-      <module fileurl="file://$PROJECT_DIR$/PhanMemQuanLyThuChi.iml" filepath="$PROJECT_DIR$/PhanMemQuanLyThuChi.iml" />
-      <module fileurl="file://$PROJECT_DIR$/PhanMemQuanLyThuChi/phanMemQuanLyThuChi.iml" filepath="$PROJECT_DIR$/PhanMemQuanLyThuChi/phanMemQuanLyThuChi.iml" />
-    </modules>
-  </component>
-</project>

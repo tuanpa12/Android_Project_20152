@@ -53,7 +53,7 @@ public class TienThu extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.nhapkhoanthu);
+        setContentView(R.layout.activity_nhapkhoanthu);
         //setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
         tenkhoanthu = (EditText) findViewById(R.id.editText_tenkhoanthu);

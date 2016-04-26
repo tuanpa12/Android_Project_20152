@@ -86,7 +86,7 @@ public class DanhSach extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.baocaothuchi);
+        setContentView(R.layout.activity_danhsachthuchi);
         //setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
         listthu = (ListView) findViewById(R.id.listView_danhsachkhoanthu);

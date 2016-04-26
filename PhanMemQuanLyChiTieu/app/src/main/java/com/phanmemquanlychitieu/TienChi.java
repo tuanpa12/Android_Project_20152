@@ -50,7 +50,7 @@ public class TienChi extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.nhapkhoanchi);
+        setContentView(R.layout.activity_nhapkhoanchi);
         //setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
         tenkhoanchi = (EditText) findViewById(R.id.editText_tenkhoanchi);

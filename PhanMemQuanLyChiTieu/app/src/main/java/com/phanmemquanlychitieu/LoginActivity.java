@@ -2,6 +2,8 @@ package com.phanmemquanlychitieu;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -12,22 +14,28 @@ import com.firebase.client.AuthData;
 import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
 
+import Database.UserDatabase;
+
 /**
  * Created by Legendary on 25/04/2016.
  */
 public class LoginActivity extends Activity {
-    EditText email, password;
-    Button btnLogin, btnSignUp;
-    Firebase root;
+    private EditText email, password;
+    private Button btnLogin, btnSignUp;
+    private Firebase root;
+    private UserDatabase userDb;
+    private SQLiteDatabase mSQLite;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-        //setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         getActionBar().hide();
         Firebase.setAndroidContext(this);
         root = new Firebase("https://expenseproject.firebaseio.com/");
+        userDb = new UserDatabase(this);
+        mSQLite = userDb.getWritableDatabase();
+
         loadControl();
 
         // login

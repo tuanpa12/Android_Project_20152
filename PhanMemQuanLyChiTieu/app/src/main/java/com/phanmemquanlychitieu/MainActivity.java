@@ -1,9 +1,8 @@
 package com.phanmemquanlychitieu;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 
+import Object.Items;
 
 import Adapter.Menu;
 import Database.dbChi;
@@ -122,28 +121,32 @@ public class MainActivity extends Activity {
     }
 
     public void syncData() {
+        int id = 0;
         // sync expense data
         mDbchi = dbchi.getWritableDatabase();
         String querychi = "select * from chi";
         mCursorchi = mDbchi.rawQuery(querychi, null);
-        Map<String, String> map;
         Firebase expenseRef = usersRef.child("Expense");
+        Items item;
         if (mCursorchi.moveToFirst()) {
+            int i = 0;
             do {
-                map = new HashMap<String, String>();
-                String node = mCursorchi.getString(0);
+                id = Integer.parseInt(mCursorchi.getString(0));
                 String name = mCursorchi.getString(1);
                 String cost = mCursorchi.getString(2);
                 String type = mCursorchi.getString(3);
-                String note = mCursorchi.getString(4);
-                String date = mCursorchi.getString(5);
-                map.put("name", name);
-                map.put("cost", cost);
-                map.put("type", type);
-                map.put("note", note);
-                map.put("date", date);
-                expenseRef.child(node).setValue(map);
+                String date = mCursorchi.getString(4);
+                String note = mCursorchi.getString(5);
+                item = new Items(name, cost, type, note, date, id);
+                expenseRef.child("" + id).setValue(item);
+                i++;
+                if (i != id) {
+                    expenseRef.child("" + i).setValue(null);
+                    i = id;
+                }
             } while (mCursorchi.moveToNext());
+        } else {
+            expenseRef.setValue(null);
         }
 
         // sync income data
@@ -152,22 +155,28 @@ public class MainActivity extends Activity {
         mCursorthu = mDbthu.rawQuery(query, null);
         Firebase incomeRef = usersRef.child("Income");
         if (mCursorthu.moveToFirst()) {
+            int i = 0;
             do {
-                map = new HashMap<String, String>();
-                String node = mCursorthu.getString(0);
+                id = Integer.parseInt(mCursorthu.getString(0));
                 String name = mCursorthu.getString(1);
                 String cost = mCursorthu.getString(2);
                 String type = mCursorthu.getString(3);
-                String note = mCursorthu.getString(4);
-                String date = mCursorthu.getString(5);
-                map.put("name", name);
-                map.put("cost", cost);
-                map.put("type", type);
-                map.put("note", note);
-                map.put("date", date);
-                incomeRef.child(node).setValue(map);
+                String date = mCursorthu.getString(4);
+                String note = mCursorthu.getString(5);
+                item = new Items(name, cost, type, note, date, id);
+                incomeRef.child("" + id).setValue(item);
+                i++;
+                if (i != id) {
+                    incomeRef.child("" + i).setValue(null);
+                    i = id;
+                }
             } while (mCursorthu.moveToNext());
+        } else {
+            incomeRef.setValue(null);
         }
+        // close database
+        mDbchi.close();
+        mDbthu.close();
     }
 
     @Override
@@ -191,6 +200,7 @@ public class MainActivity extends Activity {
                 arrchi.add(objectchi2);
             } while (mCursorchi.moveToNext());
         }
+        mDbchi.close();
     }
 
     public void danhSachThu() {
@@ -207,5 +217,6 @@ public class MainActivity extends Activity {
                 arrthu.add(objectchi2);
             } while (mCursorthu.moveToNext());
         }
+        mDbthu.close();
     }
 }

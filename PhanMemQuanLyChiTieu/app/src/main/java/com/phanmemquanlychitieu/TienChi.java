@@ -63,7 +63,6 @@ public class TienChi extends Activity {
         adapterchi = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, arrspinner);
         nhomkhoanchi.setAdapter(adapterchi);
         dbchi = new dbChi(this);
-        mDbchi = dbchi.getWritableDatabase();
         dexuat();
         chonngaykhoanchi.setOnClickListener(new OnClickListener() {
             @Override
@@ -99,6 +98,7 @@ public class TienChi extends Activity {
                     Toast toast = Toast.makeText(TienChi.this, "Bạn Chưa Nhập Tiền", Toast.LENGTH_SHORT);
                     toast.show();
                 } else {
+                    mDbchi = dbchi.getWritableDatabase();
                     ContentValues cv = new ContentValues();
                     String name = tenkhoanchi.getText().toString();
                     String cost = sotienkhoanchi.getText().toString();
@@ -117,6 +117,7 @@ public class TienChi extends Activity {
                     ghichukhoanchi.setText(null);
                     Toast toast = Toast.makeText(TienChi.this, "Nhập Thành Công", Toast.LENGTH_SHORT);
                     toast.show();
+                    mDbchi.close();
                 }
             }
         });

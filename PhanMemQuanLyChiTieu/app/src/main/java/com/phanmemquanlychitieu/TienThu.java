@@ -66,15 +66,6 @@ public class TienThu extends Activity {
         adapterthu = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, arrspinner);
         nhomkhoanthu.setAdapter(adapterthu);
         dbthu = new dbThu(this);
-        mDbthu = dbthu.getWritableDatabase();
-        /*mDbthu = dbthu.getWritableDatabase();
-        String query = "select * from thu";
-		mCursorthu = mDbthu.rawQuery(query, null);
-		if (mCursorthu.moveToFirst()) {
-	           do {
-	        	  
-	           } while (mCursorthu.moveToNext());
-	       }*/
         dexuat();
         chonngaykhoanthu.setOnClickListener(new OnClickListener() {
 
@@ -112,6 +103,7 @@ public class TienThu extends Activity {
                     Toast toast = Toast.makeText(TienThu.this, "Bạn Chưa Nhập Tiền", Toast.LENGTH_SHORT);
                     toast.show();
                 } else {
+                    mDbthu = dbthu.getWritableDatabase();
                     ContentValues cv = new ContentValues();
                     String name = tenkhoanthu.getText().toString();
                     String cost = sotienkhoanthu.getText().toString();
@@ -130,6 +122,7 @@ public class TienThu extends Activity {
                     ghichukhoanthu.setText(null);
                     Toast toast = Toast.makeText(TienThu.this, "Nhập Thành Công", Toast.LENGTH_SHORT);
                     toast.show();
+                    mDbthu.close();
                 }
             }
         });

@@ -30,7 +30,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 public class TienThu extends Activity {
-
     EditText tenkhoanthu, sotienkhoanthu, ghichukhoanthu;
     Spinner nhomkhoanthu;
     TextView ngaykhoanthu;
@@ -54,7 +53,6 @@ public class TienThu extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_nhapkhoanthu);
-        //setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
         tenkhoanthu = (EditText) findViewById(R.id.editText_tenkhoanthu);
         sotienkhoanthu = (EditText) findViewById(R.id.editText_tienkhoanthu);
@@ -116,6 +114,7 @@ public class TienThu extends Activity {
                     cv.put(dbThu.COL_GHICHU, note);
                     cv.put(dbThu.COL_DATE, date);
                     mDbthu.insert(dbThu.TABLE_NAME, null, cv);
+
                     // reset view
                     tenkhoanthu.setText(null);
                     sotienkhoanthu.setText(null);

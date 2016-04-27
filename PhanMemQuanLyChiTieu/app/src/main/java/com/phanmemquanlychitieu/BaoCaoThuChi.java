@@ -113,7 +113,6 @@ public class BaoCaoThuChi extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_baocaothuchi);
-        //setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
         listhientai = (ListView) findViewById(R.id.listView_baocaohientai);
         arrhientai = new ArrayList<BaoCao>();
@@ -125,26 +124,23 @@ public class BaoCaoThuChi extends Activity {
         if (arrchi.size() == 0 && arrthu.size() == 0) {
             BaoCaoThuChi.this.finish();
         }
-        //System.out.println("gia tri ban dau:"+khac.TIENBANDAU);
         layNgayGiohientai();
 
         //tinh tong gia tri thu chi
         for (int i = 0; i < arrthu.size(); i++) {
             if (arrthu.get(i).getNgay().equals(datehientai)) {
-                String a = arrthu.get(i).getTienthu().toString();
+                String a = arrthu.get(i).getTienthu();
                 sumthu += Double.parseDouble(a);
             }
         }
-        //System.out.println("sum--- thhu-)"+sumthu);
         //tong chi
         for (int i = 0; i < arrchi.size(); i++) {
             if (arrchi.get(i).getNgay().equals(datehientai)) {
-                String a = arrchi.get(i).getTienchi().toString();
+                String a = arrchi.get(i).getTienchi();
                 sumchi += Double.parseDouble(a);
             }
         }
 
-        //System.out.println("sum--- thhu-)"+sumchi);
         baoCaoNgayHienTai();
         baoCaoThangHienTai();
         baoCaoNamHienTai();
@@ -202,7 +198,7 @@ public class BaoCaoThuChi extends Activity {
             @Override
             public void onClick(View v) {
 
-                imageId = new ArrayList<Integer>();
+                imageId = new ArrayList<>();
                 imageId.add(R.drawable.thang1);
                 imageId.add(R.drawable.thang2);
                 imageId.add(R.drawable.thang3);
@@ -327,8 +323,6 @@ public class BaoCaoThuChi extends Activity {
 
                 BaoCao baocaothang12 = new BaoCao();
                 double thangthu12 = baocaothang12.thuThangThu(thangnam.getText().toString(), arrthu, "12");
-                //System.out.println("tien:"+doi.doiThang1(arrthu.get(0).getTienthu()));
-                //System.out.println("tien:"+doi.doiThang1(arrthu.get(0).getNgay()));
                 double thangchi12 = baocaothang12.thuThangChi(thangnam.getText().toString(), arrchi, "12");
                 baocaothang12.setTienthu(String.valueOf(thangthu12));
                 baocaothang12.setTienchi(String.valueOf(thangchi12));
@@ -353,9 +347,7 @@ public class BaoCaoThuChi extends Activity {
                 double e = objectthuchi.kqthang("Đi Lại", thangnam.getText().toString() + arrcalendar.get(position), arrchi);
                 double f = objectthuchi.kqthang("Trả Nợ", thangnam.getText().toString() + arrcalendar.get(position), arrchi);
                 double g = objectthuchi.kqthang("Khác", thangnam.getText().toString() + arrcalendar.get(position), arrchi);
-                System.out.println("nhap-------" + thangnam.getText().toString() + arrcalendar.get(position));
                 DoiNgay doi = new DoiNgay();
-                System.out.println("ngay--------" + doi.doiThang1(arrchi.get(position).getNgay()));
                 openChart(a, b, c, d, e, f, g);
             }
         });
@@ -577,7 +569,7 @@ public class BaoCaoThuChi extends Activity {
     public void baoCaoNgayHienTai() {
         danhsach = new BaoCao();
         doingaychi = new DoiNgay();
-        danhsach.setTitle(title[0].toString());
+        danhsach.setTitle(title[0]);
         danhsach.setNgay(doingaychi.ngay(datehientai));
         danhsach.setTienthu(String.valueOf(sumthu));
         danhsach.setTienchi(String.valueOf(sumchi));
@@ -586,22 +578,21 @@ public class BaoCaoThuChi extends Activity {
 
     public void baoCaoThangHienTai() {
         doingaychi = new DoiNgay();
-        //System.out.println("sum--- thhu-)"+doingaychi.doiThang1(arrthu.get(0).getDate()));
         for (int i = 0; i < arrthu.size(); i++) {
             if (doingaychi.doiThang1(arrthu.get(i).getNgay()).equals(thanghientai)) {
-                String a = arrthu.get(i).getTienthu().toString();
+                String a = arrthu.get(i).getTienthu();
                 sumthuthang += Double.parseDouble(a);
             }
         }
         for (int i = 0; i < arrchi.size(); i++) {
             if (doingaychi.doiThang1(arrchi.get(i).getNgay()).equals(thanghientai)) {
-                String a = arrchi.get(i).getTienchi().toString();
+                String a = arrchi.get(i).getTienchi();
                 sumchithang += Double.parseDouble(a);
             }
         }
         danhsachthang = new BaoCao();
         doingaychi = new DoiNgay();
-        danhsachthang.setTitle(title[1].toString());
+        danhsachthang.setTitle(title[1]);
         danhsachthang.setNgay(doingaychi.thang(datehientai));
         danhsachthang.setTienthu(String.valueOf(sumthuthang));
         danhsachthang.setTienchi(String.valueOf(sumchithang));
@@ -610,22 +601,21 @@ public class BaoCaoThuChi extends Activity {
 
     public void baoCaoNamHienTai() {
         doingaychi = new DoiNgay();
-        //System.out.println("sum--- thhu-)"+doingaychi.doiNam1(arrthu.get(0).getDate()));
         for (int i = 0; i < arrthu.size(); i++) {
             if (doingaychi.doiNam1(arrthu.get(i).getNgay()).equals(namhientai)) {
-                String a = arrthu.get(i).getTienthu().toString();
+                String a = arrthu.get(i).getTienthu();
                 sumthunam += Double.parseDouble(a);
             }
         }
         for (int i = 0; i < arrchi.size(); i++) {
             if (doingaychi.doiNam1(arrchi.get(i).getNgay()).equals(namhientai)) {
-                String a = arrchi.get(i).getTienchi().toString();
+                String a = arrchi.get(i).getTienchi();
                 sumchinam += Double.parseDouble(a);
             }
         }
         danhsachnam = new BaoCao();
         doingaychi = new DoiNgay();
-        danhsachnam.setTitle(title[2].toString());
+        danhsachnam.setTitle(title[2]);
         danhsachnam.setNgay(doingaychi.nam(datehientai));
         danhsachnam.setTienthu(String.valueOf(sumthunam));
         danhsachnam.setTienchi(String.valueOf(sumchinam));

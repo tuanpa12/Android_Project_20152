@@ -1,6 +1,7 @@
 package com.phanmemquanlychitieu;
 
 import android.app.Activity;
+import android.content.ContentValues;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -20,11 +21,11 @@ import Database.UserDatabase;
  * Created by Legendary on 25/04/2016.
  */
 public class LoginActivity extends Activity {
-    private EditText email, password;
-    private Button btnLogin, btnSignUp;
-    private Firebase root;
-    private UserDatabase userDb;
-    private SQLiteDatabase mSQLite;
+    EditText email, password;
+    Button btnLogin, btnSignUp;
+    Firebase root;
+    UserDatabase userDb;
+    SQLiteDatabase mSQLite;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,13 +43,22 @@ public class LoginActivity extends Activity {
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                root.authWithPassword(email.getText().toString(), password.getText().toString(), new Firebase.AuthResultHandler() {
+                final String name = email.getText().toString();
+                final String emails = email.getText().toString();
+
+                root.authWithPassword(emails, password.getText().toString(), new Firebase.AuthResultHandler() {
                     @Override
                     public void onAuthenticated(AuthData authData) {
+                        ContentValues cv = new ContentValues();
+                        cv.put(UserDatabase.COL_NAME, name);
+                        cv.put(UserDatabase.COL_EMAIL, emails);
+                        cv.put(UserDatabase.COL_KEY, "true");
+                        mSQLite.insert(UserDatabase.TABLE_NAME, null, cv);
                         Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                         startActivity(intent);
-                        email.setText("");
-                        password.setText("");
+                        email.setVisibility(View.INVISIBLE);
+                        password.setVisibility(View.INVISIBLE);
+                        finish();
                     }
 
                     @Override

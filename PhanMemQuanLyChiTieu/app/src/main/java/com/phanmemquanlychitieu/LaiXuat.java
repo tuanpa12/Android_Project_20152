@@ -67,6 +67,9 @@ class dbLaiXuat extends SQLiteOpenHelper {
         onCreate(db);
     }
 
+    public static String getDbName() {
+        return DB_NAME;
+    }
 }
 
 
@@ -211,8 +214,7 @@ public class LaiXuat extends Activity {
                                 cv.put(dbLaiXuat.COL_TIEN, suatiennganhang.getText().toString());
                                 cv.put(dbLaiXuat.COL_DATE, suangaythang.getText().toString());
                                 cv.put(dbLaiXuat.COL_LAIXUAT, sualaixuat.getText().toString());
-                                mDblaixuat.update(dbLaiXuat.TABLE_NAME, cv, "_id " + "=" + arrngay.get(position).getId(),
-                                        null);
+                                mDblaixuat.update(dbLaiXuat.TABLE_NAME, cv, "_id " + "=" + arrngay.get(position).getId(), null);
                                 String[] columns = new String[]{"_id", dbLaiXuat.COL_NAME, dbLaiXuat.COL_DATE};
                                 mCursorlaixuat = mDblaixuat.query(dbLaiXuat.TABLE_NAME, columns, null, null, null, null, null, null);
                                 String[] headers = new String[]{dbLaiXuat.COL_NAME, dbLaiXuat.COL_DATE};

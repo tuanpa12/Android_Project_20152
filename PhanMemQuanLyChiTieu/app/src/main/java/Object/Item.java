@@ -3,7 +3,7 @@ package Object;
 /**
  * Created by Legendary on 27/04/2016.
  */
-public class Items {
+public class Item {
     private String name;
     private String cost;
     private String type;
@@ -11,10 +11,10 @@ public class Items {
     private String date;
     private int id;
 
-    public Items() {
+    public Item() {
     }
 
-    public Items(String name, String cost, String type, String note, String date, int id) {
+    public Item(String name, String cost, String type, String note, String date, int id) {
         this.name = name;
         this.cost = cost;
         this.type = type;

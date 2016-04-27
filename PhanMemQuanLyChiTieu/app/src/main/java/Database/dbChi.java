@@ -35,4 +35,7 @@ public class dbChi extends SQLiteOpenHelper {
         onCreate(db);
     }
 
+    public static String getDbName() {
+        return DB_NAME;
+    }
 }

@@ -2,7 +2,7 @@ package com.phanmemquanlychitieu;
 
 import java.util.ArrayList;
 
-import Object.Items;
+import Database.UserDatabase;
 
 import Adapter.Menu;
 import Database.dbChi;
@@ -22,18 +22,24 @@ import android.widget.AdapterView;
 import android.widget.Toast;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.GridView;
-
+import Object.Item;
 import com.firebase.client.Firebase;
 
 public class MainActivity extends Activity {
     final static String[] mItemTexts = new String[]{
             "Thu nhập", "Chi tiêu", "Danh Sách",
-            "Biều đồ", "Đổi tiền tệ", "Gửi tiết kiệm", "Đồng bộ", "Thoát"};
+            "Biều đồ", "Đổi tiền tệ", "Gửi tiết kiệm", "Đồng bộ", "Đăng xuất"};
     final static int[] mItemImgs = new int[]{
             R.drawable.icon_thu, R.drawable.icon_chi, R.drawable.icon_danh_sach,
             R.drawable.icon_bieu_do, R.drawable.icon_tien_te, R.drawable.save_money, R.drawable.sync,
             R.drawable.icon_exit};
     // danh sach thu
+    UserDatabase userDb;
+    SQLiteDatabase mSQLite;
+
+    dbLaiXuat laiXuatDb;
+    SQLiteDatabase mDbLaiXuat;
+
     dbThu dbthu;
     SQLiteDatabase mDbthu;
     Cursor mCursorthu;
@@ -57,8 +63,14 @@ public class MainActivity extends Activity {
         root = new Firebase("https://expenseproject.firebaseio.com/");
         usersRef = root.child(Build.SERIAL);
 
+        userDb = new UserDatabase(this);
         dbthu = new dbThu(this);
         dbchi = new dbChi(this);
+        laiXuatDb = new dbLaiXuat(this);
+        mSQLite = userDb.getWritableDatabase();
+        mDbthu = dbthu.getWritableDatabase();
+        mDbchi = dbchi.getWritableDatabase();
+        mDbLaiXuat = laiXuatDb.getWritableDatabase();
         danhSachThu();
         danhSachChi();
         GridView grid = (GridView) findViewById(R.id.gridView_menu);
@@ -96,20 +108,25 @@ public class MainActivity extends Activity {
                     syncData();
                     Toast.makeText(MainActivity.this, "Sync success", Toast.LENGTH_SHORT).show();
                 } else if (position == 7) {
-                    //thoát chương trình
+                    // log out
                     AlertDialog.Builder exitDialog = new AlertDialog.Builder(MainActivity.this);
                     exitDialog.setTitle("Quản lý chi tiêu");
-                    exitDialog.setMessage("Bạn có thực sự muốn thoát chương trình không?");
+                    exitDialog.setMessage("Bạn có thực sự muốn đăng xuất chương trình không?");
                     exitDialog.setNegativeButton("Có", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
+                            Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+                            mSQLite.execSQL("delete from " + UserDatabase.TABLE_NAME);
+                            mDbthu.execSQL("delete from " + dbThu.TABLE_NAME);
+                            mDbchi.execSQL("delete from " + dbChi.TABLE_NAME);
+                            mDbLaiXuat.execSQL("delete from " + dbLaiXuat.TABLE_NAME);
+                            startActivity(intent);
                             finish();
                         }
                     });
                     exitDialog.setPositiveButton("Để sau", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
-                            return;
                         }
                     });
                     exitDialog.setCancelable(false);
@@ -121,15 +138,17 @@ public class MainActivity extends Activity {
     }
 
     public void syncData() {
-        int id = 0;
+        int id;
+        Firebase expenseRef = usersRef.child("Expense");
+        Firebase incomeRef = usersRef.child("Income");
+        expenseRef.setValue(null);
+        incomeRef.setValue(null);
         // sync expense data
-        mDbchi = dbchi.getWritableDatabase();
+        mDbchi = dbchi.getReadableDatabase();
         String querychi = "select * from chi";
         mCursorchi = mDbchi.rawQuery(querychi, null);
-        Firebase expenseRef = usersRef.child("Expense");
-        Items item;
+        Item item;
         if (mCursorchi.moveToFirst()) {
-            int i = 0;
             do {
                 id = Integer.parseInt(mCursorchi.getString(0));
                 String name = mCursorchi.getString(1);
@@ -137,25 +156,16 @@ public class MainActivity extends Activity {
                 String type = mCursorchi.getString(3);
                 String date = mCursorchi.getString(4);
                 String note = mCursorchi.getString(5);
-                item = new Items(name, cost, type, note, date, id);
+                item = new Item(name, cost, type, note, date, id);
                 expenseRef.child("" + id).setValue(item);
-                i++;
-                if (i != id) {
-                    expenseRef.child("" + i).setValue(null);
-                    i = id;
-                }
             } while (mCursorchi.moveToNext());
-        } else {
-            expenseRef.setValue(null);
         }
 
         // sync income data
-        mDbthu = dbthu.getWritableDatabase();
+        mDbthu = dbthu.getReadableDatabase();
         String query = "select * from thu";
         mCursorthu = mDbthu.rawQuery(query, null);
-        Firebase incomeRef = usersRef.child("Income");
         if (mCursorthu.moveToFirst()) {
-            int i = 0;
             do {
                 id = Integer.parseInt(mCursorthu.getString(0));
                 String name = mCursorthu.getString(1);
@@ -163,20 +173,10 @@ public class MainActivity extends Activity {
                 String type = mCursorthu.getString(3);
                 String date = mCursorthu.getString(4);
                 String note = mCursorthu.getString(5);
-                item = new Items(name, cost, type, note, date, id);
+                item = new Item(name, cost, type, note, date, id);
                 incomeRef.child("" + id).setValue(item);
-                i++;
-                if (i != id) {
-                    incomeRef.child("" + i).setValue(null);
-                    i = id;
-                }
             } while (mCursorthu.moveToNext());
-        } else {
-            incomeRef.setValue(null);
         }
-        // close database
-        mDbchi.close();
-        mDbthu.close();
     }
 
     @Override
@@ -200,7 +200,6 @@ public class MainActivity extends Activity {
                 arrchi.add(objectchi2);
             } while (mCursorchi.moveToNext());
         }
-        mDbchi.close();
     }
 
     public void danhSachThu() {
@@ -217,6 +216,5 @@ public class MainActivity extends Activity {
                 arrthu.add(objectchi2);
             } while (mCursorthu.moveToNext());
         }
-        mDbthu.close();
     }
 }

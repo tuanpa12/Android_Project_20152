@@ -1,28 +1,5 @@
 package com.phanmemquanlychitieu;
 
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Locale;
-
-import org.achartengine.ChartFactory;
-import org.achartengine.model.CategorySeries;
-import org.achartengine.renderer.DefaultRenderer;
-import org.achartengine.renderer.SimpleSeriesRenderer;
-
-
-import Adapter.BaoCaoNam;
-import Adapter.BaoCaoQuy;
-import Adapter.BaoCaoThang;
-import Adapter.BaoCaoHienTai;
-import Adapter.DoiNgay;
-import Database.dbChi;
-import Database.dbThu;
-import Object.BaoCao;
-import Object.TienThuChi;
-
-import android.os.Build;
-import android.os.Bundle;
 import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.app.Activity;
@@ -33,6 +10,8 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
+import android.os.Build;
+import android.os.Bundle;
 import android.view.Menu;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -43,6 +22,26 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TabHost;
+
+import org.achartengine.ChartFactory;
+import org.achartengine.model.CategorySeries;
+import org.achartengine.renderer.DefaultRenderer;
+import org.achartengine.renderer.SimpleSeriesRenderer;
+
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Locale;
+
+import Adapter.BaoCaoHienTai;
+import Adapter.BaoCaoNam;
+import Adapter.BaoCaoQuy;
+import Adapter.BaoCaoThang;
+import Adapter.DoiNgay;
+import Database.dbChi;
+import Database.dbThu;
+import Object.BaoCao;
+import Object.TienThuChi;
 
 public class BaoCaoThuChi extends Activity {
 
@@ -56,7 +55,7 @@ public class BaoCaoThuChi extends Activity {
     Cursor mCursorchi;
     // private SimpleCursorAdapter mAdapterchi;
     ListView listhientai;
-    DanhSach dsthuchi;
+    DanhSachThuChi dsthuchi;
     Object object;
     String title[] = {"Hôm Nay", "Tháng nay", "Năm Nay"};
     BaoCao danhsach;

@@ -1,17 +1,5 @@
 package com.phanmemquanlychitieu;
 
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Locale;
-
-import Adapter.DanhSachTienTe;
-import Adapter.DanhSachTienTeChi;
-import Adapter.DoiNgay;
-import Database.dbChi;
-import Database.dbThu;
-import Object.TienThuChi;
-
 import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.app.Activity;
@@ -41,6 +29,18 @@ import android.widget.SimpleCursorAdapter;
 import android.widget.Spinner;
 import android.widget.TabHost;
 import android.widget.TextView;
+
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Locale;
+
+import Adapter.DanhSachTienTe;
+import Adapter.DanhSachTienTeChi;
+import Adapter.DoiNgay;
+import Database.dbChi;
+import Database.dbThu;
+import Object.TienThuChi;
 
 @SuppressLint("ShowToast")
 public class NgoaiTe extends Activity {

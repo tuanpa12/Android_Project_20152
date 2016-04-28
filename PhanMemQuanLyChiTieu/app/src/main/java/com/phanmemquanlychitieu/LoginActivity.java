@@ -3,12 +3,13 @@ package com.phanmemquanlychitieu;
 import android.app.Activity;
 import android.content.ContentValues;
 import android.content.Intent;
-import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
+import android.widget.ScrollView;
 import android.widget.Toast;
 
 import com.firebase.client.AuthData;
@@ -23,6 +24,8 @@ import Database.UserDatabase;
 public class LoginActivity extends Activity {
     EditText email, password;
     Button btnLogin, btnSignUp;
+    ProgressBar bar;
+    ScrollView login_form;
     Firebase root;
     UserDatabase userDb;
     SQLiteDatabase mSQLite;
@@ -49,6 +52,8 @@ public class LoginActivity extends Activity {
                 root.authWithPassword(emails, password.getText().toString(), new Firebase.AuthResultHandler() {
                     @Override
                     public void onAuthenticated(AuthData authData) {
+                        login_form.setVisibility(View.GONE);
+                        bar.setVisibility(View.VISIBLE);
                         ContentValues cv = new ContentValues();
                         cv.put(UserDatabase.COL_NAME, name);
                         cv.put(UserDatabase.COL_EMAIL, emails);
@@ -56,8 +61,6 @@ public class LoginActivity extends Activity {
                         mSQLite.insert(UserDatabase.TABLE_NAME, null, cv);
                         Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                         startActivity(intent);
-                        email.setVisibility(View.INVISIBLE);
-                        password.setVisibility(View.INVISIBLE);
                         finish();
                     }
 
@@ -73,18 +76,7 @@ public class LoginActivity extends Activity {
         btnSignUp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                root.createUser(email.getText().toString(), password.getText().toString(), new Firebase.ResultHandler() {
-                    @Override
-                    public void onSuccess() {
-                        Toast.makeText(getApplicationContext(), "Successfully created user account", Toast.LENGTH_LONG).show();
-                        password.setText("");
-                    }
-
-                    @Override
-                    public void onError(FirebaseError firebaseError) {
-                        Toast.makeText(getApplicationContext(), firebaseError.getMessage(), Toast.LENGTH_LONG).show();
-                    }
-                });
+                // do something
             }
         });
     }
@@ -94,5 +86,7 @@ public class LoginActivity extends Activity {
         password = (EditText) findViewById(R.id.et_login_2);
         btnLogin = (Button) findViewById(R.id.btnLogin);
         btnSignUp = (Button) findViewById(R.id.btnSignUp);
+        bar = (ProgressBar) findViewById(R.id.login_progress);
+        login_form = (ScrollView) findViewById(R.id.login_form);
     }
 }

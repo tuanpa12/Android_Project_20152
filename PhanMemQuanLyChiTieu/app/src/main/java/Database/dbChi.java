@@ -22,6 +22,10 @@ public class dbChi extends SQLiteOpenHelper {
         super(context, DB_NAME, null, DB_VERSION);
     }
 
+    public static String getDbName() {
+        return DB_NAME;
+    }
+
     @Override
     public void onCreate(SQLiteDatabase db) {
         db.execSQL(STRING_CREATE);
@@ -33,9 +37,5 @@ public class dbChi extends SQLiteOpenHelper {
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME);
         onCreate(db);
-    }
-
-    public static String getDbName() {
-        return DB_NAME;
     }
 }

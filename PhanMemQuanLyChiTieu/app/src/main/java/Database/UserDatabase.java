@@ -10,17 +10,20 @@ import android.database.sqlite.SQLiteOpenHelper;
  */
 public class UserDatabase extends SQLiteOpenHelper {
     public static final String TABLE_NAME = "userDB";
-    private static final String DB_NAME = "user data";
-
     public static final String COL_NAME = "name";
     public static final String COL_EMAIL = "email";
     public static final String COL_KEY = "key";
+    private static final String DB_NAME = "user data";
     private static final int DB_VERSION = 1;
     private static final String CREATE = "CREATE TABLE " + TABLE_NAME + " (_id INTEGER PRIMARY KEY AUTOINCREMENT,"
             + COL_NAME + " TEXT," + COL_EMAIL + " TEXT," + COL_KEY + " TEXT);";
 
     public UserDatabase(Context context) {
         super(context, DB_NAME, null, DB_VERSION);
+    }
+
+    public static String getDbName() {
+        return DB_NAME;
     }
 
     @Override
@@ -35,9 +38,5 @@ public class UserDatabase extends SQLiteOpenHelper {
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME);
         onCreate(db);
-    }
-
-    public static String getDbName() {
-        return DB_NAME;
     }
 }

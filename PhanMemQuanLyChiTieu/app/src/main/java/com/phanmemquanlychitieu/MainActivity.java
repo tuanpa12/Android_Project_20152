@@ -1,29 +1,29 @@
 package com.phanmemquanlychitieu;
 
-import java.util.ArrayList;
-
-import Database.UserDatabase;
-
-import Adapter.Menu;
-import Database.dbChi;
-import Database.dbThu;
-import Object.BaoCao;
-
-import android.os.Build;
-import android.os.Bundle;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.os.Build;
+import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.Toast;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.GridView;
-import Object.Item;
+import android.widget.Toast;
+
 import com.firebase.client.Firebase;
+
+import java.util.ArrayList;
+
+import Adapter.Menu;
+import Database.UserDatabase;
+import Database.dbChi;
+import Database.dbThu;
+import Object.BaoCao;
+import Object.Item;
 
 public class MainActivity extends Activity {
     final static String[] mItemTexts = new String[]{
@@ -88,7 +88,7 @@ public class MainActivity extends Activity {
                     Intent chuyen = new Intent(MainActivity.this, TienChi.class);
                     startActivity(chuyen);
                 } else if (position == 2) {
-                    Intent chuyen = new Intent(MainActivity.this, DanhSach.class);
+                    Intent chuyen = new Intent(MainActivity.this, DanhSachThuChi.class);
                     startActivity(chuyen);
                 } else if (position == 3) {
                     if (arrthu.size() == 0 || arrchi.size() == 0) {

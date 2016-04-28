@@ -21,14 +21,6 @@ public class User {
         this.maxIncome = maxIncome;
     }
 
-    public void setMaxExpense(String maxExpense) {
-        this.maxExpense = maxExpense;
-    }
-
-    public void setMaxIncome(String maxIncome) {
-        this.maxIncome = maxIncome;
-    }
-
     public String getName() {
         return name;
     }
@@ -45,7 +37,15 @@ public class User {
         return maxExpense;
     }
 
+    public void setMaxExpense(String maxExpense) {
+        this.maxExpense = maxExpense;
+    }
+
     public String getMaxIncome() {
         return maxIncome;
+    }
+
+    public void setMaxIncome(String maxIncome) {
+        this.maxIncome = maxIncome;
     }
 }

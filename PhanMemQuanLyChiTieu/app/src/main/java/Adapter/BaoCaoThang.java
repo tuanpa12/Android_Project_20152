@@ -1,11 +1,5 @@
 package Adapter;
 
-import java.util.ArrayList;
-
-import com.phanmemquanlychitieu.R;
-
-import Object.BaoCao;
-
 import android.app.Activity;
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -14,6 +8,12 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.phanmemquanlychitieu.R;
+
+import java.util.ArrayList;
+
+import Object.BaoCao;
 
 public class BaoCaoThang extends ArrayAdapter<BaoCao> {
     double Tong;

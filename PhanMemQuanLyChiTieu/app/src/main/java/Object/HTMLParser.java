@@ -1,15 +1,15 @@
 package Object;
 
-import java.io.IOException;
-import java.util.ArrayList;
+import android.annotation.SuppressLint;
+import android.os.StrictMode;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
-import android.annotation.SuppressLint;
-import android.os.StrictMode;
+import java.io.IOException;
+import java.util.ArrayList;
 
 public class HTMLParser {
     static public NgoaiTe chuyendoi(Element e1, Element e2, Element e3) {

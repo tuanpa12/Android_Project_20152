@@ -4,16 +4,10 @@
     android:layout_height="match_parent"
     android:padding="5dp">
 
-    <TextView
-        android:id="@+id/textViewsuachi30"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
-
     <LinearLayout
         android:id="@+id/linearLayout1"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/textViewsuachi30">
+        android:layout_height="wrap_content">
 
         <TextView
             android:id="@+id/textViewsuachi31"
@@ -33,11 +27,12 @@
         </EditText>
     </LinearLayout>
 
-    <TextView
+    <ImageView
         android:id="@+id/textViewsuachi50"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/linearLayout1" />
+        android:layout_below="@+id/linearLayout1"
+        android:src="@drawable/division" />
 
     <LinearLayout
         android:id="@+id/linearLayout2"
@@ -70,11 +65,12 @@
 
     </LinearLayout>
 
-    <TextView
+    <ImageView
         android:id="@+id/textViewsuachi6"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/linearLayout2" />
+        android:layout_below="@+id/linearLayout2"
+        android:src="@drawable/division" />
 
     <LinearLayout
         android:id="@+id/linearLayout3"
@@ -96,11 +92,12 @@
             android:textAppearance="?android:attr/textAppearanceMedium" />
     </LinearLayout>
 
-    <TextView
+    <ImageView
         android:id="@+id/textViewsuachi8"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/linearLayout3" />
+        android:layout_below="@+id/linearLayout3"
+        android:src="@drawable/division" />
 
     <LinearLayout
         android:id="@+id/linearLayout4"
@@ -131,11 +128,12 @@
 
     </LinearLayout>
 
-    <TextView
+    <ImageView
         android:id="@+id/textViewsuachi11"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/linearLayout4" />
+        android:layout_below="@+id/linearLayout4"
+        android:src="@drawable/division" />
 
     <LinearLayout
         android:id="@+id/linearLayout5"
@@ -157,6 +155,12 @@
             android:ems="10"
             android:hint="có thể để trống" />
     </LinearLayout>
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/imageButtonsuachi_luukhoanthu"
+        android:src="@drawable/division" />
 
     <ImageButton
         android:id="@+id/imageButtonsuachi_luukhoanthu"

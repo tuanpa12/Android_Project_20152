@@ -1,9 +1,5 @@
 package Adapter;
 
-import java.util.ArrayList;
-
-import Object.BaoCao;
-
 import android.app.Activity;
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -13,6 +9,10 @@ import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
 import com.phanmemquanlychitieu.R;
+
+import java.util.ArrayList;
+
+import Object.BaoCao;
 
 public class BaoCaoHienTai extends ArrayAdapter<BaoCao> {
     Context context;

@@ -1,4 +1,4 @@
-package Object;
+package Objects;
 
 public class Laixuat {
     private String ngay;

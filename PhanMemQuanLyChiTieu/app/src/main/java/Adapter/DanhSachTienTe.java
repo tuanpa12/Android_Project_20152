@@ -12,7 +12,7 @@ import com.phanmemquanlychitieu.R;
 
 import java.util.ArrayList;
 
-import Object.TienThuChi;
+import Objects.TienThuChi;
 
 public class DanhSachTienTe extends ArrayAdapter<TienThuChi> {
     String abc;

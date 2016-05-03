@@ -9,7 +9,7 @@
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/ic_startup" />
+        android:src="@drawable/startup" />
 
     <TextView
         android:id="@+id/tv_login_1"
@@ -40,7 +40,7 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <EditText
+            <AutoCompleteTextView
                 android:id="@+id/et_login_1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -50,6 +50,7 @@
                 android:inputType="textEmailAddress"
                 android:padding="5dp"
                 android:textAppearance="?android:attr/textAppearanceLarge" />
+
             <EditText
                 android:id="@+id/et_login_2"
                 android:layout_width="match_parent"
@@ -68,7 +69,8 @@
                 android:layout_margin="10dp"
                 android:background="@android:color/holo_orange_dark"
                 android:text="Login"
-                android:textColor="@android:color/white" />
+                android:textColor="@android:color/white"
+                android:textStyle="bold" />
 
             <Button
                 android:id="@+id/btnSignUp"
@@ -77,9 +79,9 @@
                 android:layout_margin="10dp"
                 android:background="@android:color/holo_orange_dark"
                 android:text="Create a new account"
-                android:textColor="@android:color/white" />
+                android:textColor="@android:color/white"
+                android:textStyle="bold" />
 
         </LinearLayout>
     </ScrollView>
-
 </LinearLayout>

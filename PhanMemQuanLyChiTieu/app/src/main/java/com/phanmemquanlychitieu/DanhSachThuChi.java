@@ -38,7 +38,7 @@ import Adapter.DanhSachThu;
 import Adapter.DoiNgay;
 import Database.dbChi;
 import Database.dbThu;
-import Object.TienThuChi;
+import Objects.TienThuChi;
 
 public class DanhSachThuChi extends Activity {
     public ArrayList<TienThuChi> sapxepthu = null;

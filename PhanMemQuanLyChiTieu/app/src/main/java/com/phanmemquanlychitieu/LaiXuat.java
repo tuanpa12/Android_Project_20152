@@ -16,7 +16,6 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
-import android.view.Menu;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
@@ -36,7 +35,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Locale;
 
-import Object.Laixuat;
+import Objects.Laixuat;
 
 class dbLaiXuat extends SQLiteOpenHelper {
 
@@ -52,10 +51,6 @@ class dbLaiXuat extends SQLiteOpenHelper {
 
     public dbLaiXuat(Context context) {
         super(context, DB_NAME, null, DB_VERSION);
-    }
-
-    public static String getDbName() {
-        return DB_NAME;
     }
 
     @Override
@@ -107,7 +102,6 @@ public class LaiXuat extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_laixuat);
-        //setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
         dblaixuat = new dbLaiXuat(this);
         mDblaixuat = dblaixuat.getWritableDatabase();
@@ -117,7 +111,7 @@ public class LaiXuat extends Activity {
         laixuat = (EditText) findViewById(R.id.editLaiXuat);
         listlaixuat = (ListView) findViewById(R.id.lvHienThi1);
 
-        adapterBank = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, bankName);
+        adapterBank = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, bankName);
         tennganhang.setAdapter(adapterBank);
         ngaythang.setOnClickListener(new OnClickListener() {
 
@@ -181,7 +175,7 @@ public class LaiXuat extends Activity {
                         suangaythang = (TextView) dialogthu.findViewById(R.id.textView_ngaythanglaixuat);
                         String query = "select * from " + dbLaiXuat.TABLE_NAME;
                         mCursorlaixuat = mDblaixuat.rawQuery(query, null);
-                        final ArrayList<Laixuat> arrngay = new ArrayList<Laixuat>();
+                        final ArrayList<Laixuat> arrngay = new ArrayList<>();
                         if (mCursorlaixuat.moveToFirst()) {
                             do {
                                 oblaixuat = new Laixuat();
@@ -243,7 +237,7 @@ public class LaiXuat extends Activity {
                         tv_kq = (TextView) dialogthu.findViewById(R.id.textView_xemtonglaixuat);
                         String query = "select * from " + dbLaiXuat.TABLE_NAME;
                         mCursorlaixuat = mDblaixuat.rawQuery(query, null);
-                        final ArrayList<Laixuat> arrngay = new ArrayList<Laixuat>();
+                        final ArrayList<Laixuat> arrngay = new ArrayList<>();
                         if (mCursorlaixuat.moveToFirst()) {
                             do {
                                 oblaixuat = new Laixuat();
@@ -311,7 +305,7 @@ public class LaiXuat extends Activity {
         Calendar ngay = Calendar.getInstance();
         //dinh dang 12h
         String dinhdang24 = "dd/MM/yyyy";
-        SimpleDateFormat dinhdang = null;
+        SimpleDateFormat dinhdang;
         dinhdang = new SimpleDateFormat(dinhdang24, Locale.getDefault());
         ngaythang.setText(dinhdang.format(ngay.getTime()));
     }
@@ -340,19 +334,11 @@ public class LaiXuat extends Activity {
         newFragment.show(getFragmentManager(), "datePicker");
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.lai_xuat, menu);
-        return true;
-    }
-
     public double kqLaiXuat(String tien, String laixuat, String sothang) {
         double a = Double.parseDouble(tien);
         double b = Double.parseDouble(laixuat);
         double c = Double.parseDouble(sothang);
-        double sum = a + a * b * c / 1200;
-        return sum;
+        return a + a * b * c / 1200;
     }
 
     @SuppressLint({"ValidFragment", "NewApi"})

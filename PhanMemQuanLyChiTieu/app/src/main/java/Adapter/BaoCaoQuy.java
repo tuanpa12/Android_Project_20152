@@ -12,7 +12,7 @@ import com.phanmemquanlychitieu.R;
 
 import java.util.ArrayList;
 
-import Object.BaoCao;
+import Objects.BaoCao;
 
 public class BaoCaoQuy extends ArrayAdapter<BaoCao> {
     Context context;

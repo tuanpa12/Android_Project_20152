@@ -127,7 +127,7 @@
                 android:layout_below="@+id/TableLayout1"
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="10dp"
-                android:background="@drawable/icon_ok_small" />
+                android:background="@drawable/ok_small" />
 
             <LinearLayout
                 android:layout_width="match_parent"

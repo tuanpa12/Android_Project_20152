@@ -118,7 +118,7 @@
                 android:id="@+id/imageButton_suangaythang"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="@drawable/iconngaythang" />
+                android:background="@drawable/date" />
         </LinearLayout>
 
         <ImageView
@@ -134,6 +134,6 @@
             android:layout_below="@+id/linearLayout4"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="10dp"
-            android:background="@drawable/icon_ok_small" />
+            android:background="@drawable/ok_small" />
     </RelativeLayout>
 </ScrollView>

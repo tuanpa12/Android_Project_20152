@@ -40,7 +40,7 @@ import Adapter.DanhSachTienTeChi;
 import Adapter.DoiNgay;
 import Database.dbChi;
 import Database.dbThu;
-import Object.TienThuChi;
+import Objects.TienThuChi;
 
 @SuppressLint("ShowToast")
 public class NgoaiTe extends Activity {

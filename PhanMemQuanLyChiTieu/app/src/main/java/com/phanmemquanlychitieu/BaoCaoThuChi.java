@@ -12,7 +12,6 @@ import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
-import android.view.Menu;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
@@ -40,8 +39,8 @@ import Adapter.BaoCaoThang;
 import Adapter.DoiNgay;
 import Database.dbChi;
 import Database.dbThu;
-import Object.BaoCao;
-import Object.TienThuChi;
+import Objects.BaoCao;
+import Objects.TienThuChi;
 
 public class BaoCaoThuChi extends Activity {
 
@@ -647,12 +646,6 @@ public class BaoCaoThuChi extends Activity {
         spec.setIndicator("năm");
         tab.addTab(spec);
         tab.setCurrentTab(0);
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.bao_cao_thu_chi, menu);
-        return true;
     }
 
     public void layNgayGiohientai() {

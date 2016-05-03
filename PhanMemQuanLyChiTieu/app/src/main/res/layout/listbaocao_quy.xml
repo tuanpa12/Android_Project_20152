@@ -21,8 +21,8 @@
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_toRightOf="@+id/editText_nhapnamquy"
-        android:background="@drawable/iconngaythang"
-        android:src="@drawable/iconngaythang" />
+        android:background="@drawable/date"
+        android:src="@drawable/date" />
 
     <ImageButton
         android:id="@+id/imageButton_baocaoquy"
@@ -30,8 +30,8 @@
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_below="@+id/editText_nhapnamquy"
-        android:background="@drawable/icon_ok_small"
-        android:src="@drawable/icon_ok_small" />
+        android:background="@drawable/ok_small"
+        android:src="@drawable/ok_small" />
 
     <ListView
         android:id="@+id/listView_baocaoquy"

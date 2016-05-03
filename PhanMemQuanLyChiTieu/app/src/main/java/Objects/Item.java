@@ -1,4 +1,4 @@
-package Object;
+package Objects;
 
 /**
  * Created by Legendary on 27/04/2016.

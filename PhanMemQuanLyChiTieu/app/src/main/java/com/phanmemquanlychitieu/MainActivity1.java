@@ -7,30 +7,33 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.NavigationView;
-import android.support.design.widget.Snackbar;
-import android.support.v4.view.GravityCompat;
-import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
-import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
+import android.widget.GridView;
 import android.widget.Toast;
 
 import com.firebase.client.Firebase;
 
 import java.util.ArrayList;
 
+import Adapter.Menu;
 import Database.UserDatabase;
 import Database.dbChi;
 import Database.dbThu;
 import Objects.BaoCao;
 import Objects.Item;
 
-public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+public class MainActivity1 extends AppCompatActivity {
+    final static String[] mItemTexts = new String[]{
+            "Thu nhập", "Chi tiêu", "Danh Sách",
+            "Biều đồ", "Đổi tiền tệ", "Gửi tiết kiệm", "Đồng bộ", "Đăng xuất"};
+    final static int[] mItemImgs = new int[]{
+            R.drawable.thu, R.drawable.chi, R.drawable.danh_sach,
+            R.drawable.ic_diagram, R.drawable.ic_currency_exchange, R.drawable.ic_money_saving, R.drawable.ic_sync,
+            R.drawable.ic_logout};
+    // danh sach thu
     UserDatabase userDb;
     SQLiteDatabase mSQLite;
 
@@ -54,9 +57,8 @@ public class MainActivity extends AppCompatActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_bar);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+        setContentView(R.layout.activity_main);
+        //setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         Firebase.setAndroidContext(this);
         root = new Firebase("https://expenseproject.firebaseio.com/");
         usersRef = root.child(Build.SERIAL);
@@ -71,98 +73,67 @@ public class MainActivity extends AppCompatActivity
         mDbLaiXuat = laiXuatDb.getWritableDatabase();
         danhSachThu();
         danhSachChi();
+        GridView grid = (GridView) findViewById(R.id.gridView_menu);
+        Menu adapter = new Menu(this, mItemTexts, mItemImgs);
+        grid.setAdapter(adapter);
+        grid.setOnItemClickListener(new OnItemClickListener() {
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        if (fab != null) {
-            fab.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                            .setAction("Action", null).show();
+            @Override
+            public void onItemClick(AdapterView<?> arg0, View arg1, int position,
+                                    long arg3) {
+                if (position == 0) {
+                    Intent chuyen = new Intent(MainActivity1.this, TienThu.class);
+                    startActivity(chuyen);
+                } else if (position == 1) {
+                    Intent chuyen = new Intent(MainActivity1.this, TienChi.class);
+                    startActivity(chuyen);
+                } else if (position == 2) {
+                    Intent chuyen = new Intent(MainActivity1.this, DanhSachThuChi.class);
+                    startActivity(chuyen);
+                } else if (position == 3) {
+                    if (arrthu.size() == 0 || arrchi.size() == 0) {
+                        Toast toast = Toast.makeText(MainActivity1.this, "Danh sách rỗng", Toast.LENGTH_SHORT);
+                        toast.show();
+                    } else {
+                        Intent chuyen = new Intent(MainActivity1.this, BaoCaoThuChi.class);
+                        startActivity(chuyen);
+                    }
+                } else if (position == 4) {
+                    Intent chuyen = new Intent(MainActivity1.this, NgoaiTe.class);
+                    startActivity(chuyen);
+                } else if (position == 5) {
+                    Intent chuyen = new Intent(MainActivity1.this, LaiXuat.class);
+                    startActivity(chuyen);
+                } else if (position == 6) {
+                    syncData();
+                    Toast.makeText(MainActivity1.this, "Sync success", Toast.LENGTH_SHORT).show();
+                } else if (position == 7) {
+                    // log out
+                    AlertDialog.Builder exitDialog = new AlertDialog.Builder(MainActivity1.this);
+                    exitDialog.setTitle("Quản lý chi tiêu");
+                    exitDialog.setMessage("Bạn có thực sự muốn đăng xuất chương trình không?");
+                    exitDialog.setNegativeButton("Có", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            Intent intent = new Intent(MainActivity1.this, LoginActivity.class);
+                            mSQLite.execSQL("delete from " + UserDatabase.TABLE_NAME);
+                            mDbthu.execSQL("delete from " + dbThu.TABLE_NAME);
+                            mDbchi.execSQL("delete from " + dbChi.TABLE_NAME);
+                            mDbLaiXuat.execSQL("delete from " + dbLaiXuat.TABLE_NAME);
+                            startActivity(intent);
+                            finish();
+                        }
+                    });
+                    exitDialog.setPositiveButton("Để sau", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                        }
+                    });
+                    exitDialog.setCancelable(false);
+                    exitDialog.show();
                 }
-            });
-        }
-
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        if (drawer != null) {
-            drawer.setDrawerListener(toggle);
-            toggle.syncState();
-        }
-
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
-        if (navigationView != null) {
-            navigationView.setNavigationItemSelectedListener(this);
-        }
-    }
-
-    @Override
-    public void onBackPressed() {
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        if (drawer != null) {
-            if (drawer.isDrawerOpen(GravityCompat.START)) {
-                drawer.closeDrawer(GravityCompat.START);
-            } else {
-                super.onBackPressed();
             }
-        }
-    }
-
-    @Override
-    public boolean onNavigationItemSelected(MenuItem item) {
-        // Handle navigation view item clicks here.
-        int id = item.getItemId();
-
-        if (id == R.id.nav_diagram) {
-            if (arrthu.size() == 0 || arrchi.size() == 0) {
-                Toast toast = Toast.makeText(MainActivity.this, "Danh sách rỗng", Toast.LENGTH_SHORT);
-                toast.show();
-            } else {
-                Intent chuyen = new Intent(MainActivity.this, BaoCaoThuChi.class);
-                startActivity(chuyen);
-            }
-        } else if (id == R.id.nav_exchange) {
-            Intent chuyen = new Intent(MainActivity.this, NgoaiTe.class);
-            startActivity(chuyen);
-        } else if (id == R.id.nav_deposit) {
-            Intent chuyen = new Intent(MainActivity.this, LaiXuat.class);
-            startActivity(chuyen);
-        } else if (id == R.id.nav_sync) {
-            syncData();
-            Toast.makeText(MainActivity.this, "Sync success", Toast.LENGTH_SHORT).show();
-        } else if (id == R.id.nav_user_info) {
-            // Handle info here
-        } else if (id == R.id.nav_logout) {
-            AlertDialog.Builder exitDialog = new AlertDialog.Builder(MainActivity.this);
-            exitDialog.setTitle("Quản lý chi tiêu");
-            exitDialog.setMessage("Bạn có thực sự muốn đăng xuất chương trình không?");
-            exitDialog.setNegativeButton("Có", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    Intent intent = new Intent(MainActivity.this, LoginActivity.class);
-                    mSQLite.execSQL("delete from " + UserDatabase.TABLE_NAME);
-                    mDbthu.execSQL("delete from " + dbThu.TABLE_NAME);
-                    mDbchi.execSQL("delete from " + dbChi.TABLE_NAME);
-                    mDbLaiXuat.execSQL("delete from " + dbLaiXuat.TABLE_NAME);
-                    startActivity(intent);
-                    finish();
-                }
-            });
-            exitDialog.setPositiveButton("Để sau", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                }
-            });
-            exitDialog.setCancelable(false);
-            exitDialog.show();
-        }
-
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        if (drawer != null) {
-            drawer.closeDrawer(GravityCompat.START);
-        }
-        return true;
+        });
     }
 
     public void syncData() {

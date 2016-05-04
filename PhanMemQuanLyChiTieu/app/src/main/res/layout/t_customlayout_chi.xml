@@ -10,7 +10,7 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentRight="true"
         android:layout_alignParentTop="true"
-        android:background="@drawable/boder_dangnhap1">
+        android:background="@drawable/boder_dangnhap">
 
         <TextView
             android:id="@+id/textView_tenchi"

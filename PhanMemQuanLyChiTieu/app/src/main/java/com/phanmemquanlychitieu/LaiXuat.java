@@ -12,7 +12,6 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteOpenHelper;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -35,38 +34,8 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Locale;
 
+import Database.dbLaiXuat;
 import Objects.Laixuat;
-
-class dbLaiXuat extends SQLiteOpenHelper {
-
-    public static final String TABLE_NAME = "tblaixuat";
-    public static final String COL_NAME = "tennganhang";
-    public static final String COL_TIEN = "tienlaixuat";
-    public static final String COL_LAIXUAT = "laixuat";
-    public static final String COL_DATE = "ngaythanglaixuat";
-    private static final String DB_NAME = "tienlaixuat";
-    private static final int DB_VERSION = 1;
-    private static final String STRING_CREATE = "CREATE TABLE " + TABLE_NAME + " (_id INTEGER PRIMARY KEY AUTOINCREMENT,"
-            + COL_NAME + " TEXT," + COL_TIEN + " TEXT," + COL_LAIXUAT + " TEXT," + COL_DATE + " TEXT);";
-
-    public dbLaiXuat(Context context) {
-        super(context, DB_NAME, null, DB_VERSION);
-    }
-
-    @Override
-    public void onCreate(SQLiteDatabase db) {
-        db.execSQL(STRING_CREATE);
-        ContentValues cv = new ContentValues(3);
-        db.insert(TABLE_NAME, null, cv);
-    }
-
-    @Override
-    public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        db.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME);
-        onCreate(db);
-    }
-}
-
 
 public class LaiXuat extends Activity {
     EditText tiennganhang, laixuat;

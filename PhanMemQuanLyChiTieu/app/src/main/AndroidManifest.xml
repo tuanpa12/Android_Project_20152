@@ -6,7 +6,6 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <application
-        android:name="android.support.multidex.MultiDexApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -56,11 +55,5 @@
             android:label="Lãi xuất ngân hàng"
             android:parentActivityName=".MainActivity"
             android:windowSoftInputMode="stateHidden" />
-        <!--
-            <activity
-            android:name=".CircleActivity"
-            android:label="MENU" />
-        -->
     </application>
-
 </manifest>

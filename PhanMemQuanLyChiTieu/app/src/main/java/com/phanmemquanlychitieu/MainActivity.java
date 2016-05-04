@@ -25,6 +25,7 @@ import java.util.ArrayList;
 
 import Database.UserDatabase;
 import Database.dbChi;
+import Database.dbLaiXuat;
 import Database.dbThu;
 import Objects.BaoCao;
 import Objects.Item;

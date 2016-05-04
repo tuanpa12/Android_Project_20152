@@ -9,6 +9,7 @@
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:contentDescription="@string/description_logo"
         android:src="@drawable/startup" />
 
     <TextView
@@ -40,27 +41,37 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <AutoCompleteTextView
-                android:id="@+id/et_login_1"
+            <android.support.design.widget.TextInputLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="10dp"
-                android:background="@android:color/white"
-                android:hint="Email"
-                android:inputType="textEmailAddress"
-                android:padding="5dp"
-                android:textAppearance="?android:attr/textAppearanceLarge" />
+                android:layout_height="wrap_content">
 
-            <EditText
-                android:id="@+id/et_login_2"
+                <AutoCompleteTextView
+                    android:id="@+id/et_login_1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:background="@android:color/white"
+                    android:hint="Email"
+                    android:inputType="textEmailAddress"
+                    android:padding="5dp"
+                    android:textAppearance="?android:attr/textAppearanceLarge" />
+            </android.support.design.widget.TextInputLayout>
+
+            <android.support.design.widget.TextInputLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="10dp"
-                android:background="@android:color/white"
-                android:hint="Password"
-                android:inputType="textPassword"
-                android:padding="5dp"
-                android:textAppearance="?android:attr/textAppearanceLarge" />
+                android:layout_height="wrap_content">
+
+                <EditText
+                    android:id="@+id/et_login_2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:background="@android:color/white"
+                    android:hint="Password"
+                    android:inputType="textPassword"
+                    android:padding="5dp"
+                    android:textAppearance="?android:attr/textAppearanceLarge" />
+            </android.support.design.widget.TextInputLayout>
 
             <Button
                 android:id="@+id/btnLogin"

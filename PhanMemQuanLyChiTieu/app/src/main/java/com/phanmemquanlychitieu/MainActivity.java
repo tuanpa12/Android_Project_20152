@@ -53,15 +53,26 @@ public class MainActivity extends AppCompatActivity
     ArrayList<BaoCao> arrthu;
     ArrayList<BaoCao> arrchi;
 
+    TextView date, total;
+    TextView type, cost;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_bar);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        loadControl();
         Firebase.setAndroidContext(this);
         root = new Firebase("https://expenseproject.firebaseio.com/");
         usersRef = root.child(Build.SERIAL);
+        arrthu = new ArrayList<>();
+        arrchi = new ArrayList<>();
+
+        if (checkExpenseDb() && checkIncomeDb()) {
+            danhSachThu();
+            danhSachChi();
+        }
 
         TextView userName = (TextView) findViewById(R.id.headerName);
         if (userName != null) {
@@ -71,10 +82,6 @@ public class MainActivity extends AppCompatActivity
         dbthu = new dbThu(this);
         dbchi = new dbChi(this);
         laiXuatDb = new dbLaiXuat(this);
-        if (checkExpenseDb() && checkIncomeDb()) {
-            danhSachThu();
-            danhSachChi();
-        }
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab_addItem);
         if (fab != null) {
@@ -118,6 +125,13 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
+    public void loadControl() {
+        date = (TextView) findViewById(R.id.date);
+        total = (TextView) findViewById(R.id.total_money);
+        type = (TextView) findViewById(R.id.type);
+        cost = (TextView) findViewById(R.id.cost);
+    }
+
     @Override
     public void onBackPressed() {
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -137,8 +151,7 @@ public class MainActivity extends AppCompatActivity
 
         if (id == R.id.nav_diagram) {
             if (arrthu.size() == 0 || arrchi.size() == 0) {
-                Toast toast = Toast.makeText(MainActivity.this, "Danh sách rỗng", Toast.LENGTH_SHORT);
-                toast.show();
+                Toast.makeText(MainActivity.this, "Danh sách rỗng", Toast.LENGTH_SHORT).show();
             } else {
                 Intent chuyen = new Intent(MainActivity.this, BaoCaoThuChi.class);
                 startActivity(chuyen);
@@ -273,13 +286,14 @@ public class MainActivity extends AppCompatActivity
         mDbchi = dbchi.getWritableDatabase();
         String querychi = "select * from chi";
         mCursorchi = mDbchi.rawQuery(querychi, null);
-        arrchi = new ArrayList<>();
         if (mCursorchi.moveToFirst()) {
             do {
                 objectchi2 = new BaoCao();
+
                 objectchi2.setTienchi(mCursorchi.getString(2));
-                objectchi2.setNgay(mCursorchi.getString(4));
                 objectchi2.setNhom(mCursorchi.getString(3));
+                objectchi2.setNgay(mCursorchi.getString(4));
+
                 arrchi.add(objectchi2);
             } while (mCursorchi.moveToNext());
         }
@@ -289,13 +303,14 @@ public class MainActivity extends AppCompatActivity
         mDbthu = dbthu.getWritableDatabase();
         String query = "select * from thu";
         mCursorthu = mDbthu.rawQuery(query, null);
-        arrthu = new ArrayList<>();
         if (mCursorthu.moveToFirst()) {
             do {
                 objectchi2 = new BaoCao();
+
                 objectchi2.setTienthu(mCursorthu.getString(2));
-                objectchi2.setNgay(mCursorthu.getString(4));
                 objectchi2.setNhom(mCursorthu.getString(3));
+                objectchi2.setNgay(mCursorthu.getString(4));
+
                 arrthu.add(objectchi2);
             } while (mCursorthu.moveToNext());
         }

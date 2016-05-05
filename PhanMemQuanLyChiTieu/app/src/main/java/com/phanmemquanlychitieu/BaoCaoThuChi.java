@@ -116,7 +116,7 @@ public class BaoCaoThuChi extends Activity {
         arrhientai = new ArrayList<BaoCao>();
         dbthu = new dbThu(this);
         dbchi = new dbChi(this);
-        LoadTab();
+        loadTab();
         danhSachThu();
         danhSachChi();
         if (arrchi.size() == 0 && arrthu.size() == 0) {
@@ -620,7 +620,7 @@ public class BaoCaoThuChi extends Activity {
         arrhientai.add(danhsachnam);
     }
 
-    public void LoadTab() {
+    public void loadTab() {
         final TabHost tab = (TabHost) findViewById(android.R.id.tabhost);
         //goi cau lenh setup
         tab.setup();

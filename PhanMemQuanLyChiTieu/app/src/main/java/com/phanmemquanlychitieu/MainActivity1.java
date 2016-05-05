@@ -59,7 +59,6 @@ public class MainActivity1 extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        //setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         Firebase.setAndroidContext(this);
         root = new Firebase("https://expenseproject.firebaseio.com/");
         usersRef = root.child(Build.SERIAL);

@@ -74,6 +74,7 @@ public class LaiXuat extends Activity {
 
         dblaixuat = new dbLaiXuat(this);
         mDblaixuat = dblaixuat.getWritableDatabase();
+
         ngaythang = (TextView) findViewById(R.id.editText_ngaylaixuat);
         tennganhang = (Spinner) findViewById(R.id.edName);
         tiennganhang = (EditText) findViewById(R.id.edNum);

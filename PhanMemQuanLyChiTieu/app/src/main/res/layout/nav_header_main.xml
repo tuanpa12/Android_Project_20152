@@ -12,17 +12,18 @@
     android:theme="@style/ThemeOverlay.AppCompat.Dark">
 
     <ImageView
-        android:id="@+id/imageView"
+        android:id="@+id/headerImg"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:paddingTop="@dimen/nav_header_vertical_spacing"
         android:src="@drawable/ic_nav_header" />
 
     <TextView
+        android:id="@+id/headerName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingTop="@dimen/nav_header_vertical_spacing"
-        android:text="@string/app_name"
+        android:text="User name is here"
         android:textAppearance="@style/TextAppearance.AppCompat.Body2" />
 
 </LinearLayout>

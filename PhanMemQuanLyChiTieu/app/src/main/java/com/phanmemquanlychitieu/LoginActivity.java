@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.content.ContentValues;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
-import android.os.Build;
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.View;
@@ -21,8 +20,6 @@ import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
 import com.firebase.client.Query;
 import com.firebase.client.ValueEventListener;
-
-import java.util.ArrayList;
 
 import Database.UserDatabase;
 import Database.dbChi;
@@ -44,7 +41,6 @@ public class LoginActivity extends Activity {
     dbChi chiDb;
     SQLiteDatabase sqLiteDB;
     Item item;
-    ArrayList<Item> listExpense, listIncome;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,7 +61,6 @@ public class LoginActivity extends Activity {
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                final String name = email.getText().toString();
                 final String mail = email.getText().toString();
                 String pass = password.getText().toString();
                 authLogin(mail, pass);
@@ -105,7 +100,8 @@ public class LoginActivity extends Activity {
                 cv.put(UserDatabase.COL_EMAIL, email);
                 cv.put(UserDatabase.COL_KEY, "true");
                 mSQLite.insert(UserDatabase.TABLE_NAME, null, cv);
-                // syncData();
+                // syncData(email);
+
                 Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                 startActivity(intent);
                 finish();
@@ -127,8 +123,8 @@ public class LoginActivity extends Activity {
         login_form = (ScrollView) findViewById(R.id.login_form);
     }
 
-    public void syncData() {
-        Query query = root.child(Build.SERIAL).orderByChild("Expense");
+    public void syncData(String email) {
+        Query query = root.child(email).orderByChild("Expense");
         query.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {

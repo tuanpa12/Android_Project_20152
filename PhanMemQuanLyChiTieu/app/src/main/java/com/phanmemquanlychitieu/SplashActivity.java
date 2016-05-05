@@ -16,9 +16,7 @@ public class SplashActivity extends Activity {
     UserDatabase userDb;
     SQLiteDatabase mSQLite;
     Cursor cursor;
-    String name, email;
     ImageView view1, view2;
-    boolean hasLogin = false;
     String query = "select * from " + UserDatabase.TABLE_NAME;
 
     @Override

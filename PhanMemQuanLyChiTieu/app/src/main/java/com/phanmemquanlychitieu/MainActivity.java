@@ -9,7 +9,6 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
-import android.support.design.widget.Snackbar;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -17,6 +16,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.firebase.client.Firebase;
@@ -49,6 +49,7 @@ public class MainActivity extends AppCompatActivity
     BaoCao objectchi2;
     Firebase root;
     Firebase usersRef;
+    Cursor cursor;
     ArrayList<BaoCao> arrthu;
     ArrayList<BaoCao> arrchi;
 
@@ -62,24 +63,43 @@ public class MainActivity extends AppCompatActivity
         root = new Firebase("https://expenseproject.firebaseio.com/");
         usersRef = root.child(Build.SERIAL);
 
+        TextView userName = (TextView) findViewById(R.id.headerName);
+        if (userName != null) {
+            userName.setText(getName());
+        }
         userDb = new UserDatabase(this);
         dbthu = new dbThu(this);
         dbchi = new dbChi(this);
         laiXuatDb = new dbLaiXuat(this);
-        mSQLite = userDb.getWritableDatabase();
-        mDbthu = dbthu.getWritableDatabase();
-        mDbchi = dbchi.getWritableDatabase();
-        mDbLaiXuat = laiXuatDb.getWritableDatabase();
-        danhSachThu();
-        danhSachChi();
+        if (checkExpenseDb() && checkIncomeDb()) {
+            danhSachThu();
+            danhSachChi();
+        }
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab_addItem);
         if (fab != null) {
             fab.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                            .setAction("Action", null).show();
+                    AlertDialog.Builder add = new AlertDialog.Builder(MainActivity.this);
+                    add.setTitle("Thêm thu - chi");
+                    add.setMessage("Bạn muốn thêm khoản chi hay khoản thu?");
+                    add.setNegativeButton("Thu", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            Intent intent = new Intent(MainActivity.this, TienThu.class);
+                            startActivity(intent);
+                        }
+                    });
+                    add.setPositiveButton("Chi", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            Intent intent = new Intent(MainActivity.this, TienChi.class);
+                            startActivity(intent);
+                        }
+                    });
+
+                    add.show();
                 }
             });
         }
@@ -88,7 +108,7 @@ public class MainActivity extends AppCompatActivity
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         if (drawer != null) {
-            drawer.setDrawerListener(toggle);
+            drawer.addDrawerListener(toggle);
             toggle.syncState();
         }
 
@@ -130,8 +150,12 @@ public class MainActivity extends AppCompatActivity
             Intent chuyen = new Intent(MainActivity.this, LaiXuat.class);
             startActivity(chuyen);
         } else if (id == R.id.nav_sync) {
-            syncData();
-            Toast.makeText(MainActivity.this, "Sync success", Toast.LENGTH_SHORT).show();
+            if (checkExpenseDb() || checkIncomeDb()) {
+                syncData();
+                Toast.makeText(MainActivity.this, "Sync success", Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(MainActivity.this, "Data empty", Toast.LENGTH_SHORT).show();
+            }
         } else if (id == R.id.nav_user_info) {
             // Handle info here
         } else if (id == R.id.nav_logout) {
@@ -142,6 +166,11 @@ public class MainActivity extends AppCompatActivity
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+                    mSQLite = userDb.getWritableDatabase();
+                    mDbthu = dbthu.getWritableDatabase();
+                    mDbchi = dbchi.getWritableDatabase();
+                    mDbLaiXuat = laiXuatDb.getWritableDatabase();
+
                     mSQLite.execSQL("delete from " + UserDatabase.TABLE_NAME);
                     mDbthu.execSQL("delete from " + dbThu.TABLE_NAME);
                     mDbchi.execSQL("delete from " + dbChi.TABLE_NAME);
@@ -207,6 +236,38 @@ public class MainActivity extends AppCompatActivity
             } while (mCursorthu.moveToNext());
         }
     }
+
+    public String getName() {
+        String name = "";
+        mSQLite = userDb.getReadableDatabase();
+        String query = "select * from " + UserDatabase.TABLE_NAME;
+        cursor = mSQLite.rawQuery(query, null);
+        if (cursor.moveToFirst()) {
+            name = cursor.getString(1);
+        }
+        return name;
+    }
+
+    public boolean checkExpenseDb() {
+        String query = "select * from " + dbChi.TABLE_NAME;
+        boolean result = false;
+        mDbchi = dbchi.getReadableDatabase();
+        cursor = mDbchi.rawQuery(query, null);
+        if (cursor.moveToFirst())
+            result = true;
+        return result;
+    }
+
+    public boolean checkIncomeDb() {
+        String query = "select * from " + dbThu.TABLE_NAME;
+        boolean result = false;
+        mDbthu = dbthu.getReadableDatabase();
+        cursor = mDbthu.rawQuery(query, null);
+        if (cursor.moveToFirst())
+            result = true;
+        return result;
+    }
+
 
     public void danhSachChi() {
         mDbchi = dbchi.getWritableDatabase();

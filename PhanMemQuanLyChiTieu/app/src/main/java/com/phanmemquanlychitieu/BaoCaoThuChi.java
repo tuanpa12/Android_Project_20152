@@ -774,13 +774,14 @@ public class BaoCaoThuChi extends Activity {
                 SimpleSeriesRenderer seriesRenderer = new SimpleSeriesRenderer();
                 seriesRenderer.setColor(colors.get(i));
                 seriesRenderer.setDisplayChartValues(true);
-                seriesRenderer.setChartValuesTextSize(100);
                 defaultRenderer.addSeriesRenderer(seriesRenderer);
             }
         }
         defaultRenderer.setChartTitle(" Biểu Đồ ");
-        defaultRenderer.setChartTitleTextSize(100);
-        defaultRenderer.setZoomButtonsVisible(true);
+        defaultRenderer.setLabelsTextSize(40);
+        defaultRenderer.setChartTitleTextSize(40);
+        defaultRenderer.setLegendTextSize(40);
+        defaultRenderer.setZoomButtonsVisible(false);
         // Creating an intent to plot bar chart using dataset and multipleRenderer
         Intent intent = ChartFactory.getPieChartIntent(getBaseContext(), distributionSeries, defaultRenderer, "Biểu Đồ Thu Chi");
         // Start Activity

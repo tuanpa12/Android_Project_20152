@@ -28,7 +28,7 @@ public class SplashActivity extends Activity {
         userDb = new UserDatabase(this);
         Intent intent;
         if (hasLogin()) {
-            intent = new Intent(SplashActivity.this, MainActivity.class);
+            intent = new Intent(SplashActivity.this, MainActivity1.class);
             startActivity(intent);
             finish();
         } else {

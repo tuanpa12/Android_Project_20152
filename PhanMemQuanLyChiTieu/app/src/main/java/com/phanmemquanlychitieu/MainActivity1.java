@@ -155,7 +155,7 @@ public class MainActivity1 extends AppCompatActivity {
                 expenseRef.child("" + id).setValue(item);
             } while (mCursorchi.moveToNext());
         }
-        mDbchi.close();
+        mCursorchi.close();
 
         // sync income data
         mDbthu = dbthu.getReadableDatabase();
@@ -173,7 +173,7 @@ public class MainActivity1 extends AppCompatActivity {
                 incomeRef.child("" + id).setValue(item);
             } while (mCursorthu.moveToNext());
         }
-        mDbthu.close();
+        mCursorthu.close();
     }
 
     public void danhSachChi() {
@@ -190,7 +190,7 @@ public class MainActivity1 extends AppCompatActivity {
                 arrchi.add(objectchi2);
             } while (mCursorchi.moveToNext());
         }
-        mDbchi.close();
+        mCursorchi.close();
     }
 
     public void danhSachThu() {
@@ -207,6 +207,6 @@ public class MainActivity1 extends AppCompatActivity {
                 arrthu.add(objectchi2);
             } while (mCursorthu.moveToNext());
         }
-        mDbthu.close();
+        mCursorthu.close();
     }
 }

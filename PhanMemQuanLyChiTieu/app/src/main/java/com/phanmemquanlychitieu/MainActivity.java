@@ -49,7 +49,7 @@ public class MainActivity extends AppCompatActivity
     BaoCao objectchi2;
     Firebase root;
     Firebase usersRef;
-    Cursor cursor;
+    Cursor cursorExpense, cursorIncome;
     ArrayList<BaoCao> arrthu;
     ArrayList<BaoCao> arrchi;
 
@@ -231,6 +231,7 @@ public class MainActivity extends AppCompatActivity
                 expenseRef.child("" + id).setValue(item);
             } while (mCursorchi.moveToNext());
         }
+        mCursorchi.close();
 
         // sync income data
         mDbthu = dbthu.getReadableDatabase();
@@ -248,16 +249,18 @@ public class MainActivity extends AppCompatActivity
                 incomeRef.child("" + id).setValue(item);
             } while (mCursorthu.moveToNext());
         }
+        mCursorthu.close();
     }
 
     public String getName() {
         String name = "";
         mSQLite = userDb.getReadableDatabase();
         String query = "select * from " + UserDatabase.TABLE_NAME;
-        cursor = mSQLite.rawQuery(query, null);
-        if (cursor.moveToFirst()) {
-            name = cursor.getString(1);
+        cursorExpense = mSQLite.rawQuery(query, null);
+        if (cursorExpense.moveToFirst()) {
+            name = cursorExpense.getString(1);
         }
+        cursorExpense.close();
         return name;
     }
 
@@ -265,9 +268,10 @@ public class MainActivity extends AppCompatActivity
         String query = "select * from " + dbChi.TABLE_NAME;
         boolean result = false;
         mDbchi = dbchi.getReadableDatabase();
-        cursor = mDbchi.rawQuery(query, null);
-        if (cursor.moveToFirst())
+        cursorExpense = mDbchi.rawQuery(query, null);
+        if (cursorExpense.moveToFirst())
             result = true;
+        cursorIncome.close();
         return result;
     }
 
@@ -275,9 +279,10 @@ public class MainActivity extends AppCompatActivity
         String query = "select * from " + dbThu.TABLE_NAME;
         boolean result = false;
         mDbthu = dbthu.getReadableDatabase();
-        cursor = mDbthu.rawQuery(query, null);
-        if (cursor.moveToFirst())
+        cursorExpense = mDbthu.rawQuery(query, null);
+        if (cursorExpense.moveToFirst())
             result = true;
+        cursorExpense.close();
         return result;
     }
 
@@ -297,6 +302,7 @@ public class MainActivity extends AppCompatActivity
                 arrchi.add(objectchi2);
             } while (mCursorchi.moveToNext());
         }
+        mCursorchi.close();
     }
 
     public void danhSachThu() {
@@ -314,5 +320,6 @@ public class MainActivity extends AppCompatActivity
                 arrthu.add(objectchi2);
             } while (mCursorthu.moveToNext());
         }
+        mCursorthu.close();
     }
 }

@@ -3,9 +3,11 @@ package com.phanmemquanlychitieu;
 import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -23,9 +25,13 @@ import android.widget.ListView;
 import android.widget.TabHost;
 
 import org.achartengine.ChartFactory;
+import org.achartengine.chart.BarChart;
 import org.achartengine.model.CategorySeries;
+import org.achartengine.model.XYMultipleSeriesDataset;
 import org.achartengine.renderer.DefaultRenderer;
 import org.achartengine.renderer.SimpleSeriesRenderer;
+import org.achartengine.renderer.XYMultipleSeriesRenderer;
+import org.achartengine.renderer.XYSeriesRenderer;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -84,7 +90,7 @@ public class BaoCaoThuChi extends Activity {
     BaoCaoQuy adapterbaocaoquy;
     String datetimequy = "";
     ArrayList<BaoCao> arrbaocaoquy;
-    ArrayList<String> a;
+    ArrayList<String> arr;
     //Khai báo biến báo cáo năm
     BaoCaoNam adapterbaocaonam;
     ArrayList<BaoCao> arrnam;
@@ -106,6 +112,9 @@ public class BaoCaoThuChi extends Activity {
     private double sumchithang;
     private double sumthunam;
     private double sumchinam;
+    //Khai bao bien
+    double a,b,c,d,e,f,g,i,j,k,l,m;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -152,34 +161,91 @@ public class BaoCaoThuChi extends Activity {
                                     int position, long id) {
                 if (position == 0) {
                     objectthuchi = new TienThuChi();
-                    double a = objectthuchi.kqngay("Ăn Uống", datehientai, arrchi);
-                    double b = objectthuchi.kqngay("Quần Áo", datehientai, arrchi);
-                    double c = objectthuchi.kqngay("Cho vay", datehientai, arrchi);
-                    double d = objectthuchi.kqngay("Sinh Hoạt", datehientai, arrchi);
-                    double e = objectthuchi.kqngay("Đi Lại", datehientai, arrchi);
-                    double f = objectthuchi.kqngay("Trả Nợ", datehientai, arrchi);
-                    double g = objectthuchi.kqngay("Khác", datehientai, arrchi);
-                    openChart(a, b, c, d, e, f, g);
+                    a = objectthuchi.kqngay("Ăn Uống", datehientai, arrchi);
+                    b = objectthuchi.kqngay("Quần Áo", datehientai, arrchi);
+                    c = objectthuchi.kqngay("Cho vay", datehientai, arrchi);
+                    d = objectthuchi.kqngay("Sinh Hoạt", datehientai, arrchi);
+                    e = objectthuchi.kqngay("Đi Lại", datehientai, arrchi);
+                    f = objectthuchi.kqngay("Trả Nợ", datehientai, arrchi);
+                    g = objectthuchi.kqngay("Khác", datehientai, arrchi);
+                    i = objectthuchi.kqngay("Tiền Lương", datehientai, arrthu);
+                    j = objectthuchi.kqngay("Đòi Nợ", datehientai, arrthu);
+                    k = objectthuchi.kqngay("Bán Đồ", datehientai, arrthu);
+                    l = objectthuchi.kqngay("Đi Vay", datehientai, arrthu);
+                    m = objectthuchi.kqngay("Khác", datehientai, arrthu);
+                    AlertDialog.Builder dl = new AlertDialog.Builder(BaoCaoThuChi.this);
+                    dl.setTitle("Biểu đồ");
+                    dl.setMessage("Lựa chọn loại biểu đồ");
+                    dl.setPositiveButton("Tròn", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            openPieChartChi(a, b, c, d, e, f, g);
+                        }
+                    });
+                    dl.setNegativeButton("Cột", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            openBarChartChi(a, b, c, d, e, f, g);
+                        }
+                    });
+                    dl.show();
                 } else if (position == 1) {
                     objectthuchi = new TienThuChi();
-                    double a = objectthuchi.kqthang("Ăn Uống", thanghientai, arrchi);
-                    double b = objectthuchi.kqthang("Quần Áo", thanghientai, arrchi);
-                    double c = objectthuchi.kqthang("Cho vay", thanghientai, arrchi);
-                    double d = objectthuchi.kqthang("Sinh Hoạt", thanghientai, arrchi);
-                    double e = objectthuchi.kqthang("Đi Lại", thanghientai, arrchi);
-                    double f = objectthuchi.kqthang("Trả Nợ", thanghientai, arrchi);
-                    double g = objectthuchi.kqthang("Khác", thanghientai, arrchi);
-                    openChart(a, b, c, d, e, f, g);
+                    a = objectthuchi.kqthang("Ăn Uống", thanghientai, arrchi);
+                    b = objectthuchi.kqthang("Quần Áo", thanghientai, arrchi);
+                    c = objectthuchi.kqthang("Cho vay", thanghientai, arrchi);
+                    d = objectthuchi.kqthang("Sinh Hoạt", thanghientai, arrchi);
+                    e = objectthuchi.kqthang("Đi Lại", thanghientai, arrchi);
+                    f = objectthuchi.kqthang("Trả Nợ", thanghientai, arrchi);
+                    g = objectthuchi.kqthang("Khác", thanghientai, arrchi);
+                    i = objectthuchi.kqngay("Tiền Lương", datehientai, arrthu);
+                    j = objectthuchi.kqngay("Đòi Nợ", datehientai, arrthu);
+                    k = objectthuchi.kqngay("Bán Đồ", datehientai, arrthu);
+                    l = objectthuchi.kqngay("Đi Vay", datehientai, arrthu);
+                    m = objectthuchi.kqngay("Khác", datehientai, arrthu);
+                    AlertDialog.Builder dl = new AlertDialog.Builder(BaoCaoThuChi.this);
+                    dl.setTitle("Biểu đồ");
+                    dl.setMessage("Lựa chọn loại biểu đồ");
+                    dl.setPositiveButton("Tròn", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            //openPieChartChi(a, b, c, d, e, f, g);
+                            openBarChartThu(i,j,k,l,m);
+                        }
+                    });
+                    dl.setNegativeButton("Cột", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            //openBarChartChi(a, b, c, d, e, f, g);
+                            openBarChartThu(i,j,k,l,m);
+                        }
+                    });
+                    dl.show();
                 } else if (position == 2) {
                     objectthuchi = new TienThuChi();
-                    double a = objectthuchi.kqnam("Ăn Uống", namhientai, arrchi);
-                    double b = objectthuchi.kqnam("Quần Áo", namhientai, arrchi);
-                    double c = objectthuchi.kqnam("Cho vay", namhientai, arrchi);
-                    double d = objectthuchi.kqnam("Sinh Hoạt", namhientai, arrchi);
-                    double e = objectthuchi.kqnam("Đi Lại", namhientai, arrchi);
-                    double f = objectthuchi.kqnam("Trả Nợ", namhientai, arrchi);
-                    double g = objectthuchi.kqnam("Khác", namhientai, arrchi);
-                    openChart(a, b, c, d, e, f, g);
+                    a = objectthuchi.kqnam("Ăn Uống", namhientai, arrchi);
+                    b = objectthuchi.kqnam("Quần Áo", namhientai, arrchi);
+                    c = objectthuchi.kqnam("Cho vay", namhientai, arrchi);
+                    d = objectthuchi.kqnam("Sinh Hoạt", namhientai, arrchi);
+                    e = objectthuchi.kqnam("Đi Lại", namhientai, arrchi);
+                    f = objectthuchi.kqnam("Trả Nợ", namhientai, arrchi);
+                    g = objectthuchi.kqnam("Khác", namhientai, arrchi);
+                    AlertDialog.Builder dl = new AlertDialog.Builder(BaoCaoThuChi.this);
+                    dl.setTitle("Biểu đồ");
+                    dl.setMessage("Lựa chọn loại biểu đồ");
+                    dl.setPositiveButton("Tròn", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            openPieChartChi(a, b, c, d, e, f, g);
+                        }
+                    });
+                    dl.setNegativeButton("Cột", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            openBarChartChi(a, b, c, d, e, f, g);
+                        }
+                    });
+                    dl.show();
                 }
             }
         });
@@ -338,15 +404,30 @@ public class BaoCaoThuChi extends Activity {
                                     int position, long id) {
 
                 objectthuchi = new TienThuChi();
-                double a = objectthuchi.kqthang("Ăn Uống", thangnam.getText().toString() + arrcalendar.get(position), arrchi);
-                double b = objectthuchi.kqthang("Quần Áo", thangnam.getText().toString() + arrcalendar.get(position), arrchi);
-                double c = objectthuchi.kqthang("Cho vay", thangnam.getText().toString() + arrcalendar.get(position), arrchi);
-                double d = objectthuchi.kqthang("Sinh Hoạt", thangnam.getText().toString() + arrcalendar.get(position), arrchi);
-                double e = objectthuchi.kqthang("Đi Lại", thangnam.getText().toString() + arrcalendar.get(position), arrchi);
-                double f = objectthuchi.kqthang("Trả Nợ", thangnam.getText().toString() + arrcalendar.get(position), arrchi);
-                double g = objectthuchi.kqthang("Khác", thangnam.getText().toString() + arrcalendar.get(position), arrchi);
+                a = objectthuchi.kqthang("Ăn Uống", thangnam.getText().toString() + arrcalendar.get(position), arrchi);
+                b = objectthuchi.kqthang("Quần Áo", thangnam.getText().toString() + arrcalendar.get(position), arrchi);
+                c = objectthuchi.kqthang("Cho vay", thangnam.getText().toString() + arrcalendar.get(position), arrchi);
+                d = objectthuchi.kqthang("Sinh Hoạt", thangnam.getText().toString() + arrcalendar.get(position), arrchi);
+                e = objectthuchi.kqthang("Đi Lại", thangnam.getText().toString() + arrcalendar.get(position), arrchi);
+                f = objectthuchi.kqthang("Trả Nợ", thangnam.getText().toString() + arrcalendar.get(position), arrchi);
+                g = objectthuchi.kqthang("Khác", thangnam.getText().toString() + arrcalendar.get(position), arrchi);
                 DoiNgay doi = new DoiNgay();
-                openChart(a, b, c, d, e, f, g);
+                AlertDialog.Builder dl = new AlertDialog.Builder(BaoCaoThuChi.this);
+                dl.setTitle("Biểu đồ");
+                dl.setMessage("Lựa chọn loại biểu đồ");
+                dl.setPositiveButton("Tròn", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        openPieChartChi(a, b, c, d, e, f, g);
+                    }
+                });
+                dl.setNegativeButton("Cột", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        openBarChartChi(a, b, c, d, e, f, g);
+                    }
+                });
+                dl.show();
             }
         });
         img_timnam.setOnClickListener(new OnClickListener() {
@@ -376,11 +457,11 @@ public class BaoCaoThuChi extends Activity {
             public void onClick(View v) {
                 arrbaocaoquy = new ArrayList<BaoCao>();
                 baocaothang = new BaoCao();
-                a = new ArrayList<String>();
-                a.add("Quý I");
-                a.add("Quý II");
-                a.add("Quý III");
-                a.add("Quý IV");
+                arr = new ArrayList<String>();
+                arr.add("Quý I");
+                arr.add("Quý II");
+                arr.add("Quý III");
+                arr.add("Quý IV");
                 double quy1 = baocaothang.thuQuy("01", "03", edit_quy.getText().toString(), arrthu);
                 double quy1a = baocaothang.chiQuy("01", "03", edit_quy.getText().toString(), arrchi);
                 baocaothang.setTienthu(String.valueOf(quy1));
@@ -407,7 +488,7 @@ public class BaoCaoThuChi extends Activity {
                 baocaothang3.setTienthu(String.valueOf(quy4));
                 baocaothang3.setTienchi(String.valueOf(quy4a));
                 arrbaocaoquy.add(baocaothang3);
-                adapterbaocaoquy = new BaoCaoQuy(BaoCaoThuChi.this, R.layout.t_custom_danhsachquy, arrbaocaoquy, a);
+                adapterbaocaoquy = new BaoCaoQuy(BaoCaoThuChi.this, R.layout.t_custom_danhsachquy, arrbaocaoquy, arr);
                 danhsachbaocaoquy.setAdapter(adapterbaocaoquy);
             }
         });
@@ -418,7 +499,13 @@ public class BaoCaoThuChi extends Activity {
             public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
                                     long arg3) {
                 objectthuchi = new TienThuChi();
-                double a = 0, b = 0, c = 0, d = 0, e = 0, f = 0, g = 0;
+                a = 0;
+                b = 0;
+                c = 0;
+                d = 0;
+                e = 0;
+                f = 0;
+                g = 0;
                 if (arg2 == 0) {
 
                     a = objectthuchi.kqquy("Ăn Uống", "01", "03", edit_quy.getText().toString(), arrchi);
@@ -456,7 +543,22 @@ public class BaoCaoThuChi extends Activity {
                     f = objectthuchi.kqquy("Trả Nợ", "10", "12", edit_quy.getText().toString(), arrchi);
                     g = objectthuchi.kqquy("Khác", "10", "12", edit_quy.getText().toString(), arrchi);
                 }
-                openChart(a, b, c, d, e, f, g);
+                AlertDialog.Builder dl = new AlertDialog.Builder(BaoCaoThuChi.this);
+                dl.setTitle("Biểu đồ");
+                dl.setMessage("Lựa chọn loại biểu đồ");
+                dl.setPositiveButton("Tròn", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        openPieChartChi(a, b, c, d, e, f, g);
+                    }
+                });
+                dl.setNegativeButton("Cột", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        openBarChartChi(a, b, c, d, e, f, g);
+                    }
+                });
+                dl.show();
             }
         });
 
@@ -538,14 +640,29 @@ public class BaoCaoThuChi extends Activity {
                 objectthuchi = new TienThuChi();
                 //gia trị nam chon tren listview
                 String nam = arrnam.get(arg2).getNgay();
-                double a = objectthuchi.kqnam("Ăn Uống", nam, arrchi);
-                double b = objectthuchi.kqnam("Quần Áo", nam, arrchi);
-                double c = objectthuchi.kqnam("Cho vay", nam, arrchi);
-                double d = objectthuchi.kqnam("Sinh Hoạt", nam, arrchi);
-                double e = objectthuchi.kqnam("Đi Lại", nam, arrchi);
-                double f = objectthuchi.kqnam("Trả Nợ", nam, arrchi);
-                double g = objectthuchi.kqnam("Khác", nam, arrchi);
-                openChart(a, b, c, d, e, f, g);
+                a = objectthuchi.kqnam("Ăn Uống", nam, arrchi);
+                b = objectthuchi.kqnam("Quần Áo", nam, arrchi);
+                c = objectthuchi.kqnam("Cho vay", nam, arrchi);
+                d = objectthuchi.kqnam("Sinh Hoạt", nam, arrchi);
+                e = objectthuchi.kqnam("Đi Lại", nam, arrchi);
+                f = objectthuchi.kqnam("Trả Nợ", nam, arrchi);
+                g = objectthuchi.kqnam("Khác", nam, arrchi);
+                AlertDialog.Builder dl = new AlertDialog.Builder(BaoCaoThuChi.this);
+                dl.setTitle("Biểu đồ");
+                dl.setMessage("Lựa chọn loại biểu đồ");
+                dl.setPositiveButton("Tròn", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        openPieChartChi(a, b, c, d, e, f, g);
+                    }
+                });
+                dl.setNegativeButton("Cột", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        openBarChartChi(a, b, c, d, e, f, g);
+                    }
+                });
+                dl.show();
             }
         });
     }
@@ -718,7 +835,7 @@ public class BaoCaoThuChi extends Activity {
         }
     }
 
-    public void openChart(double anuong, double quanao, double chovay, double sinhhoat, double dilai, double trano, double khac) {
+    public void openPieChartChi(double anuong, double quanao, double chovay, double sinhhoat, double dilai, double trano, double khac) {
 
         // Pie Chart Section Value
         ArrayList<Double> distribution = new ArrayList<Double>();
@@ -749,7 +866,7 @@ public class BaoCaoThuChi extends Activity {
         colors.add(5, Color.YELLOW);
         colors.add(6, Color.LTGRAY);
         // Instantiating CategorySeries to plot Pie Chart
-        CategorySeries distributionSeries = new CategorySeries("Biểu Đồ Thu Chi");
+        CategorySeries distributionSeries = new CategorySeries("Biểu Đồ Tròn Chi Tiêu");
         for (int i = 0; i < distribution.size(); i++) {
             // Adding a slice with its values and name to the Pie Chart
             if (distribution.get(i) == 0.0) {
@@ -777,7 +894,73 @@ public class BaoCaoThuChi extends Activity {
                 defaultRenderer.addSeriesRenderer(seriesRenderer);
             }
         }
-        defaultRenderer.setChartTitle(" Biểu Đồ ");
+        defaultRenderer.setChartTitle(" Biểu Đồ Tròn Chi Tiêu");
+        defaultRenderer.setLabelsTextSize(40);
+        defaultRenderer.setChartTitleTextSize(40);
+        defaultRenderer.setLegendTextSize(40);
+        defaultRenderer.setZoomButtonsVisible(false);
+        // Creating an intent to plot bar chart using dataset and multipleRenderer
+        Intent intent = ChartFactory.getPieChartIntent(getBaseContext(), distributionSeries, defaultRenderer, "Biểu Đồ Thu Chi");
+        // Start Activity
+        startActivity(intent);
+
+    }
+
+    public void openPieChartThu(double tienluong, double doino, double bando, double divay, double khac) {
+
+        // Pie Chart Section Value
+        ArrayList<Double> distribution = new ArrayList<Double>();
+        distribution.add(0, tienluong);
+        distribution.add(1, doino);
+        distribution.add(2, bando);
+        distribution.add(3, divay);
+        distribution.add(4, khac);
+
+        // Color of each Pie Chart Sections
+        ArrayList<String> code = new ArrayList<String>();
+        code.add(0, "Tiền lương" + ":" + tienluong);
+        code.add(1, "Đòi nợ " + ":" + doino);
+        code.add(2, "Bán đồ" + ":" + bando);
+        code.add(3, "Đi vay" + ":" + divay);
+        code.add(4, "Khác" + ":" + khac);
+
+        ArrayList<Integer> colors = new ArrayList<Integer>();
+        colors.add(0, Color.BLUE);
+        colors.add(1, Color.MAGENTA);
+        colors.add(2, Color.GREEN);
+        colors.add(3, Color.CYAN);
+        colors.add(4, Color.RED);
+
+        // Instantiating CategorySeries to plot Pie Chart
+        CategorySeries distributionSeries = new CategorySeries("Biểu Đồ Tròn Thu Nhập");
+        for (int i = 0; i < distribution.size(); i++) {
+            // Adding a slice with its values and name to the Pie Chart
+            if (distribution.get(i) == 0.0) {
+                distribution.remove(i);
+                code.remove(i);
+                colors.remove(i);
+                i--;
+            } else {
+                distributionSeries.add(code.get(i), distribution.get(i));
+            }
+        }
+
+        // Instantiating a renderer for the Pie Chart
+        DefaultRenderer defaultRenderer = new DefaultRenderer();
+        for (int i = 0; i < distribution.size(); i++) {
+            if (distribution.get(i) == 0.0) {
+                distribution.remove(i);
+                code.remove(i);
+                colors.remove(i);
+                i--;
+            } else {
+                SimpleSeriesRenderer seriesRenderer = new SimpleSeriesRenderer();
+                seriesRenderer.setColor(colors.get(i));
+                seriesRenderer.setDisplayChartValues(true);
+                defaultRenderer.addSeriesRenderer(seriesRenderer);
+            }
+        }
+        defaultRenderer.setChartTitle(" Biểu Đồ tròn thu nhập");
         defaultRenderer.setLabelsTextSize(40);
         defaultRenderer.setChartTitleTextSize(40);
         defaultRenderer.setLegendTextSize(40);
@@ -788,6 +971,98 @@ public class BaoCaoThuChi extends Activity {
         // Start Activity
         startActivity(intent);
 
+    }
+
+    public void openBarChartChi(double anuong, double quanao, double chovay, double sinhhoat, double dilai, double trano, double khac) {
+        //Danh sach cot
+        ArrayList<Double> distribution = new ArrayList<Double>();
+        distribution.add(anuong);
+        distribution.add(quanao);
+        distribution.add(chovay);
+        distribution.add(sinhhoat);
+        distribution.add(dilai);
+        distribution.add(trano);
+        distribution.add(khac);
+
+
+        ArrayList<String> code = new ArrayList<String>();
+        code.add("Ăn Uống");
+        code.add("Quần Áo ");
+        code.add("Cho vay");
+        code.add("Sinh Hoạt");
+        code.add("Đi Lại");
+        code.add("Trả Nợ");
+        code.add("Khác");
+        CategorySeries series = new CategorySeries("Biểu Đồ Cột Chi Tiêu ");
+        for (int i = 0; i < distribution.size(); i++) {
+            series.add(code.get(i), distribution.get(i));
+        }
+        XYMultipleSeriesDataset dataset = new XYMultipleSeriesDataset();
+        dataset.addSeries(series.toXYSeries());
+
+        XYSeriesRenderer renderer = new XYSeriesRenderer();
+        renderer.setDisplayChartValues(true);
+        renderer.setChartValuesTextSize(40);
+        renderer.setChartValuesSpacing((float) 15);
+        renderer.setFillBelowLine(true);
+        renderer.setColor(Color.MAGENTA);
+
+        XYMultipleSeriesRenderer mRenderer = new XYMultipleSeriesRenderer();
+        mRenderer.addSeriesRenderer(renderer);
+        mRenderer.setChartTitle("Biểu Đồ Cột Chi Tiêu ");
+        mRenderer.setChartTitleTextSize(40);
+        mRenderer.setXTitle("Loại");
+        mRenderer.setYTitle("VNĐ");
+        mRenderer.setXLabelsColor(Color.BLUE);
+        mRenderer.setLabelsTextSize(40);
+        mRenderer.setLegendTextSize(30);
+        mRenderer.setBackgroundColor(Color.WHITE);
+        Intent intent = ChartFactory.getBarChartIntent(getBaseContext(), dataset, mRenderer, BarChart.Type.DEFAULT);
+        startActivity(intent);
+    }
+
+    public void openBarChartThu(double tienluong, double doino, double bando, double divay, double khac) {
+        //Danh sach cot
+        ArrayList<Double> distribution = new ArrayList<Double>();
+        distribution.add(tienluong);
+        distribution.add(doino);
+        distribution.add(bando);
+        distribution.add(divay);
+        distribution.add(khac);
+
+        ArrayList<String> code = new ArrayList<String>();
+        code.add("Tiền lương");
+        code.add("Đòi nợ");
+        code.add("Bán đồ");
+        code.add("Đi vay");
+        code.add("Khác");
+
+        CategorySeries series = new CategorySeries("Biểu Đồ Cột Thu Nhập");
+        for (int i = 0; i < distribution.size(); i++) {
+            series.add(code.get(i), distribution.get(i));
+        }
+        XYMultipleSeriesDataset dataset = new XYMultipleSeriesDataset();
+        dataset.addSeries(series.toXYSeries());
+
+        XYSeriesRenderer renderer = new XYSeriesRenderer();
+        renderer.setDisplayChartValues(true);
+        renderer.setChartValuesTextSize(40);
+        renderer.setChartValuesSpacing((float) 15);
+        renderer.setFillBelowLine(true);
+        renderer.setColor(Color.MAGENTA);
+
+        XYMultipleSeriesRenderer mRenderer = new XYMultipleSeriesRenderer();
+        mRenderer.addSeriesRenderer(renderer);
+        mRenderer.setChartTitle("Biểu Đồ Cột Thu Nhập");
+        mRenderer.setChartTitleTextSize(40);
+        mRenderer.setXTitle("Loại");
+        mRenderer.setYTitle("VNĐ");
+        mRenderer.setXLabelsColor(Color.BLUE);
+        mRenderer.setLabelsTextSize(40);
+        mRenderer.setLegendTextSize(30);
+        mRenderer.setBackgroundColor(Color.WHITE);
+        Intent intent = ChartFactory.getBarChartIntent(getBaseContext(), dataset, mRenderer, BarChart.Type.DEFAULT);
+        startActivity(intent);
     }
 
     @SuppressLint({"ValidFragment", "NewApi"})

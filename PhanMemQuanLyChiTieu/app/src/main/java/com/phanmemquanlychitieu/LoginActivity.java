@@ -35,11 +35,14 @@ public class LoginActivity extends Activity {
     ProgressBar bar;
     ScrollView login_form;
     Firebase root;
+
     UserDatabase userDb;
     SQLiteDatabase mSQLite;
+
     dbThu thuDb;
     dbChi chiDb;
-    SQLiteDatabase sqLiteDB;
+
+    SQLiteDatabase sqLiteExpense, sqLiteIncome;
     Item item;
 
     @Override
@@ -49,7 +52,7 @@ public class LoginActivity extends Activity {
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
 
         Firebase.setAndroidContext(this);
-        root = new Firebase("https://expenseproject.firebaseio.com/");
+        root = new Firebase("https://expenseproject.firebaseio.com");
         userDb = new UserDatabase(this);
         thuDb = new dbThu(this);
         chiDb = new dbChi(this);
@@ -100,8 +103,7 @@ public class LoginActivity extends Activity {
                 cv.put(UserDatabase.COL_EMAIL, email);
                 cv.put(UserDatabase.COL_KEY, "true");
                 mSQLite.insert(UserDatabase.TABLE_NAME, null, cv);
-                // syncData(email);
-
+                syncData(email);
                 Intent intent = new Intent(LoginActivity.this, MainActivity1.class);
                 startActivity(intent);
                 finish();
@@ -124,25 +126,53 @@ public class LoginActivity extends Activity {
     }
 
     public void syncData(String email) {
-        Query query = root.child(email).orderByChild("Expense");
-        query.addValueEventListener(new ValueEventListener() {
+        Firebase refExpense = root.child("257a29b4").child("Expense");
+        Query expenseQuery = refExpense.orderByValue();
+        expenseQuery.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                Toast.makeText(getApplicationContext(), "hihi", Toast.LENGTH_SHORT).show();
-                sqLiteDB = thuDb.getWritableDatabase();
-                ContentValues cv = new ContentValues();
-                item = dataSnapshot.getValue(Item.class);
-                cv.put(dbThu.COL_NAME, item.getName());
-                cv.put(dbThu.COL_TIEN, item.getCost());
-                cv.put(dbThu.COL_NHOM, item.getType());
-                cv.put(dbThu.COL_GHICHU, item.getNote());
-                cv.put(dbThu.COL_DATE, item.getDate());
-                sqLiteDB.insert(dbThu.TABLE_NAME, null, cv);
+                sqLiteExpense = chiDb.getWritableDatabase();
+                for (DataSnapshot listItem : dataSnapshot.getChildren()) {
+                    item = listItem.getValue(Item.class);
+                    ContentValues cv = new ContentValues();
+                    cv.put(dbThu.COL_NAME, item.getName());
+                    cv.put(dbThu.COL_TIEN, item.getCost());
+                    cv.put(dbThu.COL_NHOM, item.getType());
+                    cv.put(dbThu.COL_GHICHU, item.getNote());
+                    cv.put(dbThu.COL_DATE, item.getDate());
+                    sqLiteExpense.insert(dbThu.TABLE_NAME, null, cv);
+                }
+                sqLiteExpense.close();
             }
 
             @Override
             public void onCancelled(FirebaseError firebaseError) {
                 Toast.makeText(getApplicationContext(), firebaseError.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        Firebase refIncome = root.child("257a29b4").child("Income");
+        Query incomeQuery = refIncome.orderByValue();
+        incomeQuery.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                sqLiteIncome = thuDb.getWritableDatabase();
+                for (DataSnapshot listItem : dataSnapshot.getChildren()) {
+                    item = listItem.getValue(Item.class);
+                    ContentValues cv = new ContentValues();
+                    cv.put(dbThu.COL_NAME, item.getName());
+                    cv.put(dbThu.COL_TIEN, item.getCost());
+                    cv.put(dbThu.COL_NHOM, item.getType());
+                    cv.put(dbThu.COL_GHICHU, item.getNote());
+                    cv.put(dbThu.COL_DATE, item.getDate());
+                    sqLiteIncome.insert(dbThu.TABLE_NAME, null, cv);
+                }
+                sqLiteIncome.close();
+            }
+
+            @Override
+            public void onCancelled(FirebaseError firebaseError) {
+
             }
         });
     }

@@ -103,7 +103,7 @@ public class LoginActivity extends Activity {
                 cv.put(UserDatabase.COL_EMAIL, email);
                 cv.put(UserDatabase.COL_KEY, "true");
                 mSQLite.insert(UserDatabase.TABLE_NAME, null, cv);
-                syncData(email);
+                // syncData(email);
                 Intent intent = new Intent(LoginActivity.this, MainActivity1.class);
                 startActivity(intent);
                 finish();

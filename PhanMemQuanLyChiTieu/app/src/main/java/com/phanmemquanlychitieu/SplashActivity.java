@@ -40,7 +40,7 @@ public class SplashActivity extends Activity {
 
     public boolean hasLogin() {
         boolean result = false;
-        mSQLite = userDb.getReadableDatabase();
+        mSQLite = userDb.getWritableDatabase();
         cursor = mSQLite.rawQuery(query, null);
         if (cursor.moveToFirst())
             result = true;

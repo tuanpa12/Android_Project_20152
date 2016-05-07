@@ -33,13 +33,13 @@
         android:layout_height="wrap_content">
 
         <Button
-            android:id="@+id/btn_chiCot"
+            android:id="@+id/btn_thuCot"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Cột" />
 
         <Button
-            android:id="@+id/btn_thuCot"
+            android:id="@+id/btn_chiCot"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Cột" />
@@ -51,13 +51,13 @@
         android:layout_height="wrap_content">
 
         <Button
-            android:id="@+id/btn_chiTron"
+            android:id="@+id/btn_thuTron"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Tròn" />
 
         <Button
-            android:id="@+id/btn_thuTron"
+            android:id="@+id/btn_chiTron"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Tròn" />

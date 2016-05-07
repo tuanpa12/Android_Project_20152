@@ -47,7 +47,7 @@ public class MainActivity1 extends AppCompatActivity {
     dbChi dbchi;
     SQLiteDatabase mDbchi;
     Cursor mCursorchi;
-    // sync
+    // ic_sync
     BaoCao objectchi2;
     Firebase root;
     Firebase usersRef;
@@ -143,7 +143,7 @@ public class MainActivity1 extends AppCompatActivity {
         Firebase incomeRef = usersRef.child("Income");
         expenseRef.setValue(null);
         incomeRef.setValue(null);
-        // sync expense data
+        // ic_sync expense data
         mDbchi = dbchi.getReadableDatabase();
         String queryChi = "select * from chi";
         mCursorchi = mDbchi.rawQuery(queryChi, null);
@@ -162,7 +162,7 @@ public class MainActivity1 extends AppCompatActivity {
         }
         mCursorchi.close();
 
-        // sync income data
+        // ic_sync income data
         mDbthu = dbthu.getReadableDatabase();
         String queryThu = "select * from thu";
         mCursorthu = mDbthu.rawQuery(queryThu, null);

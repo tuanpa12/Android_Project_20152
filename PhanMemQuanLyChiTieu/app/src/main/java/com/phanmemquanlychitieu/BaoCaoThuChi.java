@@ -965,6 +965,7 @@ public class BaoCaoThuChi extends Activity {
         defaultRenderer.setChartTitleTextSize(40);
         defaultRenderer.setLegendTextSize(40);
         defaultRenderer.setZoomButtonsVisible(false);
+        defaultRenderer.setBackgroundColor(Color.parseColor("#FF0000"));
         // Creating an intent to plot bar chart using dataset and multipleRenderer
         Intent intent = ChartFactory.getPieChartIntent(getBaseContext(), distributionSeries, defaultRenderer, "Biểu Đồ Thu Chi");
         // Start Activity

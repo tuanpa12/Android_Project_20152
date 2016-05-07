@@ -156,7 +156,6 @@ public class DanhSachThuChi extends Activity {
                                 cv.put(dbThu.COL_GHICHU, note);
                                 mDbthu.update(dbThu.TABLE_NAME, cv, "_id " + "=" + sapxepthu.get(position).getId(), null);
                                 danhSachThu();
-                                mDbthu.close();
                                 dialogthu.cancel();
                             }
                         });
@@ -228,10 +227,8 @@ public class DanhSachThuChi extends Activity {
                                 cv.put(dbChi.COL_DATE, suangaychi.getText().toString());
                                 cv.put(dbChi.COL_NHOM, suanhomchi.getSelectedItem().toString());
                                 cv.put(dbChi.COL_GHICHU, suaghichuchi.getText().toString());
-                                mDbchi.update(dbChi.TABLE_NAME, cv, "_id " + "=" + sapxepchi.get(position).getId(),
-                                        null);
+                                mDbchi.update(dbChi.TABLE_NAME, cv, "_id " + "=" + sapxepchi.get(position).getId(), null);
                                 danhSachThu();
-                                mDbchi.close();
                                 dialogchi.cancel();
                                 danhSachChi();
                             }
@@ -336,6 +333,8 @@ public class DanhSachThuChi extends Activity {
                 arrthu.add(objectthu);
             } while (mCursorthu.moveToNext());
         }
+        mCursorthu.close();
+
         sapxepthu = new ArrayList<>();
         sapxepthu = doingaythu.sapXep(arrthu);
         for (int i = 0; i < sapxepthu.size(); i++) {
@@ -364,6 +363,8 @@ public class DanhSachThuChi extends Activity {
                 arrchi.add(objectchi);
             } while (mCursorchi.moveToNext());
         }
+        mCursorchi.close();
+
         sapxepchi = new ArrayList<>();
         sapxepchi = doingaychi.sapXep(arrchi);
         for (int i = 0; i < sapxepchi.size(); i++) {

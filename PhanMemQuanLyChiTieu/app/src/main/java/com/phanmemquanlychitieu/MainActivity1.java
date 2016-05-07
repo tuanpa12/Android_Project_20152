@@ -5,7 +5,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -61,16 +60,13 @@ public class MainActivity1 extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         Firebase.setAndroidContext(this);
         root = new Firebase("https://expenseproject.firebaseio.com/");
-        usersRef = root.child(Build.SERIAL);
+        usersRef = root.child("257a29b4");
 
         userDb = new UserDatabase(this);
         dbthu = new dbThu(this);
         dbchi = new dbChi(this);
         laiXuatDb = new dbLaiXuat(this);
-        mSQLite = userDb.getWritableDatabase();
-        mDbthu = dbthu.getWritableDatabase();
-        mDbchi = dbchi.getWritableDatabase();
-        mDbLaiXuat = laiXuatDb.getWritableDatabase();
+
         danhSachThu();
         danhSachChi();
         GridView grid = (GridView) findViewById(R.id.gridView_menu);
@@ -144,8 +140,8 @@ public class MainActivity1 extends AppCompatActivity {
         incomeRef.setValue(null);
         // sync expense data
         mDbchi = dbchi.getReadableDatabase();
-        String querychi = "select * from chi";
-        mCursorchi = mDbchi.rawQuery(querychi, null);
+        String queryChi = "select * from chi";
+        mCursorchi = mDbchi.rawQuery(queryChi, null);
         Item item;
         if (mCursorchi.moveToFirst()) {
             do {
@@ -159,11 +155,12 @@ public class MainActivity1 extends AppCompatActivity {
                 expenseRef.child("" + id).setValue(item);
             } while (mCursorchi.moveToNext());
         }
+        mCursorchi.close();
 
         // sync income data
         mDbthu = dbthu.getReadableDatabase();
-        String query = "select * from thu";
-        mCursorthu = mDbthu.rawQuery(query, null);
+        String queryThu = "select * from thu";
+        mCursorthu = mDbthu.rawQuery(queryThu, null);
         if (mCursorthu.moveToFirst()) {
             do {
                 id = Integer.parseInt(mCursorthu.getString(0));
@@ -176,10 +173,11 @@ public class MainActivity1 extends AppCompatActivity {
                 incomeRef.child("" + id).setValue(item);
             } while (mCursorthu.moveToNext());
         }
+        mCursorthu.close();
     }
 
     public void danhSachChi() {
-        mDbchi = dbchi.getWritableDatabase();
+        mDbchi = dbchi.getReadableDatabase();
         String querychi = "select * from chi";
         mCursorchi = mDbchi.rawQuery(querychi, null);
         arrchi = new ArrayList<>();
@@ -192,10 +190,11 @@ public class MainActivity1 extends AppCompatActivity {
                 arrchi.add(objectchi2);
             } while (mCursorchi.moveToNext());
         }
+        mCursorchi.close();
     }
 
     public void danhSachThu() {
-        mDbthu = dbthu.getWritableDatabase();
+        mDbthu = dbthu.getReadableDatabase();
         String query = "select * from thu";
         mCursorthu = mDbthu.rawQuery(query, null);
         arrthu = new ArrayList<>();
@@ -208,5 +207,6 @@ public class MainActivity1 extends AppCompatActivity {
                 arrthu.add(objectchi2);
             } while (mCursorthu.moveToNext());
         }
+        mCursorthu.close();
     }
 }

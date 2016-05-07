@@ -25,7 +25,6 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ListView;
-import android.widget.SimpleCursorAdapter;
 import android.widget.Spinner;
 import android.widget.TabHost;
 import android.widget.TextView;
@@ -61,13 +60,9 @@ public class NgoaiTe extends Activity {
     dbThu dbthu;
     SQLiteDatabase mDbthu;
     Cursor mCursorthu;
-    SimpleCursorAdapter mAdapterthu;
     dbChi dbchi;
     SQLiteDatabase mDbchi;
     Cursor mCursorchi;
-    ArrayAdapter<String> adapterthu = null;
-    ArrayAdapter<String> adapterchi = null;
-    DanhSachTienTe adapterdstien;
     ArrayAdapter<String> adaptertien = null;
     Spinner spinnertien;
     TextView txttygia;
@@ -75,7 +70,6 @@ public class NgoaiTe extends Activity {
     private ListView listthu;
     // danh sach chi
     private ListView listchi;
-    private SimpleCursorAdapter mAdapterchi;
     private TienThuChi objectthu, objectchi;
     private ArrayList<TienThuChi> arrthu = null;
     private ArrayList<TienThuChi> arrchi = null;
@@ -83,12 +77,7 @@ public class NgoaiTe extends Activity {
     private DanhSachTienTeChi myadapterchi = null;
     private DoiNgay doingaythu = null;
     private DoiNgay doingaychi = null;
-    private EditText suatenthu;
-    private EditText suatienthu;
-    private Spinner suanhomthu;
     private TextView suangaythu;
-    private EditText suaghichuthu;
-    private ImageButton btnsavethu, btnsuangaythu;
     private String datetimesuathu = "";
     private String[] arrspinnerthu = {"Tiền Lương", "Đòi Nợ", "Bán Đồ",
             "Đi Vay", "Khác"};
@@ -165,9 +154,9 @@ public class NgoaiTe extends Activity {
         } else {
             TienThuChi khoantien = new TienThuChi();
             txttygia.setText("");
-            myadapterthu.vietBua("(VND)");
+            myadapterthu.vietBua(" (VND)");
             myadapterthu.notifyDataSetChanged();
-            myadapterchi.vietBua("(VND)");
+            myadapterchi.vietBua(" (VND)");
             myadapterchi.notifyDataSetChanged();
         }
     }
@@ -254,6 +243,8 @@ public class NgoaiTe extends Activity {
                 arrthu.add(objectthu);
             } while (mCursorthu.moveToNext());
         }
+        mCursorthu.close();
+
         sapxepthu = new ArrayList<TienThuChi>();
         sapxepthu = doingaythu.sapXep(arrthu);
         for (int i = 0; i < sapxepthu.size(); i++) {
@@ -283,6 +274,8 @@ public class NgoaiTe extends Activity {
                 arrchi.add(objectchi);
             } while (mCursorchi.moveToNext());
         }
+        mCursorchi.close();
+
         sapxepchi = new ArrayList<TienThuChi>();
         sapxepchi = doingaychi.sapXep(arrchi);
         for (int i = 0; i < sapxepchi.size(); i++) {

@@ -7,7 +7,6 @@ import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
 import android.content.ContentValues;
-import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Build;
 import android.os.Bundle;
@@ -38,7 +37,6 @@ public class TienThu extends Activity {
     //khoi tao thuoc tinh cho db
     dbThu dbthu;
     SQLiteDatabase mDbthu;
-    Cursor mCursorthu;
 
     ArrayList<String> arr = new ArrayList<String>();
 
@@ -46,7 +44,7 @@ public class TienThu extends Activity {
     String[] arrspinner = {"Tiền Lương", "Đòi Nợ", "Bán Đồ", "Đi Vay", "Khác"};
     ArrayAdapter<String> adapterthu = null;
 
-    private String datetimeloc = "";
+    String datetimeloc = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -120,7 +118,6 @@ public class TienThu extends Activity {
                     ghichukhoanthu.setText(null);
                     Toast toast = Toast.makeText(TienThu.this, "Nhập Thành Công", Toast.LENGTH_SHORT);
                     toast.show();
-                    mDbthu.close();
                 }
             }
         });

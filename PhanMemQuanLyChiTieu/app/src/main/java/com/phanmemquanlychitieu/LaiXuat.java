@@ -240,7 +240,7 @@ public class LaiXuat extends Activity {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         mCursorlaixuat.moveToPosition(position);
-                        String rowId = mCursorlaixuat.getString(0); //Column 0 of the cursor is the id
+                        String rowId = mCursorlaixuat.getString(0); //Column 0 of the cursorExpense is the id
                         mDblaixuat.delete(dbLaiXuat.TABLE_NAME, "_id = ?", new String[]{rowId});
                         mCursorlaixuat.requery();
                         mAdapter.notifyDataSetChanged();

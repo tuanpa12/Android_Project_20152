@@ -112,6 +112,11 @@ public class MainActivity1 extends AppCompatActivity {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             Intent intent = new Intent(MainActivity1.this, LoginActivity.class);
+                            mSQLite = userDb.getWritableDatabase();
+                            mDbthu = dbthu.getWritableDatabase();
+                            mDbchi = dbchi.getWritableDatabase();
+                            mDbLaiXuat = laiXuatDb.getWritableDatabase();
+
                             mSQLite.execSQL("delete from " + UserDatabase.TABLE_NAME);
                             mDbthu.execSQL("delete from " + dbThu.TABLE_NAME);
                             mDbchi.execSQL("delete from " + dbChi.TABLE_NAME);

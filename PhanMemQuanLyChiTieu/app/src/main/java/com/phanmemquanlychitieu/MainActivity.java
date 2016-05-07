@@ -5,7 +5,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
@@ -34,6 +33,7 @@ public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
     UserDatabase userDb;
     SQLiteDatabase mSQLite;
+    Cursor userCursor;
 
     dbLaiXuat laiXuatDb;
     SQLiteDatabase mDbLaiXuat;
@@ -62,26 +62,21 @@ public class MainActivity extends AppCompatActivity
         setContentView(R.layout.activity_bar);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        userDb = new UserDatabase(this);
+        dbthu = new dbThu(this);
+        dbchi = new dbChi(this);
+        laiXuatDb = new dbLaiXuat(this);
         loadControl();
         Firebase.setAndroidContext(this);
         root = new Firebase("https://expenseproject.firebaseio.com/");
-        usersRef = root.child(Build.SERIAL);
-        arrthu = new ArrayList<>();
-        arrchi = new ArrayList<>();
-
-        if (checkExpenseDb() && checkIncomeDb()) {
-            danhSachThu();
-            danhSachChi();
-        }
+        usersRef = root.child(getName());
+        danhSachThu();
+        danhSachChi();
 
         TextView userName = (TextView) findViewById(R.id.headerName);
         if (userName != null) {
             userName.setText(getName());
         }
-        userDb = new UserDatabase(this);
-        dbthu = new dbThu(this);
-        dbchi = new dbChi(this);
-        laiXuatDb = new dbLaiXuat(this);
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab_addItem);
         if (fab != null) {
@@ -89,7 +84,7 @@ public class MainActivity extends AppCompatActivity
                 @Override
                 public void onClick(View view) {
                     AlertDialog.Builder add = new AlertDialog.Builder(MainActivity.this);
-                    add.setTitle("Thêm thu - chi");
+                    add.setTitle("Thêm Thu Chi");
                     add.setMessage("Bạn muốn thêm khoản chi hay khoản thu?");
                     add.setNegativeButton("Thu", new DialogInterface.OnClickListener() {
                         @Override
@@ -184,10 +179,10 @@ public class MainActivity extends AppCompatActivity
                     mDbchi = dbchi.getWritableDatabase();
                     mDbLaiXuat = laiXuatDb.getWritableDatabase();
 
-                    mSQLite.execSQL("delete from " + UserDatabase.TABLE_NAME);
-                    mDbthu.execSQL("delete from " + dbThu.TABLE_NAME);
-                    mDbchi.execSQL("delete from " + dbChi.TABLE_NAME);
-                    mDbLaiXuat.execSQL("delete from " + dbLaiXuat.TABLE_NAME);
+                    mSQLite.delete(UserDatabase.TABLE_NAME, null, null);
+                    mDbthu.delete(dbThu.TABLE_NAME, null, null);
+                    mDbchi.delete(dbChi.TABLE_NAME, null, null);
+                    mDbLaiXuat.delete(dbLaiXuat.TABLE_NAME, null, null);
                     startActivity(intent);
                     finish();
                 }
@@ -214,9 +209,8 @@ public class MainActivity extends AppCompatActivity
         Firebase incomeRef = usersRef.child("Income");
         expenseRef.setValue(null);
         incomeRef.setValue(null);
-        // ic_sync expense data
         mDbchi = dbchi.getReadableDatabase();
-        String querychi = "select * from chi";
+        String querychi = "select * from " + dbChi.TABLE_NAME;
         mCursorchi = mDbchi.rawQuery(querychi, null);
         Item item;
         if (mCursorchi.moveToFirst()) {
@@ -233,9 +227,8 @@ public class MainActivity extends AppCompatActivity
         }
         mCursorchi.close();
 
-        // ic_sync income data
         mDbthu = dbthu.getReadableDatabase();
-        String query = "select * from thu";
+        String query = "select * from " + dbThu.TABLE_NAME;
         mCursorthu = mDbthu.rawQuery(query, null);
         if (mCursorthu.moveToFirst()) {
             do {
@@ -256,11 +249,11 @@ public class MainActivity extends AppCompatActivity
         String name = "";
         mSQLite = userDb.getReadableDatabase();
         String query = "select * from " + UserDatabase.TABLE_NAME;
-        cursorExpense = mSQLite.rawQuery(query, null);
-        if (cursorExpense.moveToFirst()) {
-            name = cursorExpense.getString(1);
+        userCursor = mSQLite.rawQuery(query, null);
+        if (userCursor.moveToFirst()) {
+            name = userCursor.getString(1);
         }
-        cursorExpense.close();
+        userCursor.close();
         return name;
     }
 
@@ -271,7 +264,7 @@ public class MainActivity extends AppCompatActivity
         cursorExpense = mDbchi.rawQuery(query, null);
         if (cursorExpense.moveToFirst())
             result = true;
-        cursorIncome.close();
+        cursorExpense.close();
         return result;
     }
 
@@ -279,26 +272,26 @@ public class MainActivity extends AppCompatActivity
         String query = "select * from " + dbThu.TABLE_NAME;
         boolean result = false;
         mDbthu = dbthu.getReadableDatabase();
-        cursorExpense = mDbthu.rawQuery(query, null);
+        cursorIncome = mDbthu.rawQuery(query, null);
         if (cursorExpense.moveToFirst())
             result = true;
-        cursorExpense.close();
+        cursorIncome.close();
         return result;
     }
 
 
     public void danhSachChi() {
-        mDbchi = dbchi.getWritableDatabase();
-        String querychi = "select * from chi";
+        mDbchi = dbchi.getReadableDatabase();
+        String querychi = "select * from " + dbChi.TABLE_NAME;
         mCursorchi = mDbchi.rawQuery(querychi, null);
+        arrchi = new ArrayList<>();
         if (mCursorchi.moveToFirst()) {
             do {
                 objectchi2 = new BaoCao();
-
+                objectchi2.setTitle(mCursorchi.getString(1));
                 objectchi2.setTienchi(mCursorchi.getString(2));
                 objectchi2.setNhom(mCursorchi.getString(3));
                 objectchi2.setNgay(mCursorchi.getString(4));
-
                 arrchi.add(objectchi2);
             } while (mCursorchi.moveToNext());
         }
@@ -306,17 +299,17 @@ public class MainActivity extends AppCompatActivity
     }
 
     public void danhSachThu() {
-        mDbthu = dbthu.getWritableDatabase();
-        String query = "select * from thu";
+        mDbthu = dbthu.getReadableDatabase();
+        String query = "select * from " + dbThu.TABLE_NAME;
         mCursorthu = mDbthu.rawQuery(query, null);
+        arrthu = new ArrayList<>();
         if (mCursorthu.moveToFirst()) {
             do {
                 objectchi2 = new BaoCao();
-
+                objectchi2.setTitle(mCursorthu.getString(1));
                 objectchi2.setTienthu(mCursorthu.getString(2));
                 objectchi2.setNhom(mCursorthu.getString(3));
                 objectchi2.setNgay(mCursorthu.getString(4));
-
                 arrthu.add(objectchi2);
             } while (mCursorthu.moveToNext());
         }

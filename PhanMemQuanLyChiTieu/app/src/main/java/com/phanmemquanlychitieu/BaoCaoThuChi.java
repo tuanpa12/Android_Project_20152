@@ -754,7 +754,7 @@ public class BaoCaoThuChi extends Activity {
 
     public void danhSachThu() {
         mDbthu = dbthu.getWritableDatabase();
-        String query = "select * from thu";
+        String query = "select * from " + dbThu.TABLE_NAME;
         mCursorthu = mDbthu.rawQuery(query, null);
         arrthu = new ArrayList<BaoCao>();
         doingaythu = new DoiNgay();
@@ -771,7 +771,7 @@ public class BaoCaoThuChi extends Activity {
 
     public void danhSachChi() {
         mDbchi = dbchi.getWritableDatabase();
-        String querychi = "select * from chi";
+        String querychi = "select * from " + dbChi.TABLE_NAME;
         mCursorchi = mDbchi.rawQuery(querychi, null);
         arrchi = new ArrayList<BaoCao>();
         doingaychi = new DoiNgay();

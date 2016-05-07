@@ -10,8 +10,8 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
-import android.widget.ScrollView;
 import android.widget.Toast;
 
 import com.firebase.client.AuthData;
@@ -20,6 +20,8 @@ import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
 import com.firebase.client.Query;
 import com.firebase.client.ValueEventListener;
+
+import java.util.StringTokenizer;
 
 import Database.UserDatabase;
 import Database.dbChi;
@@ -33,7 +35,7 @@ public class LoginActivity extends Activity {
     EditText email, password;
     Button btnLogin, btnSignUp;
     ProgressBar bar;
-    ScrollView login_form;
+    LinearLayout loginForm;
     Firebase root;
 
     UserDatabase userDb;
@@ -57,6 +59,8 @@ public class LoginActivity extends Activity {
         thuDb = new dbThu(this);
         chiDb = new dbChi(this);
         mSQLite = userDb.getWritableDatabase();
+        sqLiteIncome = thuDb.getWritableDatabase();
+        sqLiteExpense = chiDb.getWritableDatabase();
 
         loadControl();
 
@@ -64,7 +68,7 @@ public class LoginActivity extends Activity {
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                final String mail = email.getText().toString();
+                String mail = email.getText().toString();
                 String pass = password.getText().toString();
                 authLogin(mail, pass);
             }
@@ -96,15 +100,20 @@ public class LoginActivity extends Activity {
         root.authWithPassword(email, pass, new Firebase.AuthResultHandler() {
             @Override
             public void onAuthenticated(AuthData authData) {
-                login_form.setVisibility(View.GONE);
                 bar.setVisibility(View.VISIBLE);
+                loginForm.setVisibility(View.GONE);
+                StringTokenizer st = new StringTokenizer(authData.getUid(), "-");
+                String name = "";
+                while (st.hasMoreTokens()) {
+                    name += st.nextToken();
+                }
                 ContentValues cv = new ContentValues();
-                cv.put(UserDatabase.COL_NAME, authData.getProvider());
+                cv.put(UserDatabase.COL_NAME, name);
                 cv.put(UserDatabase.COL_EMAIL, email);
                 cv.put(UserDatabase.COL_KEY, "true");
                 mSQLite.insert(UserDatabase.TABLE_NAME, null, cv);
-                // syncData(email);
-                Intent intent = new Intent(LoginActivity.this, MainActivity1.class);
+                syncData(name);
+                Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                 startActivity(intent);
                 finish();
             }
@@ -122,27 +131,25 @@ public class LoginActivity extends Activity {
         btnLogin = (Button) findViewById(R.id.btnLogin);
         btnSignUp = (Button) findViewById(R.id.btnSignUp);
         bar = (ProgressBar) findViewById(R.id.login_progress);
-        login_form = (ScrollView) findViewById(R.id.login_form);
+        loginForm = (LinearLayout) findViewById(R.id.login_form);
     }
 
-    public void syncData(String email) {
-        Firebase refExpense = root.child("257a29b4").child("Expense");
+    public void syncData(String name) {
+        Firebase refExpense = root.child(name).child("Expense");
         Query expenseQuery = refExpense.orderByValue();
         expenseQuery.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                sqLiteExpense = chiDb.getWritableDatabase();
                 for (DataSnapshot listItem : dataSnapshot.getChildren()) {
                     item = listItem.getValue(Item.class);
                     ContentValues cv = new ContentValues();
-                    cv.put(dbThu.COL_NAME, item.getName());
-                    cv.put(dbThu.COL_TIEN, item.getCost());
-                    cv.put(dbThu.COL_NHOM, item.getType());
-                    cv.put(dbThu.COL_GHICHU, item.getNote());
-                    cv.put(dbThu.COL_DATE, item.getDate());
-                    sqLiteExpense.insert(dbThu.TABLE_NAME, null, cv);
+                    cv.put(dbChi.COL_NAME, item.getName());
+                    cv.put(dbChi.COL_TIEN, item.getCost());
+                    cv.put(dbChi.COL_NHOM, item.getType());
+                    cv.put(dbChi.COL_DATE, item.getDate());
+                    cv.put(dbChi.COL_GHICHU, item.getNote());
+                    sqLiteExpense.insert(dbChi.TABLE_NAME, null, cv);
                 }
-                sqLiteExpense.close();
             }
 
             @Override
@@ -151,28 +158,26 @@ public class LoginActivity extends Activity {
             }
         });
 
-        Firebase refIncome = root.child("257a29b4").child("Income");
+        Firebase refIncome = root.child(name).child("Income");
         Query incomeQuery = refIncome.orderByValue();
         incomeQuery.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                sqLiteIncome = thuDb.getWritableDatabase();
                 for (DataSnapshot listItem : dataSnapshot.getChildren()) {
                     item = listItem.getValue(Item.class);
                     ContentValues cv = new ContentValues();
                     cv.put(dbThu.COL_NAME, item.getName());
                     cv.put(dbThu.COL_TIEN, item.getCost());
                     cv.put(dbThu.COL_NHOM, item.getType());
-                    cv.put(dbThu.COL_GHICHU, item.getNote());
                     cv.put(dbThu.COL_DATE, item.getDate());
+                    cv.put(dbThu.COL_GHICHU, item.getNote());
                     sqLiteIncome.insert(dbThu.TABLE_NAME, null, cv);
                 }
-                sqLiteIncome.close();
             }
 
             @Override
             public void onCancelled(FirebaseError firebaseError) {
-
+                Toast.makeText(getApplicationContext(), firebaseError.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
     }

@@ -19,14 +19,13 @@ public class NgoaiTe {
         float a = f / this.tyGia;
         DecimalFormat first = new DecimalFormat("#.###");
         String format_string = first.format(a);
-        cd = "" + format_string + "-" + this.kiHieu;
+        cd = "" + format_string + " (" + this.kiHieu + ")";
         return cd;
     }
 
     @Override
     public String toString() {
-        String s = kiHieu + " - " + tyGia + " - " + name;
-        return s;
+        return kiHieu + " - " + tyGia + " - " + name;
     }
 
 }

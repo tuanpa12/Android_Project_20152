@@ -132,14 +132,9 @@ public class NgoaiTe extends Activity {
 
         dbthu = new dbThu(this);
         dbchi = new dbChi(this);
-        LoadTab();
-
+        loadTab();
         danhSachThu();
         danhSachChi();
-
-    }
-
-    public void init() {
 
     }
 
@@ -207,7 +202,7 @@ public class NgoaiTe extends Activity {
         newFragment.show(getFragmentManager(), "datePicker");
     }
 
-    public void LoadTab() {
+    public void loadTab() {
         final TabHost tab = (TabHost) findViewById(android.R.id.tabhost);
         // goi cau lenh setup
         tab.setup();
@@ -227,9 +222,9 @@ public class NgoaiTe extends Activity {
 
     public void danhSachThu() {
         mDbthu = dbthu.getWritableDatabase();
-        String query = "select * from thu";
+        String query = "select * from " + dbThu.TABLE_NAME;
         mCursorthu = mDbthu.rawQuery(query, null);
-        arrthu = new ArrayList<TienThuChi>();
+        arrthu = new ArrayList<>();
         doingaythu = new DoiNgay();
         if (mCursorthu.moveToFirst()) {
             do {
@@ -245,7 +240,7 @@ public class NgoaiTe extends Activity {
         }
         mCursorthu.close();
 
-        sapxepthu = new ArrayList<TienThuChi>();
+        sapxepthu = new ArrayList<>();
         sapxepthu = doingaythu.sapXep(arrthu);
         for (int i = 0; i < sapxepthu.size(); i++) {
             String strsapxep = doingaythu.ngay(sapxepthu.get(i).getNgaythang());
@@ -258,9 +253,9 @@ public class NgoaiTe extends Activity {
 
     public void danhSachChi() {
         mDbchi = dbchi.getWritableDatabase();
-        String querychi = "select * from chi";
+        String querychi = "select * from " + dbChi.TABLE_NAME;
         mCursorchi = mDbchi.rawQuery(querychi, null);
-        arrchi = new ArrayList<TienThuChi>();
+        arrchi = new ArrayList<>();
         doingaychi = new DoiNgay();
         if (mCursorchi.moveToFirst()) {
             do {

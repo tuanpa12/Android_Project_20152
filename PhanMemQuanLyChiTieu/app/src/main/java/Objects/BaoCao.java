@@ -11,10 +11,6 @@ public class BaoCao {
     private String tienchi;
     private String nhom;
 
-    public BaoCao() {
-        super();
-    }
-
     public String getTitle() {
         return title;
     }

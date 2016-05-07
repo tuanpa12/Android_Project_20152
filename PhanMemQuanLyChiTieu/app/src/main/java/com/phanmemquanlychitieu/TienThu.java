@@ -91,7 +91,6 @@ public class TienThu extends Activity {
     @SuppressLint("NewApi")
     public void luu() {
         luukhoanthu.setOnClickListener(new OnClickListener() {
-            @SuppressWarnings("static-access")
             @Override
             public void onClick(View v) {
                 if (sotienkhoanthu.getText().toString().isEmpty() || checkZero(sotienkhoanthu.getText().toString())) {

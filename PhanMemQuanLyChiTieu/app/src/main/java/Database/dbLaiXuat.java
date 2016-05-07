@@ -1,6 +1,5 @@
 package Database;
 
-import android.content.ContentValues;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
@@ -27,8 +26,8 @@ public class dbLaiXuat extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         db.execSQL(STRING_CREATE);
-        ContentValues cv = new ContentValues(3);
-        db.insert(TABLE_NAME, null, cv);
+//        ContentValues cv = new ContentValues();
+//        db.insert(TABLE_NAME, null, cv);
     }
 
     @Override

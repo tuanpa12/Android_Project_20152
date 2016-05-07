@@ -1,20 +1,19 @@
 package Database;
 
-import android.content.ContentValues;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
 public class dbChi extends SQLiteOpenHelper {
 
-    public static final String TABLE_NAME = "chi";
+    public static final String TABLE_NAME = "expense";
     public static final String COL_NAME = "tenchi";
     public static final String COL_TIEN = "tienchi";
     public static final String COL_NHOM = "nhomchi";
     public static final String COL_DATE = "ngaythangchi";
     public static final String COL_GHICHU = "ghichuchi";
     private static final String DB_NAME = "tienthu";
-    private static final int DB_VERSION = 1;
+    private static final int DB_VERSION = 2;
     private static final String STRING_CREATE = "CREATE TABLE " + TABLE_NAME + " (_id INTEGER PRIMARY KEY AUTOINCREMENT,"
             + COL_NAME + " TEXT," + COL_TIEN + " TEXT," + COL_NHOM + " TEXT," + COL_DATE + " TEXT," + COL_GHICHU + " TEXT);";
 
@@ -25,8 +24,8 @@ public class dbChi extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         db.execSQL(STRING_CREATE);
-        ContentValues cv = new ContentValues();
-        db.insert(TABLE_NAME, null, cv);
+//        ContentValues cv = new ContentValues(3);
+//        db.insert(TABLE_NAME, null, cv);
     }
 
     @Override

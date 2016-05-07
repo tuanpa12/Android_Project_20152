@@ -28,7 +28,7 @@ public class SplashActivity extends Activity {
         userDb = new UserDatabase(this);
         Intent intent;
         if (hasLogin()) {
-            intent = new Intent(SplashActivity.this, MainActivity1.class);
+            intent = new Intent(SplashActivity.this, MainActivity.class);
             startActivity(intent);
             finish();
         } else {
@@ -40,7 +40,7 @@ public class SplashActivity extends Activity {
 
     public boolean hasLogin() {
         boolean result = false;
-        mSQLite = userDb.getWritableDatabase();
+        mSQLite = userDb.getReadableDatabase();
         cursor = mSQLite.rawQuery(query, null);
         if (cursor.moveToFirst())
             result = true;

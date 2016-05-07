@@ -113,7 +113,7 @@ public class TienThuChi {
         this.ngaythang = ngaythang;
     }
 
-    public double kqngay(String nhom, String ngay, ArrayList<BaoCao> a) {
+    public double kqngaychi(String nhom, String ngay, ArrayList<BaoCao> a) {
         double thuthang = 0;
         for (int i = 0; i < a.size(); i++) {
             if (a.get(i).getNgay().equals(ngay) && a.get(i).getNhom().equals(nhom)) {
@@ -123,7 +123,17 @@ public class TienThuChi {
         return thuthang;
     }
 
-    public double kqthang(String nhom, String thang, ArrayList<BaoCao> a) {
+    public double kqngaythu(String nhom, String ngay, ArrayList<BaoCao> a) {
+        double thuthang = 0;
+        for (int i = 0; i < a.size(); i++) {
+            if (a.get(i).getNgay().equals(ngay) && a.get(i).getNhom().equals(nhom)) {
+                thuthang += Double.parseDouble(a.get(i).getTienthu());
+            }
+        }
+        return thuthang;
+    }
+
+    public double kqthangchi(String nhom, String thang, ArrayList<BaoCao> a) {
         double thuthang = 0;
         DoiNgay doingaychi = new DoiNgay();
         for (int i = 0; i < a.size(); i++) {
@@ -134,7 +144,19 @@ public class TienThuChi {
         return thuthang;
     }
 
-    public double kqquy(String nhom, String thangdau, String thangsau, String nam, ArrayList<BaoCao> a) {
+    public double kqthangthu(String nhom, String thang, ArrayList<BaoCao> a) {
+        double thuthang = 0;
+        DoiNgay doingaychi = new DoiNgay();
+        for (int i = 0; i < a.size(); i++) {
+            if (doingaychi.doiThang1(a.get(i).getNgay()).equals(thang) && a.get(i).getNhom().equals(nhom)) {
+                thuthang += Double.parseDouble(a.get(i).getTienthu());
+            }
+        }
+        return thuthang;
+    }
+
+
+    public double kqquychi(String nhom, String thangdau, String thangsau, String nam, ArrayList<BaoCao> a) {
         double thuthang = 0;
         DoiNgay doiquychi = new DoiNgay();
         String dau = nam + thangdau;
@@ -145,6 +167,22 @@ public class TienThuChi {
         for (int i = 0; i < a.size(); i++) {
             if (Double.parseDouble(doiquychi.doiThang1(a.get(i).getNgay())) >= quydau && Double.parseDouble(doiquychi.doiThang1(a.get(i).getNgay())) <= quycuoi && a.get(i).getNhom().equals(nhom)) {
                 thuthang += Double.parseDouble(a.get(i).getTienchi());
+            }
+        }
+        return thuthang;
+    }
+
+    public double kqquythu(String nhom, String thangdau, String thangsau, String nam, ArrayList<BaoCao> a) {
+        double thuthang = 0;
+        DoiNgay doiquychi = new DoiNgay();
+        String dau = nam + thangdau;
+        double quydau = Double.parseDouble(dau);
+        String cuoi = nam + thangsau;
+        double quycuoi = Double.parseDouble(cuoi);
+        DoiNgay doingaychi = new DoiNgay();
+        for (int i = 0; i < a.size(); i++) {
+            if (Double.parseDouble(doiquychi.doiThang1(a.get(i).getNgay())) >= quydau && Double.parseDouble(doiquychi.doiThang1(a.get(i).getNgay())) <= quycuoi && a.get(i).getNhom().equals(nhom)) {
+                thuthang += Double.parseDouble(a.get(i).getTienthu());
             }
         }
         return thuthang;
@@ -163,12 +201,23 @@ public class TienThuChi {
 
     }
 
-    public double kqnam(String nhom, String nam, ArrayList<BaoCao> a) {
+    public double kqnamchi(String nhom, String nam, ArrayList<BaoCao> a) {
         double thuthang = 0;
         DoiNgay doingaychi = new DoiNgay();
         for (int i = 0; i < a.size(); i++) {
             if (doingaychi.doiNam1(a.get(i).getNgay()).equals(nam) && a.get(i).getNhom().equals(nhom)) {
                 thuthang += Double.parseDouble(a.get(i).getTienchi());
+            }
+        }
+        return thuthang;
+    }
+
+    public double kqnamthu(String nhom, String nam, ArrayList<BaoCao> a) {
+        double thuthang = 0;
+        DoiNgay doingaychi = new DoiNgay();
+        for (int i = 0; i < a.size(); i++) {
+            if (doingaychi.doiNam1(a.get(i).getNgay()).equals(nam) && a.get(i).getNhom().equals(nhom)) {
+                thuthang += Double.parseDouble(a.get(i).getTienthu());
             }
         }
         return thuthang;

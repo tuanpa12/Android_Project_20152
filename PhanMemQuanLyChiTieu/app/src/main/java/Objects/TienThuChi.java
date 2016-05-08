@@ -1,12 +1,10 @@
 package Objects;
 
-import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 import Adapter.DoiNgay;
 
 public class TienThuChi {
-    private String ten;
     private String tien;
     private String nhom;
     private String ghichu;
@@ -21,14 +19,6 @@ public class TienThuChi {
         this.id = id;
     }
 
-    public String getTen() {
-        return ten;
-    }
-
-    public void setTen(String ten) {
-        this.ten = ten;
-    }
-
     public String getTien() {
         return this.tien;
     }
@@ -41,24 +31,10 @@ public class TienThuChi {
         return this.tien + " (VND)";
     }
 
-    public String getUSD() {
-        return fromVND(this.tien);
-    }
-
-    public String fromVND(String str) {
-        String cd;
-        Float f = Float.parseFloat(str);
-        float a = f / 22000;
-        DecimalFormat first = new DecimalFormat("#.##");
-        String format_string = first.format(a);
-        cd = "" + format_string + " (USD)";
-        return cd;
-    }
-
     public String getNgoaiTe(String string) {
         String m = "";
         HTMLParser htmlParser = new HTMLParser();
-        ArrayList<NgoaiTe> moneys = new ArrayList<NgoaiTe>();
+        ArrayList<NgoaiTe> moneys = new ArrayList<>();
         try {
             moneys = htmlParser.parseHTML();
         } catch (Exception e) {
@@ -75,7 +51,7 @@ public class TienThuChi {
     public String getTyGia(String string) {
         String m = "";
         HTMLParser htmlParser = new HTMLParser();
-        ArrayList<NgoaiTe> moneys = new ArrayList<NgoaiTe>();
+        ArrayList<NgoaiTe> moneys = new ArrayList<>();
         try {
             moneys = htmlParser.parseHTML();
         } catch (Exception e) {
@@ -113,111 +89,96 @@ public class TienThuChi {
         this.ngaythang = ngaythang;
     }
 
-    public double kqngaychi(String nhom, String ngay, ArrayList<BaoCao> a) {
-        double thuthang = 0;
+    public int kqngaychi(String nhom, String ngay, ArrayList<BaoCao> a) {
+        int thuthang = 0;
         for (int i = 0; i < a.size(); i++) {
             if (a.get(i).getNgay().equals(ngay) && a.get(i).getNhom().equals(nhom)) {
-                thuthang += Double.parseDouble(a.get(i).getTienchi());
+                thuthang += Integer.parseInt(a.get(i).getTienchi());
             }
         }
         return thuthang;
     }
 
-    public double kqngaythu(String nhom, String ngay, ArrayList<BaoCao> a) {
-        double thuthang = 0;
+    public int kqngaythu(String nhom, String ngay, ArrayList<BaoCao> a) {
+        int thuthang = 0;
         for (int i = 0; i < a.size(); i++) {
             if (a.get(i).getNgay().equals(ngay) && a.get(i).getNhom().equals(nhom)) {
-                thuthang += Double.parseDouble(a.get(i).getTienthu());
+                thuthang += Integer.parseInt(a.get(i).getTienthu());
             }
         }
         return thuthang;
     }
 
-    public double kqthangchi(String nhom, String thang, ArrayList<BaoCao> a) {
-        double thuthang = 0;
+    public int kqthangchi(String nhom, String thang, ArrayList<BaoCao> a) {
+        int thuthang = 0;
         DoiNgay doingaychi = new DoiNgay();
         for (int i = 0; i < a.size(); i++) {
             if (doingaychi.doiThang1(a.get(i).getNgay()).equals(thang) && a.get(i).getNhom().equals(nhom)) {
-                thuthang += Double.parseDouble(a.get(i).getTienchi());
+                thuthang += Integer.parseInt(a.get(i).getTienchi());
             }
         }
         return thuthang;
     }
 
-    public double kqthangthu(String nhom, String thang, ArrayList<BaoCao> a) {
-        double thuthang = 0;
+    public int kqthangthu(String nhom, String thang, ArrayList<BaoCao> a) {
+        int thuthang = 0;
         DoiNgay doingaychi = new DoiNgay();
         for (int i = 0; i < a.size(); i++) {
             if (doingaychi.doiThang1(a.get(i).getNgay()).equals(thang) && a.get(i).getNhom().equals(nhom)) {
-                thuthang += Double.parseDouble(a.get(i).getTienthu());
+                thuthang += Integer.parseInt(a.get(i).getTienthu());
             }
         }
         return thuthang;
     }
 
 
-    public double kqquychi(String nhom, String thangdau, String thangsau, String nam, ArrayList<BaoCao> a) {
-        double thuthang = 0;
+    public int kqquychi(String nhom, String thangdau, String thangsau, String nam, ArrayList<BaoCao> a) {
+        int thuthang = 0;
         DoiNgay doiquychi = new DoiNgay();
         String dau = nam + thangdau;
-        double quydau = Double.parseDouble(dau);
+        int quydau = Integer.parseInt(dau);
         String cuoi = nam + thangsau;
-        double quycuoi = Double.parseDouble(cuoi);
-        DoiNgay doingaychi = new DoiNgay();
+        int quycuoi = Integer.parseInt(cuoi);
         for (int i = 0; i < a.size(); i++) {
-            if (Double.parseDouble(doiquychi.doiThang1(a.get(i).getNgay())) >= quydau && Double.parseDouble(doiquychi.doiThang1(a.get(i).getNgay())) <= quycuoi && a.get(i).getNhom().equals(nhom)) {
-                thuthang += Double.parseDouble(a.get(i).getTienchi());
+            if (Integer.parseInt(doiquychi.doiThang1(a.get(i).getNgay())) >= quydau && Integer.parseInt(doiquychi.doiThang1(a.get(i).getNgay())) <= quycuoi && a.get(i).getNhom().equals(nhom)) {
+                thuthang += Integer.parseInt(a.get(i).getTienchi());
             }
         }
         return thuthang;
     }
 
-    public double kqquythu(String nhom, String thangdau, String thangsau, String nam, ArrayList<BaoCao> a) {
-        double thuthang = 0;
+    public int kqquythu(String nhom, String thangdau, String thangsau, String nam, ArrayList<BaoCao> a) {
+        int thuthang = 0;
         DoiNgay doiquychi = new DoiNgay();
         String dau = nam + thangdau;
-        double quydau = Double.parseDouble(dau);
+        int quydau = Integer.parseInt(dau);
         String cuoi = nam + thangsau;
-        double quycuoi = Double.parseDouble(cuoi);
-        DoiNgay doingaychi = new DoiNgay();
+        int quycuoi = Integer.parseInt(cuoi);
         for (int i = 0; i < a.size(); i++) {
-            if (Double.parseDouble(doiquychi.doiThang1(a.get(i).getNgay())) >= quydau && Double.parseDouble(doiquychi.doiThang1(a.get(i).getNgay())) <= quycuoi && a.get(i).getNhom().equals(nhom)) {
-                thuthang += Double.parseDouble(a.get(i).getTienthu());
+            if (Integer.parseInt(doiquychi.doiThang1(a.get(i).getNgay())) >= quydau && Integer.parseInt(doiquychi.doiThang1(a.get(i).getNgay())) <= quycuoi && a.get(i).getNhom().equals(nhom)) {
+                thuthang += Integer.parseInt(a.get(i).getTienthu());
             }
         }
         return thuthang;
     }
 
-    public double kqdsthang(String nhom, String nam, String thang, ArrayList<BaoCao> a) {
-        double thuthang = 0;
-        String thangnam = nam + thang;
-        DoiNgay doingaychi = new DoiNgay();
-        for (int i = 0; i < a.size(); i++) {
-            if (doingaychi.doiThang1(a.get(i).getNgay()).equals(thangnam) && a.get(i).getNhom().equals(nhom)) {
-                thuthang += Double.parseDouble(a.get(i).getTienchi());
-            }
-        }
-        return thuthang;
-
-    }
-
-    public double kqnamchi(String nhom, String nam, ArrayList<BaoCao> a) {
-        double thuthang = 0;
+    public int kqnamchi(String nhom, String nam, ArrayList<BaoCao> a) {
+        int thuthang = 0;
         DoiNgay doingaychi = new DoiNgay();
         for (int i = 0; i < a.size(); i++) {
             if (doingaychi.doiNam1(a.get(i).getNgay()).equals(nam) && a.get(i).getNhom().equals(nhom)) {
-                thuthang += Double.parseDouble(a.get(i).getTienchi());
+                thuthang += Integer.parseInt(a.get(i).getTienchi());
             }
         }
         return thuthang;
     }
 
-    public double kqnamthu(String nhom, String nam, ArrayList<BaoCao> a) {
-        double thuthang = 0;
+    public int kqnamthu(String nhom, String nam, ArrayList<BaoCao> a) {
+        int thuthang = 0;
         DoiNgay doingaychi = new DoiNgay();
         for (int i = 0; i < a.size(); i++) {
             if (doingaychi.doiNam1(a.get(i).getNgay()).equals(nam) && a.get(i).getNhom().equals(nhom)) {
-                thuthang += Double.parseDouble(a.get(i).getTienthu());
+                thuthang += Integer.parseInt(a.get(i).getTienthu());
             }
         }
         return thuthang;

@@ -14,14 +14,13 @@ import java.util.ArrayList;
 
 import Objects.TienThuChi;
 
-public class DanhSachTienTe extends ArrayAdapter<TienThuChi> {
+public class DanhSachTienTeThu extends ArrayAdapter<TienThuChi> {
     String abc;
-    //HTMLParser html;
     Context context;
     int layoutResourceId;
     ArrayList<TienThuChi> listData = null;
 
-    public DanhSachTienTe(Context context, int layoutResourceId, ArrayList<TienThuChi> data) {
+    public DanhSachTienTeThu(Context context, int layoutResourceId, ArrayList<TienThuChi> data) {
         super(context, layoutResourceId, data);
         this.context = context;
         this.layoutResourceId = layoutResourceId;
@@ -56,9 +55,7 @@ public class DanhSachTienTe extends ArrayAdapter<TienThuChi> {
             LayoutInflater inflater = ((Activity) context).getLayoutInflater();
             row = inflater.inflate(layoutResourceId, parent, false);
             holder = new ItemHolder();
-            //html=new HTMLParser();
 
-            holder.ten = (TextView) row.findViewById(R.id.textView_tenkhoanthu_custom);
             holder.nhom = (TextView) row.findViewById(R.id.textView_nhomkhoanthu_custom);
             holder.ngaythang = (TextView) row.findViewById(R.id.textView_ngaykhoanthu_custom);
             holder.tien = (TextView) row.findViewById(R.id.textView_tienkhoanthu_custom);
@@ -67,7 +64,6 @@ public class DanhSachTienTe extends ArrayAdapter<TienThuChi> {
             holder = (ItemHolder) row.getTag();
         }
         TienThuChi item = listData.get(position);
-        holder.ten.setText(item.getTen());
         holder.nhom.setText(item.getNhom());
         holder.ngaythang.setText(item.getNgaythang());
         holder.tien.setText(item.getNgoaiTe(abc));
@@ -75,7 +71,6 @@ public class DanhSachTienTe extends ArrayAdapter<TienThuChi> {
     }
 
     static class ItemHolder {
-        TextView ten;
         TextView nhom;
         TextView ngaythang;
         TextView tien;

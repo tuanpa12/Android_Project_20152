@@ -4,44 +4,42 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <LinearLayout
-        android:id="@+id/linearLayout1"
+    <EditText
+        android:id="@+id/editText_nhapthang"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentTop="true">
+        android:layout_alignParentTop="true"
+        android:ems="10">
 
-        <EditText
-            android:id="@+id/editText_nhapthang"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:ems="10">
+        <requestFocus />
+    </EditText>
 
-            <requestFocus />
-        </EditText>
-
-        <ImageButton
-            android:id="@+id/imageButton_chonthang"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@drawable/date"
-            android:src="@drawable/date" />
-    </LinearLayout>
+    <ImageButton
+        android:id="@+id/imageButton_chonthang"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/editText_nhapthang"
+        android:background="@drawable/date" />
 
     <ImageButton
         android:id="@+id/imageButton_baocaothang"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_below="@+id/linearLayout1"
-        android:background="@drawable/ok_small"
-        android:src="@drawable/ok_small" />
+        android:layout_below="@+id/editText_nhapthang"
+        android:background="@drawable/ok_small" />
+
+    <ImageView
+        android:id="@+id/division"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/imageButton_baocaothang"
+        android:background="@drawable/division" />
 
     <ListView
         android:id="@+id/listView_baocaothang"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_below="@+id/imageButton_baocaothang" />
+        android:layout_below="@+id/division" />
 
 </RelativeLayout>

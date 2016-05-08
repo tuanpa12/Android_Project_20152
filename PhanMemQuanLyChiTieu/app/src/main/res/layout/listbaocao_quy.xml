@@ -17,27 +17,30 @@
 
     <ImageButton
         android:id="@+id/imageButton_chonquy"
-        android:layout_width="30dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_toRightOf="@+id/editText_nhapnamquy"
-        android:background="@drawable/date"
-        android:src="@drawable/date" />
+        android:background="@drawable/date" />
 
     <ImageButton
         android:id="@+id/imageButton_baocaoquy"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
         android:layout_below="@+id/editText_nhapnamquy"
-        android:background="@drawable/ok_small"
-        android:src="@drawable/ok_small" />
+        android:background="@drawable/ok_small" />
+
+    <ImageView
+        android:id="@+id/division_quy"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/imageButton_baocaoquy"
+        android:background="@drawable/division" />
 
     <ListView
         android:id="@+id/listView_baocaoquy"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_below="@+id/imageButton_baocaoquy" />
+        android:layout_below="@+id/division_quy" />
 
 </RelativeLayout>

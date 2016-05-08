@@ -15,7 +15,6 @@ import java.util.ArrayList;
 import Objects.TienThuChi;
 
 public class DanhSachTienTeChi extends ArrayAdapter<TienThuChi> {
-    //HTMLParser html;
     String abc;
     Context context;
     int layoutResourceId;
@@ -56,9 +55,7 @@ public class DanhSachTienTeChi extends ArrayAdapter<TienThuChi> {
             LayoutInflater inflater = ((Activity) context).getLayoutInflater();
             row = inflater.inflate(layoutResourceId, parent, false);
             holder = new ItemHolder();
-            //html=new HTMLParser();
 
-            holder.ten = (TextView) row.findViewById(R.id.textView_tenchi);
             holder.nhom = (TextView) row.findViewById(R.id.textView_nhomchi);
             holder.ngaythang = (TextView) row.findViewById(R.id.textView_ngaychi);
             holder.tien = (TextView) row.findViewById(R.id.textView_tienchi);
@@ -67,7 +64,6 @@ public class DanhSachTienTeChi extends ArrayAdapter<TienThuChi> {
             holder = (ItemHolder) row.getTag();
         }
         TienThuChi item = listData.get(position);
-        holder.ten.setText(item.getTen());
         holder.nhom.setText(item.getNhom());
         holder.ngaythang.setText(item.getNgaythang());
         holder.tien.setText(item.getNgoaiTe(abc));
@@ -75,7 +71,6 @@ public class DanhSachTienTeChi extends ArrayAdapter<TienThuChi> {
     }
 
     static class ItemHolder {
-        TextView ten;
         TextView nhom;
         TextView ngaythang;
         TextView tien;

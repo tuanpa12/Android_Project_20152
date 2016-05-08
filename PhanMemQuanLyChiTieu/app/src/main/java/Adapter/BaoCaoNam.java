@@ -61,7 +61,7 @@ public class BaoCaoNam extends ArrayAdapter<BaoCao> {
         DoiNgay doi = new DoiNgay();
         BaoCao item = listData.get(position);
         holder.title.setText(doi.doiNam1(item.getNgay()));
-        holder.hieuthuchi.setText(String.valueOf(Double.parseDouble(item.getTienthu()) - Double.parseDouble(item.getTienchi())));
+        holder.hieuthuchi.setText(String.valueOf(Integer.parseInt(item.getTienthu()) - Integer.parseInt(item.getTienchi())));
         holder.tienthu.setText(item.getTienthu());
         holder.tienchi.setText(item.getTienchi());
         return row;

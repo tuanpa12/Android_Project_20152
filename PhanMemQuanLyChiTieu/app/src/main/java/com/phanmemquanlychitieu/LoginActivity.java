@@ -32,20 +32,20 @@ import Objects.Item;
  * Created by Legendary on 25/04/2016.
  */
 public class LoginActivity extends Activity {
-    EditText email, password;
-    Button btnLogin, btnSignUp;
-    ProgressBar bar;
-    LinearLayout loginForm;
-    Firebase root;
+    private EditText email, password;
+    private Button btnLogin, btnSignUp;
+    private ProgressBar bar;
+    private LinearLayout loginForm;
+    private Firebase root;
 
-    UserDatabase userDb;
-    SQLiteDatabase mSQLite;
+    private UserDatabase userDb;
+    private SQLiteDatabase mSQLite;
 
-    dbThu thuDb;
-    dbChi chiDb;
+    private dbThu thuDb;
+    private dbChi chiDb;
 
-    SQLiteDatabase sqLiteExpense, sqLiteIncome;
-    Item item;
+    private SQLiteDatabase sqLiteExpense, sqLiteIncome;
+    private Item item;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,9 +58,6 @@ public class LoginActivity extends Activity {
         userDb = new UserDatabase(this);
         thuDb = new dbThu(this);
         chiDb = new dbChi(this);
-        mSQLite = userDb.getWritableDatabase();
-        sqLiteIncome = thuDb.getWritableDatabase();
-        sqLiteExpense = chiDb.getWritableDatabase();
 
         loadControl();
 
@@ -102,6 +99,7 @@ public class LoginActivity extends Activity {
             public void onAuthenticated(AuthData authData) {
                 bar.setVisibility(View.VISIBLE);
                 loginForm.setVisibility(View.GONE);
+                mSQLite = userDb.getWritableDatabase();
                 StringTokenizer st = new StringTokenizer(authData.getUid(), "-");
                 String name = "";
                 while (st.hasMoreTokens()) {
@@ -112,6 +110,7 @@ public class LoginActivity extends Activity {
                 cv.put(UserDatabase.COL_EMAIL, email);
                 cv.put(UserDatabase.COL_KEY, "true");
                 mSQLite.insert(UserDatabase.TABLE_NAME, null, cv);
+                userDb.close();
                 syncData(name);
                 Intent intent = new Intent(LoginActivity.this, MainActivity1.class);
                 startActivity(intent);
@@ -140,6 +139,7 @@ public class LoginActivity extends Activity {
         expenseQuery.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
+                sqLiteExpense = chiDb.getWritableDatabase();
                 for (DataSnapshot listItem : dataSnapshot.getChildren()) {
                     item = listItem.getValue(Item.class);
                     ContentValues cv = new ContentValues();
@@ -150,6 +150,7 @@ public class LoginActivity extends Activity {
                     cv.put(dbChi.COL_GHICHU, item.getNote());
                     sqLiteExpense.insert(dbChi.TABLE_NAME, null, cv);
                 }
+                chiDb.close();
             }
 
             @Override
@@ -163,6 +164,7 @@ public class LoginActivity extends Activity {
         incomeQuery.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
+                sqLiteIncome = thuDb.getWritableDatabase();
                 for (DataSnapshot listItem : dataSnapshot.getChildren()) {
                     item = listItem.getValue(Item.class);
                     ContentValues cv = new ContentValues();
@@ -173,6 +175,7 @@ public class LoginActivity extends Activity {
                     cv.put(dbThu.COL_GHICHU, item.getNote());
                     sqLiteIncome.insert(dbThu.TABLE_NAME, null, cv);
                 }
+                thuDb.close();
             }
 
             @Override

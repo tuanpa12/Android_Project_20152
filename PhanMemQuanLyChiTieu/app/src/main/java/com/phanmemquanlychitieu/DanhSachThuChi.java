@@ -41,15 +41,14 @@ import Database.dbThu;
 import Objects.TienThuChi;
 
 public class DanhSachThuChi extends Activity {
-    public ArrayList<TienThuChi> sapxepthu = null;
-    public ArrayList<TienThuChi> sapxepchi = null;
-    public ArrayAdapter<String> adapterthu = null;
-    public ArrayAdapter<String> adapterchi = null;
-    public Context context = this;
+    private ArrayList<TienThuChi> sapxepthu = null;
+    private ArrayList<TienThuChi> sapxepchi = null;
+    private ArrayAdapter<String> adapterthu = null;
+    private ArrayAdapter<String> adapterchi = null;
+    private Context context = this;
     // income
-    dbThu dbthu;
-    SQLiteDatabase mDbthu;
-    Cursor mCursorthu;
+    private dbThu dbthu;
+    private SQLiteDatabase mDbthu;
     // expense
     dbChi dbchi;
     SQLiteDatabase mDbchi;
@@ -57,13 +56,6 @@ public class DanhSachThuChi extends Activity {
     private ListView listthu;
     private ListView listchi;
 
-    private TienThuChi objectthu, objectchi;
-    private ArrayList<TienThuChi> arrthu = null;
-    private ArrayList<TienThuChi> arrchi = null;
-    private DanhSachThu myadapterthu = null;
-    private DanhSachChi myadapterchi = null;
-    private DoiNgay doingaythu = null;
-    private DoiNgay doingaychi = null;
     //sua thu
     private EditText suatenthu;
     private EditText suatienthu;
@@ -71,7 +63,6 @@ public class DanhSachThuChi extends Activity {
     private TextView suangaythu;
     private EditText suaghichuthu;
     private ImageButton btnsavethu, btnsuangaythu;
-    private String datetimesuathu;
     private String[] arrspinnerthu = {"Tiền Lương", "Đòi Nợ", "Bán Đồ", "Đi Vay", "Khác"};
     //sua chi
     private EditText suatenchi;
@@ -80,7 +71,6 @@ public class DanhSachThuChi extends Activity {
     private TextView suangaychi;
     private EditText suaghichuchi;
     private ImageButton btnsavechi, btnsuangaychi;
-    private String datetimesuachi;
     private String[] arrspinnerchi = {"Ăn Uống", "Quần Áo", "Cho vay", "Sinh Hoạt", "Đi Lại", "Trả Nợ", "Khác"};
 
     @Override
@@ -165,6 +155,7 @@ public class DanhSachThuChi extends Activity {
                 b.setNegativeButton("Xóa", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
+                        mDbthu = dbthu.getWritableDatabase();
                         String id = sapxepthu.get(position).getId();
                         mDbthu.delete(dbThu.TABLE_NAME, "_id=?", new String[]{id});
                         danhSachThu();
@@ -238,6 +229,7 @@ public class DanhSachThuChi extends Activity {
                 b.setNegativeButton("Xóa", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
+                        mDbchi = dbchi.getWritableDatabase();
                         String id = sapxepchi.get(position).getId();
                         mDbchi.delete(dbChi.TABLE_NAME, "_id=?", new String[]{id});
                         danhSachChi();
@@ -318,9 +310,10 @@ public class DanhSachThuChi extends Activity {
     public void danhSachThu() {
         mDbthu = dbthu.getWritableDatabase();
         String query = "select * from " + dbThu.TABLE_NAME;
-        mCursorthu = mDbthu.rawQuery(query, null);
-        arrthu = new ArrayList<>();
-        doingaythu = new DoiNgay();
+        Cursor mCursorthu = mDbthu.rawQuery(query, null);
+        ArrayList<TienThuChi> arrthu = new ArrayList<>();
+        DoiNgay doingaythu = new DoiNgay();
+        TienThuChi objectthu;
         if (mCursorthu.moveToFirst()) {
             do {
                 objectthu = new TienThuChi();
@@ -333,6 +326,7 @@ public class DanhSachThuChi extends Activity {
                 arrthu.add(objectthu);
             } while (mCursorthu.moveToNext());
         }
+        dbthu.close();
         mCursorthu.close();
 
         sapxepthu = new ArrayList<>();
@@ -341,7 +335,7 @@ public class DanhSachThuChi extends Activity {
             String strsapxep = doingaythu.ngay(sapxepthu.get(i).getNgaythang());
             sapxepthu.get(i).setNgaythang(strsapxep);
         }
-        myadapterthu = new DanhSachThu(this, R.layout.t_customlayout_thu, sapxepthu);
+        DanhSachThu myadapterthu = new DanhSachThu(this, R.layout.t_customlayout_thu, sapxepthu);
         listthu.setAdapter(myadapterthu);
     }
 
@@ -349,8 +343,9 @@ public class DanhSachThuChi extends Activity {
         mDbchi = dbchi.getWritableDatabase();
         String querychi = "select * from " + dbChi.TABLE_NAME;
         mCursorchi = mDbchi.rawQuery(querychi, null);
-        arrchi = new ArrayList<>();
-        doingaychi = new DoiNgay();
+        ArrayList<TienThuChi> arrchi = new ArrayList<>();
+        DoiNgay doingaychi = new DoiNgay();
+        TienThuChi objectchi;
         if (mCursorchi.moveToFirst()) {
             do {
                 objectchi = new TienThuChi();
@@ -363,6 +358,7 @@ public class DanhSachThuChi extends Activity {
                 arrchi.add(objectchi);
             } while (mCursorchi.moveToNext());
         }
+        dbchi.close();
         mCursorchi.close();
 
         sapxepchi = new ArrayList<>();
@@ -371,7 +367,7 @@ public class DanhSachThuChi extends Activity {
             String strsapxep = doingaychi.ngay(sapxepchi.get(i).getNgaythang());
             sapxepchi.get(i).setNgaythang(strsapxep);
         }
-        myadapterchi = new DanhSachChi(this, R.layout.t_customlayout_chi, sapxepchi);
+        DanhSachChi myadapterchi = new DanhSachChi(this, R.layout.t_customlayout_chi, sapxepchi);
         listchi.setAdapter(myadapterchi);
     }
 
@@ -396,6 +392,7 @@ public class DanhSachThuChi extends Activity {
         public void onDateSet(DatePicker view, int year, int month, int day) {
             // Do something with the date chosen by the user
             month = month + 1;
+            String datetimesuachi;
             if (day < 10) {
                 if (month < 10) {
                     datetimesuachi = "0" + String.valueOf(day) + "/" + "0" + String.valueOf(month) + "/" + String.valueOf(year);
@@ -434,6 +431,7 @@ public class DanhSachThuChi extends Activity {
         public void onDateSet(DatePicker view, int year, int month, int day) {
             // Do something with the date chosen by the user
             month = month + 1;
+            String datetimesuathu;
             if (day < 10) {
                 if (month < 10) {
                     datetimesuathu = "0" + String.valueOf(day) + "/" + "0" + String.valueOf(month) + "/" + String.valueOf(year);

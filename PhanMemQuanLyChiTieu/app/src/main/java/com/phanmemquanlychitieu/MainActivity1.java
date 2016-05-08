@@ -26,41 +26,39 @@ import Objects.BaoCao;
 import Objects.Item;
 
 public class MainActivity1 extends AppCompatActivity {
-    final static String[] mItemTexts = new String[]{
+    private final static String[] mItemTexts = new String[]{
             "Thu nhập", "Chi tiêu", "Danh Sách",
             "Biều đồ", "Đổi tiền tệ", "Gửi tiết kiệm", "Đồng bộ", "Đăng xuất"};
-    final static int[] mItemImgs = new int[]{
+    private final static int[] mItemImgs = new int[]{
             R.drawable.thu, R.drawable.chi, R.drawable.danh_sach,
             R.drawable.ic_diagram, R.drawable.ic_currency_exchange, R.drawable.ic_money_saving, R.drawable.ic_sync,
             R.drawable.ic_logout};
     // danh sach thu
-    UserDatabase userDb;
-    SQLiteDatabase mSQLite;
-    Cursor userCursor;
+    private UserDatabase userDb;
+    private SQLiteDatabase mSQLite;
 
-    dbLaiXuat laiXuatDb;
-    SQLiteDatabase mDbLaiXuat;
+    private dbLaiXuat laiXuatDb;
+    private SQLiteDatabase mDbLaiXuat;
 
-    dbThu dbthu;
-    SQLiteDatabase mDbthu;
-    Cursor mCursorthu;
+    private dbThu dbthu;
+    private SQLiteDatabase mDbthu;
+    private Cursor mCursorthu;
     // danh sach chi
-    dbChi dbchi;
-    SQLiteDatabase mDbchi;
-    Cursor mCursorchi;
-    // ic_sync
-    BaoCao objectchi2;
-    Firebase root;
-    Firebase usersRef;
-    ArrayList<BaoCao> arrthu;
-    ArrayList<BaoCao> arrchi;
+    private dbChi dbchi;
+    private SQLiteDatabase mDbchi;
+    private Cursor mCursorchi;
+
+    private BaoCao objectchi2;
+    private Firebase usersRef;
+    private ArrayList<BaoCao> arrthu;
+    private ArrayList<BaoCao> arrchi;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Firebase.setAndroidContext(this);
-        root = new Firebase("https://expenseproject.firebaseio.com/");
+        Firebase root = new Firebase("https://expenseproject.firebaseio.com/");
         userDb = new UserDatabase(this);
         dbthu = new dbThu(this);
         dbchi = new dbChi(this);
@@ -141,10 +139,11 @@ public class MainActivity1 extends AppCompatActivity {
         String name = "";
         mSQLite = userDb.getReadableDatabase();
         String query = "select * from " + UserDatabase.TABLE_NAME;
-        userCursor = mSQLite.rawQuery(query, null);
+        Cursor userCursor = mSQLite.rawQuery(query, null);
         if (userCursor.moveToFirst()) {
             name = userCursor.getString(1);
         }
+        userDb.close();
         userCursor.close();
         return name;
     }
@@ -171,6 +170,7 @@ public class MainActivity1 extends AppCompatActivity {
                 expenseRef.child("" + id).setValue(item);
             } while (mCursorchi.moveToNext());
         }
+        dbchi.close();
         mCursorchi.close();
 
         mDbthu = dbthu.getReadableDatabase();
@@ -188,6 +188,7 @@ public class MainActivity1 extends AppCompatActivity {
                 incomeRef.child("" + id).setValue(item);
             } while (mCursorthu.moveToNext());
         }
+        dbthu.close();
         mCursorthu.close();
     }
 
@@ -205,6 +206,7 @@ public class MainActivity1 extends AppCompatActivity {
                 arrchi.add(objectchi2);
             } while (mCursorchi.moveToNext());
         }
+        dbchi.close();
         mCursorchi.close();
     }
 
@@ -222,6 +224,7 @@ public class MainActivity1 extends AppCompatActivity {
                 arrthu.add(objectchi2);
             } while (mCursorthu.moveToNext());
         }
+        dbthu.close();
         mCursorthu.close();
     }
 }

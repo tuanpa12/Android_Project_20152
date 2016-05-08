@@ -62,14 +62,14 @@ public class LaiXuat extends Activity {
     private TextView tv_kq;
     private Context context = this;
     private ArrayAdapter<String> adapterBank;
+    private dbLaiXuat dblaixuat;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_laixuat);
 
-        final dbLaiXuat dblaixuat = new dbLaiXuat(this);
-
+        dblaixuat = new dbLaiXuat(this);
         ngaythang = (TextView) findViewById(R.id.editText_ngaylaixuat);
         tennganhang = (Spinner) findViewById(R.id.edName);
         tiennganhang = (EditText) findViewById(R.id.edNum);
@@ -286,6 +286,7 @@ public class LaiXuat extends Activity {
     @Override
     protected void onResume() {
         super.onResume();
+        mDblaixuat = dblaixuat.getWritableDatabase();
         String[] columns = new String[]{"_id", dbLaiXuat.COL_NAME, dbLaiXuat.COL_DATE};
         mCursorlaixuat = mDblaixuat.query(dbLaiXuat.TABLE_NAME, columns, null, null, null, null, null, null);
         String[] headers = new String[]{dbLaiXuat.COL_NAME, dbLaiXuat.COL_DATE};

@@ -51,7 +51,7 @@ public class DanhSachTienTe extends ArrayAdapter<TienThuChi> {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         View row = convertView;
-        ItemHolder holder = null;
+        ItemHolder holder;
         if (row == null) {
             LayoutInflater inflater = ((Activity) context).getLayoutInflater();
             row = inflater.inflate(layoutResourceId, parent, false);

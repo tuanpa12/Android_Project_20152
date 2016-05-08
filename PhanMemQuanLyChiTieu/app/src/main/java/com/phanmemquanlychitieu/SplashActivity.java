@@ -44,8 +44,6 @@ public class SplashActivity extends Activity {
         Cursor cursor = mSQLite.rawQuery(query, null);
         if (cursor.moveToFirst())
             result = true;
-        userDb.close();
-        cursor.close();
         return result;
     }
 }

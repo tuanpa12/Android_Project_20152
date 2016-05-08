@@ -28,7 +28,6 @@ public class Menu extends BaseAdapter {
         LayoutInflater inflater = (LayoutInflater) mContext
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         if (arg1 == null) {
-            grid = new View(mContext);
             grid = inflater.inflate(R.layout.t_custom_menu, null);
             TextView textView = (TextView) grid.findViewById(R.id.text_ten_custem_menu);
             ImageView imageView = (ImageView) grid.findViewById(R.id.img_anh_custem_menu);

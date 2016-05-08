@@ -21,44 +21,36 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Locale;
 
 import Database.dbThu;
 
 public class TienThu extends Activity {
-    EditText tenkhoanthu, sotienkhoanthu, ghichukhoanthu;
-    Spinner nhomkhoanthu;
-    TextView ngaykhoanthu;
-    ImageButton chonngaykhoanthu;
-    ImageButton luukhoanthu;
+    private EditText sotienkhoanthu, ghichukhoanthu;
+    private Spinner nhomkhoanthu;
+    private TextView ngaykhoanthu;
+    private ImageButton luukhoanthu;
 
     //khoi tao thuoc tinh cho db
-    dbThu dbthu;
-    SQLiteDatabase mDbthu;
-
-    ArrayList<String> arr = new ArrayList<String>();
+    private dbThu dbthu;
+    private SQLiteDatabase mDbthu;
 
     //du lieu cho spinner
-    String[] arrspinner = {"Tiền Lương", "Đòi Nợ", "Bán Đồ", "Đi Vay", "Khác"};
-    ArrayAdapter<String> adapterthu = null;
-
-    String datetimeloc = "";
+    private String[] arrspinner = {"Tiền Lương", "Đòi Nợ", "Bán Đồ", "Đi Vay", "Khác"};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_nhapkhoanthu);
 
-        tenkhoanthu = (EditText) findViewById(R.id.editText_tenkhoanthu);
         sotienkhoanthu = (EditText) findViewById(R.id.editText_tienkhoanthu);
         ghichukhoanthu = (EditText) findViewById(R.id.editText_ghichukhoanthu);
         nhomkhoanthu = (Spinner) findViewById(R.id.spinner_nhomkhoanthu);
         ngaykhoanthu = (TextView) findViewById(R.id.textView_ngaykhoanthu);
-        chonngaykhoanthu = (ImageButton) findViewById(R.id.imageButton_chonngaykhoanthu);
+        ImageButton chonngaykhoanthu = (ImageButton) findViewById(R.id.imageButton_chonngaykhoanthu);
         luukhoanthu = (ImageButton) findViewById(R.id.imageButton_luukhoanthu);
-        adapterthu = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, arrspinner);
+        ArrayAdapter<String> adapterthu = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, arrspinner);
         nhomkhoanthu.setAdapter(adapterthu);
         dbthu = new dbThu(this);
         dexuat();
@@ -76,7 +68,7 @@ public class TienThu extends Activity {
         Calendar ngaythang = Calendar.getInstance();
         //dinh dang 12h
         String dinhdang24 = "dd/MM/yyyy";
-        SimpleDateFormat dinhdang = null;
+        SimpleDateFormat dinhdang;
         dinhdang = new SimpleDateFormat(dinhdang24, Locale.getDefault());
         ngaykhoanthu.setText(dinhdang.format(ngaythang.getTime()));
     }
@@ -99,12 +91,10 @@ public class TienThu extends Activity {
                 } else {
                     mDbthu = dbthu.getWritableDatabase();
                     ContentValues cv = new ContentValues();
-                    String name = tenkhoanthu.getText().toString();
                     String cost = sotienkhoanthu.getText().toString();
                     String type = nhomkhoanthu.getSelectedItem().toString();
                     String note = ghichukhoanthu.getText().toString();
                     String date = ngaykhoanthu.getText().toString();
-                    cv.put(dbThu.COL_NAME, name);
                     cv.put(dbThu.COL_TIEN, cost);
                     cv.put(dbThu.COL_NHOM, type);
                     cv.put(dbThu.COL_GHICHU, note);
@@ -112,7 +102,6 @@ public class TienThu extends Activity {
                     mDbthu.insert(dbThu.TABLE_NAME, null, cv);
 
                     // reset view
-                    tenkhoanthu.setText(null);
                     sotienkhoanthu.setText(null);
                     ghichukhoanthu.setText(null);
                     Toast toast = Toast.makeText(TienThu.this, "Nhập Thành Công", Toast.LENGTH_SHORT);
@@ -152,10 +141,10 @@ public class TienThu extends Activity {
         }
 
         @Override
-        @SuppressWarnings("deprecation")
         public void onDateSet(DatePicker view, int year, int month, int day) {
             // Do something with the date chosen by the user
             month = month + 1;
+            String datetimeloc;
             if (day < 10) {
                 if (month < 10) {
                     datetimeloc = "0" + String.valueOf(day) + "/" + "0" + String.valueOf(month) + "/" + String.valueOf(year);

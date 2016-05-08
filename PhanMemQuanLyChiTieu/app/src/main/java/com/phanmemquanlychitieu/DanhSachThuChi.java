@@ -57,7 +57,6 @@ public class DanhSachThuChi extends Activity {
     private ListView listchi;
 
     //sua thu
-    private EditText suatenthu;
     private EditText suatienthu;
     private Spinner suanhomthu;
     private TextView suangaythu;
@@ -65,7 +64,6 @@ public class DanhSachThuChi extends Activity {
     private ImageButton btnsavethu, btnsuangaythu;
     private String[] arrspinnerthu = {"Tiền Lương", "Đòi Nợ", "Bán Đồ", "Đi Vay", "Khác"};
     //sua chi
-    private EditText suatenchi;
     private EditText suatienchi;
     private Spinner suanhomchi;
     private TextView suangaychi;
@@ -102,7 +100,6 @@ public class DanhSachThuChi extends Activity {
                         dialogthu.setTitle("Sửa Khoản Thu");
                         dialogthu.show();
                         // link to layout
-                        suatenthu = (EditText) dialogthu.findViewById(R.id.editTextsuathu_tenkhoanthu);
                         suatienthu = (EditText) dialogthu.findViewById(R.id.editTextsuathu_tienkhoanthu);
                         suanhomthu = (Spinner) dialogthu.findViewById(R.id.spinnersuathu_nhomkhoanthu);
                         suangaythu = (TextView) dialogthu.findViewById(R.id.textViewsuathu_ngaykhoanthu);
@@ -118,8 +115,6 @@ public class DanhSachThuChi extends Activity {
                             }
                         });
                         // set value to dialog
-                        mDbthu = dbthu.getWritableDatabase();
-                        suatenthu.setText(sapxepthu.get(position).getTen());
                         suatienthu.setText(sapxepthu.get(position).getTien());
                         suangaythu.setText(sapxepthu.get(position).getNgaythang());
                         suaghichuthu.setText(sapxepthu.get(position).getGhichu());
@@ -133,13 +128,12 @@ public class DanhSachThuChi extends Activity {
                             @SuppressWarnings("static-access")
                             @Override
                             public void onClick(View v) {
+                                mDbthu = dbthu.getWritableDatabase();
                                 ContentValues cv = new ContentValues();
-                                String name = suatenthu.getText().toString();
                                 String cost = suatienthu.getText().toString();
                                 String date = suangaythu.getText().toString();
                                 String type = suanhomthu.getSelectedItem().toString();
                                 String note = suaghichuthu.getText().toString();
-                                cv.put(dbThu.COL_NAME, name);
                                 cv.put(dbThu.COL_TIEN, cost);
                                 cv.put(dbThu.COL_DATE, date);
                                 cv.put(dbThu.COL_NHOM, type);
@@ -182,7 +176,6 @@ public class DanhSachThuChi extends Activity {
                         dialogchi.setTitle("Sửa Khoản Chi");
                         dialogchi.show();
                         // link to layout
-                        suatenchi = (EditText) dialogchi.findViewById(R.id.editTextsuachi_tenkhoanthu);
                         suatienchi = (EditText) dialogchi.findViewById(R.id.editTextsuachi_tienkhoanthu);
                         suanhomchi = (Spinner) dialogchi.findViewById(R.id.spinnersuachi_nhomkhoanthu);
                         suangaychi = (TextView) dialogchi.findViewById(R.id.textViewsuachi_ngaykhoanthu);
@@ -198,8 +191,6 @@ public class DanhSachThuChi extends Activity {
                             }
                         });
                         // set value to dialog
-                        mDbchi = dbchi.getWritableDatabase();
-                        suatenchi.setText(sapxepchi.get(position).getTen());
                         suatienchi.setText(sapxepchi.get(position).getTien());
                         suangaychi.setText(sapxepchi.get(position).getNgaythang());
                         suaghichuchi.setText(sapxepchi.get(position).getGhichu());
@@ -212,8 +203,8 @@ public class DanhSachThuChi extends Activity {
 
                             @Override
                             public void onClick(View v) {
+                                mDbchi = dbchi.getWritableDatabase();
                                 ContentValues cv = new ContentValues();
-                                cv.put(dbChi.COL_NAME, suatenchi.getText().toString());
                                 cv.put(dbChi.COL_TIEN, suatienchi.getText().toString());
                                 cv.put(dbChi.COL_DATE, suangaychi.getText().toString());
                                 cv.put(dbChi.COL_NHOM, suanhomchi.getSelectedItem().toString());
@@ -308,7 +299,7 @@ public class DanhSachThuChi extends Activity {
     }
 
     public void danhSachThu() {
-        mDbthu = dbthu.getWritableDatabase();
+        mDbthu = dbthu.getReadableDatabase();
         String query = "select * from " + dbThu.TABLE_NAME;
         Cursor mCursorthu = mDbthu.rawQuery(query, null);
         ArrayList<TienThuChi> arrthu = new ArrayList<>();
@@ -318,16 +309,13 @@ public class DanhSachThuChi extends Activity {
             do {
                 objectthu = new TienThuChi();
                 objectthu.setId(mCursorthu.getString(0));
-                objectthu.setTen(mCursorthu.getString(1));
-                objectthu.setTien(mCursorthu.getString(2));
-                objectthu.setNhom(mCursorthu.getString(3));
-                objectthu.setNgaythang(doingaythu.doiDate(mCursorthu.getString(4)));
-                objectthu.setGhichu(mCursorthu.getString(5));
+                objectthu.setTien(mCursorthu.getString(1));
+                objectthu.setNhom(mCursorthu.getString(2));
+                objectthu.setNgaythang(doingaythu.doiDate(mCursorthu.getString(3)));
+                objectthu.setGhichu(mCursorthu.getString(4));
                 arrthu.add(objectthu);
             } while (mCursorthu.moveToNext());
         }
-        dbthu.close();
-        mCursorthu.close();
 
         sapxepthu = new ArrayList<>();
         sapxepthu = doingaythu.sapXep(arrthu);
@@ -340,7 +328,7 @@ public class DanhSachThuChi extends Activity {
     }
 
     public void danhSachChi() {
-        mDbchi = dbchi.getWritableDatabase();
+        mDbchi = dbchi.getReadableDatabase();
         String querychi = "select * from " + dbChi.TABLE_NAME;
         mCursorchi = mDbchi.rawQuery(querychi, null);
         ArrayList<TienThuChi> arrchi = new ArrayList<>();
@@ -350,16 +338,13 @@ public class DanhSachThuChi extends Activity {
             do {
                 objectchi = new TienThuChi();
                 objectchi.setId(mCursorchi.getString(0));
-                objectchi.setTen(mCursorchi.getString(1));
-                objectchi.setTien(mCursorchi.getString(2));
-                objectchi.setNhom(mCursorchi.getString(3));
-                objectchi.setNgaythang(doingaychi.doiDate(mCursorchi.getString(4)));
-                objectchi.setGhichu(mCursorchi.getString(5));
+                objectchi.setTien(mCursorchi.getString(1));
+                objectchi.setNhom(mCursorchi.getString(2));
+                objectchi.setNgaythang(doingaychi.doiDate(mCursorchi.getString(3)));
+                objectchi.setGhichu(mCursorchi.getString(4));
                 arrchi.add(objectchi);
             } while (mCursorchi.moveToNext());
         }
-        dbchi.close();
-        mCursorchi.close();
 
         sapxepchi = new ArrayList<>();
         sapxepchi = doingaychi.sapXep(arrchi);

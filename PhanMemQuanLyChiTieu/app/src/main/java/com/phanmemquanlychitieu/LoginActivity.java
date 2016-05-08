@@ -101,17 +101,17 @@ public class LoginActivity extends Activity {
                 loginForm.setVisibility(View.GONE);
                 mSQLite = userDb.getWritableDatabase();
                 StringTokenizer st = new StringTokenizer(authData.getUid(), "-");
-                String name = "";
+                String uid = "";
                 while (st.hasMoreTokens()) {
-                    name += st.nextToken();
+                    uid += st.nextToken();
                 }
                 ContentValues cv = new ContentValues();
-                cv.put(UserDatabase.COL_NAME, name);
+                cv.put(UserDatabase.COL_UID, uid);
                 cv.put(UserDatabase.COL_EMAIL, email);
                 cv.put(UserDatabase.COL_KEY, "true");
                 mSQLite.insert(UserDatabase.TABLE_NAME, null, cv);
                 userDb.close();
-                syncData(name);
+                syncData(uid);
                 Intent intent = new Intent(LoginActivity.this, MainActivity1.class);
                 startActivity(intent);
                 finish();
@@ -135,7 +135,7 @@ public class LoginActivity extends Activity {
 
     private void syncData(String name) {
         Firebase refExpense = root.child(name).child("Expense");
-        Query expenseQuery = refExpense.orderByValue();
+        final Query expenseQuery = refExpense.orderByValue();
         expenseQuery.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -143,14 +143,13 @@ public class LoginActivity extends Activity {
                 for (DataSnapshot listItem : dataSnapshot.getChildren()) {
                     item = listItem.getValue(Item.class);
                     ContentValues cv = new ContentValues();
-                    cv.put(dbChi.COL_NAME, item.getName());
                     cv.put(dbChi.COL_TIEN, item.getCost());
                     cv.put(dbChi.COL_NHOM, item.getType());
                     cv.put(dbChi.COL_DATE, item.getDate());
                     cv.put(dbChi.COL_GHICHU, item.getNote());
                     sqLiteExpense.insert(dbChi.TABLE_NAME, null, cv);
                 }
-                chiDb.close();
+                expenseQuery.removeEventListener(this);
             }
 
             @Override
@@ -160,7 +159,7 @@ public class LoginActivity extends Activity {
         });
 
         Firebase refIncome = root.child(name).child("Income");
-        Query incomeQuery = refIncome.orderByValue();
+        final Query incomeQuery = refIncome.orderByValue();
         incomeQuery.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -168,14 +167,13 @@ public class LoginActivity extends Activity {
                 for (DataSnapshot listItem : dataSnapshot.getChildren()) {
                     item = listItem.getValue(Item.class);
                     ContentValues cv = new ContentValues();
-                    cv.put(dbThu.COL_NAME, item.getName());
                     cv.put(dbThu.COL_TIEN, item.getCost());
                     cv.put(dbThu.COL_NHOM, item.getType());
                     cv.put(dbThu.COL_DATE, item.getDate());
                     cv.put(dbThu.COL_GHICHU, item.getNote());
                     sqLiteIncome.insert(dbThu.TABLE_NAME, null, cv);
                 }
-                thuDb.close();
+                incomeQuery.removeEventListener(this);
             }
 
             @Override

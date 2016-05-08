@@ -32,30 +32,27 @@ import Objects.Item;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
-    UserDatabase userDb;
-    SQLiteDatabase mSQLite;
-    Cursor userCursor;
+    // thong tin nguoi dung
+    private UserDatabase userDb;
+    private SQLiteDatabase mSQLite;
 
-    dbLaiXuat laiXuatDb;
-    SQLiteDatabase mDbLaiXuat;
+    // lai xuat ngan hang
+    private dbLaiXuat laiXuatDb;
+    private SQLiteDatabase mDbLaiXuat;
 
-    dbThu dbthu;
-    SQLiteDatabase mDbthu;
-    Cursor mCursorthu;
+    // danh sach thu
+    private dbThu dbthu;
+    private SQLiteDatabase mDbthu;
+    private Cursor mCursorthu;
     // danh sach chi
-    dbChi dbchi;
-    SQLiteDatabase mDbchi;
-    Cursor mCursorchi;
-    // ic_sync
-    BaoCao objectchi2;
-    Firebase root;
-    Firebase usersRef;
-    Cursor cursorExpense, cursorIncome;
-    ArrayList<BaoCao> arrthu;
-    ArrayList<BaoCao> arrchi;
+    private dbChi dbchi;
+    private SQLiteDatabase mDbchi;
+    private Cursor mCursorchi;
 
-    TextView date, total;
-    TextView type, cost;
+    private Firebase usersRef;
+    private BaoCao objectchi2;
+    private ArrayList<BaoCao> arrthu;
+    private ArrayList<BaoCao> arrchi;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,13 +62,12 @@ public class MainActivity extends AppCompatActivity
         setSupportActionBar(toolbar);
 
         Firebase.setAndroidContext(this);
-        root = new Firebase("https://expenseproject.firebaseio.com/");
+        Firebase root = new Firebase("https://expenseproject.firebaseio.com/");
         usersRef = root.child(getName());
         userDb = new UserDatabase(this);
         dbthu = new dbThu(this);
         dbchi = new dbChi(this);
         laiXuatDb = new dbLaiXuat(this);
-        loadControl();
         danhSachThu();
         danhSachChi();
 
@@ -104,7 +100,7 @@ public class MainActivity extends AppCompatActivity
         }
 
         LinearLayout header = (LinearLayout) this.findViewById(R.id.nav_header);
-        TextView userName = null;
+        TextView userName;
         if (header != null) {
             userName = (TextView) header.findViewById(R.id.headerName);
             userName.setText(getName());
@@ -121,13 +117,6 @@ public class MainActivity extends AppCompatActivity
         if (navigationView != null) {
             navigationView.setNavigationItemSelectedListener(this);
         }
-    }
-
-    public void loadControl() {
-        date = (TextView) findViewById(R.id.date);
-        total = (TextView) findViewById(R.id.total_money);
-        type = (TextView) findViewById(R.id.type);
-        cost = (TextView) findViewById(R.id.cost);
     }
 
     @Override
@@ -219,12 +208,11 @@ public class MainActivity extends AppCompatActivity
         if (mCursorchi.moveToFirst()) {
             do {
                 id = Integer.parseInt(mCursorchi.getString(0));
-                String name = mCursorchi.getString(1);
-                String cost = mCursorchi.getString(2);
-                String type = mCursorchi.getString(3);
-                String date = mCursorchi.getString(4);
-                String note = mCursorchi.getString(5);
-                item = new Item(name, cost, type, note, date, id);
+                String cost = mCursorchi.getString(1);
+                String type = mCursorchi.getString(2);
+                String date = mCursorchi.getString(3);
+                String note = mCursorchi.getString(4);
+                item = new Item(cost, type, note, date, id);
                 expenseRef.child("" + id).setValue(item);
             } while (mCursorchi.moveToNext());
         }
@@ -236,12 +224,11 @@ public class MainActivity extends AppCompatActivity
         if (mCursorthu.moveToFirst()) {
             do {
                 id = Integer.parseInt(mCursorthu.getString(0));
-                String name = mCursorthu.getString(1);
-                String cost = mCursorthu.getString(2);
-                String type = mCursorthu.getString(3);
-                String date = mCursorthu.getString(4);
-                String note = mCursorthu.getString(5);
-                item = new Item(name, cost, type, note, date, id);
+                String cost = mCursorthu.getString(1);
+                String type = mCursorthu.getString(2);
+                String date = mCursorthu.getString(3);
+                String note = mCursorthu.getString(4);
+                item = new Item(cost, type, note, date, id);
                 incomeRef.child("" + id).setValue(item);
             } while (mCursorthu.moveToNext());
         }
@@ -252,7 +239,7 @@ public class MainActivity extends AppCompatActivity
         String name = "";
         mSQLite = userDb.getReadableDatabase();
         String query = "select * from " + UserDatabase.TABLE_NAME;
-        userCursor = mSQLite.rawQuery(query, null);
+        Cursor userCursor = mSQLite.rawQuery(query, null);
         if (userCursor.moveToFirst()) {
             name = userCursor.getString(1);
         }
@@ -264,10 +251,11 @@ public class MainActivity extends AppCompatActivity
         String query = "select * from " + dbChi.TABLE_NAME;
         boolean result = false;
         mDbchi = dbchi.getReadableDatabase();
-        cursorExpense = mDbchi.rawQuery(query, null);
-        if (cursorExpense.moveToFirst())
+        mCursorchi = mDbchi.rawQuery(query, null);
+        if (mCursorchi.moveToFirst())
             result = true;
-        cursorExpense.close();
+        dbchi.close();
+        mCursorchi.close();
         return result;
     }
 
@@ -275,10 +263,11 @@ public class MainActivity extends AppCompatActivity
         String query = "select * from " + dbThu.TABLE_NAME;
         boolean result = false;
         mDbthu = dbthu.getReadableDatabase();
-        cursorIncome = mDbthu.rawQuery(query, null);
-        if (cursorExpense.moveToFirst())
+        mCursorthu = mDbthu.rawQuery(query, null);
+        if (mCursorthu.moveToFirst())
             result = true;
-        cursorIncome.close();
+        dbthu.close();
+        mCursorthu.close();
         return result;
     }
 
@@ -298,6 +287,7 @@ public class MainActivity extends AppCompatActivity
                 arrchi.add(objectchi2);
             } while (mCursorchi.moveToNext());
         }
+        dbchi.close();
         mCursorchi.close();
     }
 
@@ -316,6 +306,7 @@ public class MainActivity extends AppCompatActivity
                 arrthu.add(objectchi2);
             } while (mCursorthu.moveToNext());
         }
+        dbthu.close();
         mCursorthu.close();
     }
 }

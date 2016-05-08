@@ -16,7 +16,6 @@ import java.util.ArrayList;
 import Objects.BaoCao;
 
 public class BaoCaoThang extends ArrayAdapter<BaoCao> {
-    double Tong;
     Context context;
     int layoutResourceId;
     ArrayList<BaoCao> listData = null;
@@ -51,7 +50,7 @@ public class BaoCaoThang extends ArrayAdapter<BaoCao> {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         View row = convertView;
-        ItemHolder holder = null;
+        ItemHolder holder;
         if (row == null) {
             LayoutInflater inflater = ((Activity) context).getLayoutInflater();
             row = inflater.inflate(layoutResourceId, parent, false);

@@ -4,20 +4,10 @@
     android:layout_height="match_parent">
 
     <TextView
-        android:id="@+id/textView_tenchi1"
-        android:layout_width="100dp"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentTop="true"
-        android:gravity="center"
-        android:text="TÊN" />
-
-    <TextView
         android:id="@+id/textView_nhomchi1"
         android:layout_width="60dp"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
-        android:layout_toRightOf="@+id/textView_tenchi1"
         android:gravity="center"
         android:text="NHÓM" />
 

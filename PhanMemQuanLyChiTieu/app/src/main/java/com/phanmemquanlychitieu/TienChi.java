@@ -27,35 +27,29 @@ import java.util.Locale;
 import Database.dbChi;
 
 public class TienChi extends Activity {
-    EditText tenkhoanchi, sotienkhoanchi, ghichukhoanchi;
-    Spinner nhomkhoanchi;
-    TextView ngaykhoanchi;
-    ImageButton chonngaykhoanchi;
-    ImageButton luukhoanchi;
+    private EditText sotienkhoanchi, ghichukhoanchi;
+    private Spinner nhomkhoanchi;
+    private TextView ngaykhoanchi;
+    private ImageButton luukhoanchi;
 
     //khoi tao thuoc tinh cho db
-    dbChi dbchi;
-    SQLiteDatabase mDbchi;
+    private dbChi dbchi;
+    private SQLiteDatabase mDbchi;
 
-    String[] arrspinner = {"Ăn Uống", "Quần Áo", "Cho vay", "Sinh Hoạt", "Đi Lại", "Trả Nợ", "Khác"};
-
-    ArrayAdapter<String> adapterchi = null;
-
-    String datetimeloc = "";
+    private String[] arrspinner = {"Ăn Uống", "Quần Áo", "Cho vay", "Sinh Hoạt", "Đi Lại", "Trả Nợ", "Khác"};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_nhapkhoanchi);
 
-        tenkhoanchi = (EditText) findViewById(R.id.editText_tenkhoanchi);
         sotienkhoanchi = (EditText) findViewById(R.id.editText_tienkhoanchi);
         ghichukhoanchi = (EditText) findViewById(R.id.editText_ghichukhoanchi);
         nhomkhoanchi = (Spinner) findViewById(R.id.spinner_nhomkhoanchi);
         ngaykhoanchi = (TextView) findViewById(R.id.textView_ngaykhoanchi);
-        chonngaykhoanchi = (ImageButton) findViewById(R.id.imageButton_chonngaykhoanchi);
+        ImageButton chonngaykhoanchi = (ImageButton) findViewById(R.id.imageButton_chonngaykhoanchi);
         luukhoanchi = (ImageButton) findViewById(R.id.imageButton_luukhoanchi);
-        adapterchi = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, arrspinner);
+        ArrayAdapter<String> adapterchi = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, arrspinner);
         nhomkhoanchi.setAdapter(adapterchi);
         dbchi = new dbChi(this);
         dexuat();
@@ -72,7 +66,7 @@ public class TienChi extends Activity {
         Calendar ngaythang = Calendar.getInstance();
         //dinh dang 12h
         String dinhdang24 = "dd/MM/yyyy";
-        SimpleDateFormat dinhdang = null;
+        SimpleDateFormat dinhdang;
         dinhdang = new SimpleDateFormat(dinhdang24, Locale.getDefault());
         ngaykhoanchi.setText(dinhdang.format(ngaythang.getTime()));
     }
@@ -95,7 +89,6 @@ public class TienChi extends Activity {
                 } else {
                     mDbchi = dbchi.getWritableDatabase();
                     ContentValues cv = new ContentValues();
-                    cv.put(dbChi.COL_NAME, tenkhoanchi.getText().toString());
                     cv.put(dbChi.COL_TIEN, sotienkhoanchi.getText().toString());
                     cv.put(dbChi.COL_NHOM, nhomkhoanchi.getSelectedItem().toString());
                     cv.put(dbChi.COL_GHICHU, ghichukhoanchi.getText().toString());
@@ -103,7 +96,6 @@ public class TienChi extends Activity {
                     mDbchi.insert(dbChi.TABLE_NAME, null, cv);
 
                     // reset view
-                    tenkhoanchi.setText(null);
                     sotienkhoanchi.setText(null);
                     ghichukhoanchi.setText(null);
                     Toast toast = Toast.makeText(TienChi.this, "Nhập Thành Công", Toast.LENGTH_SHORT);
@@ -146,6 +138,7 @@ public class TienChi extends Activity {
         public void onDateSet(DatePicker view, int year, int month, int day) {
             // Do something with the date chosen by the user
             month = month + 1;
+            String datetimeloc;
             if (day < 10) {
                 if (month < 10) {
                     datetimeloc = "0" + String.valueOf(day) + "/" + "0" + String.valueOf(month) + "/" + String.valueOf(year);

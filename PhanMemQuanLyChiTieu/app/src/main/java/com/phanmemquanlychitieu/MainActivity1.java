@@ -63,7 +63,7 @@ public class MainActivity1 extends AppCompatActivity {
         dbthu = new dbThu(this);
         dbchi = new dbChi(this);
         laiXuatDb = new dbLaiXuat(this);
-        usersRef = root.child(getName());
+        usersRef = root.child(getUid());
 
         danhSachThu();
         danhSachChi();
@@ -135,17 +135,15 @@ public class MainActivity1 extends AppCompatActivity {
         });
     }
 
-    public String getName() {
-        String name = "";
+    public String getUid() {
+        String uid = "";
         mSQLite = userDb.getReadableDatabase();
         String query = "select * from " + UserDatabase.TABLE_NAME;
         Cursor userCursor = mSQLite.rawQuery(query, null);
         if (userCursor.moveToFirst()) {
-            name = userCursor.getString(1);
+            uid = userCursor.getString(1);
         }
-        userDb.close();
-        userCursor.close();
-        return name;
+        return uid;
     }
 
     private void syncData() {
@@ -161,17 +159,14 @@ public class MainActivity1 extends AppCompatActivity {
         if (mCursorchi.moveToFirst()) {
             do {
                 id = Integer.parseInt(mCursorchi.getString(0));
-                String name = mCursorchi.getString(1);
-                String cost = mCursorchi.getString(2);
-                String type = mCursorchi.getString(3);
-                String date = mCursorchi.getString(4);
-                String note = mCursorchi.getString(5);
-                item = new Item(name, cost, type, note, date, id);
+                String cost = mCursorchi.getString(1);
+                String type = mCursorchi.getString(2);
+                String date = mCursorchi.getString(3);
+                String note = mCursorchi.getString(4);
+                item = new Item(cost, type, note, date, id);
                 expenseRef.child("" + id).setValue(item);
             } while (mCursorchi.moveToNext());
         }
-        dbchi.close();
-        mCursorchi.close();
 
         mDbthu = dbthu.getReadableDatabase();
         String queryThu = "select * from " + dbThu.TABLE_NAME;
@@ -179,17 +174,14 @@ public class MainActivity1 extends AppCompatActivity {
         if (mCursorthu.moveToFirst()) {
             do {
                 id = Integer.parseInt(mCursorthu.getString(0));
-                String name = mCursorthu.getString(1);
-                String cost = mCursorthu.getString(2);
-                String type = mCursorthu.getString(3);
-                String date = mCursorthu.getString(4);
-                String note = mCursorthu.getString(5);
-                item = new Item(name, cost, type, note, date, id);
+                String cost = mCursorthu.getString(1);
+                String type = mCursorthu.getString(2);
+                String date = mCursorthu.getString(3);
+                String note = mCursorthu.getString(4);
+                item = new Item(cost, type, note, date, id);
                 incomeRef.child("" + id).setValue(item);
             } while (mCursorthu.moveToNext());
         }
-        dbthu.close();
-        mCursorthu.close();
     }
 
     public void danhSachChi() {
@@ -200,14 +192,12 @@ public class MainActivity1 extends AppCompatActivity {
         if (mCursorchi.moveToFirst()) {
             do {
                 objectchi2 = new BaoCao();
-                objectchi2.setTienchi(mCursorchi.getString(2));
-                objectchi2.setNgay(mCursorchi.getString(4));
-                objectchi2.setNhom(mCursorchi.getString(3));
+                objectchi2.setTienchi(mCursorchi.getString(1));
+                objectchi2.setNgay(mCursorchi.getString(3));
+                objectchi2.setNhom(mCursorchi.getString(2));
                 arrchi.add(objectchi2);
             } while (mCursorchi.moveToNext());
         }
-        dbchi.close();
-        mCursorchi.close();
     }
 
     public void danhSachThu() {
@@ -218,13 +208,11 @@ public class MainActivity1 extends AppCompatActivity {
         if (mCursorthu.moveToFirst()) {
             do {
                 objectchi2 = new BaoCao();
-                objectchi2.setTienthu(mCursorthu.getString(2));
-                objectchi2.setNgay(mCursorthu.getString(4));
-                objectchi2.setNhom(mCursorthu.getString(3));
+                objectchi2.setTienthu(mCursorthu.getString(1));
+                objectchi2.setNgay(mCursorthu.getString(3));
+                objectchi2.setNhom(mCursorthu.getString(2));
                 arrthu.add(objectchi2);
             } while (mCursorthu.moveToNext());
         }
-        dbthu.close();
-        mCursorthu.close();
     }
 }

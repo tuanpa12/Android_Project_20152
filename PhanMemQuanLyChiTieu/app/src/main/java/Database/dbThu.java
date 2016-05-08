@@ -15,7 +15,7 @@ public class dbThu extends SQLiteOpenHelper {
     private static final String DB_NAME = "chitieu";
     private static final int DB_VERSION = 1;
     private static final String STRING_CREATE = "CREATE TABLE " + TABLE_NAME + " (_id INTEGER PRIMARY KEY AUTOINCREMENT,"
-            + COL_NAME + " TEXT," + COL_TIEN + " TEXT," + COL_NHOM + " TEXT," + COL_DATE + " TEXT," + COL_GHICHU + " TEXT);";
+            + COL_TIEN + " TEXT," + COL_NHOM + " TEXT," + COL_DATE + " TEXT," + COL_GHICHU + " TEXT);";
 
     public dbThu(Context context) {
         super(context, DB_NAME, null, DB_VERSION);

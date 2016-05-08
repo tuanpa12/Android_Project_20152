@@ -13,51 +13,41 @@ public class DoiNgay {
         String str = date.substring(6);
         String str1 = date.substring(3, 5);
         String str2 = date.substring(0, 2);
-        String kq = str + str1 + str2;
-        return kq;
+        return str + str1 + str2;
     }
 
     public String doiThang(String date) {
         String str = date.substring(6);
         String str1 = date.substring(3, 5);
-        String kq = str + str1;
-        return kq;
+        return str + str1;
     }
 
     public String doiThang1(String date) {
         String str = date.substring(0, 4);
         String str1 = date.substring(4, 6);
-        String kq = str + str1;
-        return kq;
+        return str + str1;
     }
 
     public String doiNam(String date) {
-        String str = date.substring(6);
-        String kq = str;
-        return kq;
+        return date.substring(6);
     }
 
     public String doiNam1(String date) {
-        String str = date.substring(0, 4);
-        String kq = str;
-        return kq;
+        return date.substring(0, 4);
     }
 
     public String ngay(String string) {
-        String chuoi = string.substring(6) + "/" + string.substring(4, 6) + "/" + string.substring(0, 4);
-        return chuoi;
+        return string.substring(6) + "/" + string.substring(4, 6) + "/" + string.substring(0, 4);
 
     }
 
     public String thang(String string) {
-        String chuoi = string.substring(4, 6) + "/" + string.substring(0, 4);
-        return chuoi;
+        return string.substring(4, 6) + "/" + string.substring(0, 4);
 
     }
 
     public String nam(String string) {
-        String chuoi = string.substring(0, 4);
-        return chuoi;
+        return string.substring(0, 4);
 
     }
 

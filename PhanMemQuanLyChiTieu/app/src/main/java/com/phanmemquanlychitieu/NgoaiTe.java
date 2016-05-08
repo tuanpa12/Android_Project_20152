@@ -1,12 +1,8 @@
 package com.phanmemquanlychitieu;
 
 import android.annotation.SuppressLint;
-import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.app.DatePickerDialog;
-import android.app.Dialog;
-import android.app.DialogFragment;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.database.Cursor;
@@ -14,25 +10,18 @@ import android.database.sqlite.SQLiteDatabase;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.StrictMode;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
-import android.widget.DatePicker;
-import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TabHost;
 import android.widget.TextView;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Locale;
 
 import Adapter.DanhSachTienTe;
 import Adapter.DanhSachTienTeChi;
@@ -44,72 +33,35 @@ import Objects.TienThuChi;
 @SuppressLint("ShowToast")
 public class NgoaiTe extends Activity {
 
-    final static String[] NAME_MONEY = {"US Dollar (USD)", "Euro (EUR)",
+    private final static String[] NAME_MONEY = {"US Dollar (USD)", "Euro (EUR)",
             "British Pound (GBD)", "HongKong Dollar (HKD)", "Japan Yen (JPY)",
             "South Korean Won (KRW)", "Indian RUPEE (INR)",
             "Kuwaiti Dinar (KWD)", "Swiss France (CHF)",
             "Austraylia Dollar (AUD)", "Malaysian Ringgit (MYR)",
             "Russian Ruble (RUB)", "Singapore Dollar (SGD)", "Thai Baht (THB)",
             "Canadian Dollar (CAD)", "Saudi Rial (SAR)"};
-    final static String[] KH_MONEY = {"USD", "EUR", "GBP", "HKD", "JPY",
+    private final static String[] KH_MONEY = {"USD", "EUR", "GBP", "HKD", "JPY",
             "KRW", "INR", "KWD", "CHF", "AUD", "MYR", "RUB", "SGD", "THB",
             "CAD", "SAR"};
-    public ArrayList<TienThuChi> sapxepthu = null;
-    public ArrayList<TienThuChi> sapxepchi = null;
-    public Context context = this;
-    dbThu dbthu;
-    SQLiteDatabase mDbthu;
-    Cursor mCursorthu;
-    dbChi dbchi;
-    SQLiteDatabase mDbchi;
-    Cursor mCursorchi;
-    ArrayAdapter<String> adaptertien = null;
-    Spinner spinnertien;
-    TextView txttygia;
-    // danh sach thu
+    private Context context = this;
+    private dbThu dbthu;
+    private dbChi dbchi;
+    private TextView txttygia;
     private ListView listthu;
-    // danh sach chi
     private ListView listchi;
-    private TienThuChi objectthu, objectchi;
-    private ArrayList<TienThuChi> arrthu = null;
-    private ArrayList<TienThuChi> arrchi = null;
     private DanhSachTienTe myadapterthu = null;
     private DanhSachTienTeChi myadapterchi = null;
-    private DoiNgay doingaythu = null;
-    private DoiNgay doingaychi = null;
-    private TextView suangaythu;
-    private String datetimesuathu = "";
-    private String[] arrspinnerthu = {"Tiền Lương", "Đòi Nợ", "Bán Đồ",
-            "Đi Vay", "Khác"};
-    // sua chi
-    @SuppressWarnings("unused")
-    private EditText suatenchi;
-    private EditText suatienchi;
-    private Spinner suanhomchi;
-    private TextView suangaychi;
-    private EditText suaghichuchi;
-    private ImageButton btnsavechi, btnsuangaychi;
-    private String datetimesuachi = "";
-    private String[] arrspinnerchi = {"Ăn Uống", "Quần Áo",
-            "Cho vay", "Sinh Hoạt", "Đi Lại", "Trả Nợ", "Khác"};
-
-    // sua thu
-    public String gomtheothang(String nhom, String thang, ArrayList<TienThuChi> a) {
-        String tong = "";
-        return tong;
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_doitien);
-        //setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
         listthu = (ListView) findViewById(R.id.listView_danhsachkhoanthu);
         listchi = (ListView) findViewById(R.id.listView_danhsachkhoanchi);
-        spinnertien = (Spinner) findViewById(R.id.spinner_danhsachloaitien);
+        Spinner spinnertien = (Spinner) findViewById(R.id.spinner_danhsachloaitien);
         txttygia = (TextView) findViewById(R.id.textView_tygia);
-        adaptertien = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, NAME_MONEY);
+        ArrayAdapter<String> adaptertien = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, NAME_MONEY);
         spinnertien.setAdapter(adaptertien);
         if (checkConn()) {
             spinnertien.setOnItemSelectedListener(new OnItemSelectedListener() {
@@ -147,7 +99,6 @@ public class NgoaiTe extends Activity {
             myadapterchi.vietBua(KH_MONEY[position]);
             myadapterchi.notifyDataSetChanged();
         } else {
-            TienThuChi khoantien = new TienThuChi();
             txttygia.setText("");
             myadapterthu.vietBua(" (VND)");
             myadapterthu.notifyDataSetChanged();
@@ -170,38 +121,6 @@ public class NgoaiTe extends Activity {
         return true;
     }
 
-    public void dexuat() {
-        Calendar ngaythang = Calendar.getInstance();
-        // dinh dang 12h
-        String dinhdang24 = "dd/MM/yyyy";
-        SimpleDateFormat dinhdang = null;
-        dinhdang = new SimpleDateFormat(dinhdang24, Locale.getDefault());
-        suangaythu.setText(dinhdang.format(ngaythang.getTime()));
-    }
-
-    public void dexuatchi() {
-        Calendar ngaythang = Calendar.getInstance();
-        // dinh dang 12h
-        String dinhdang24 = "dd/MM/yyyy";
-        SimpleDateFormat dinhdang = null;
-        dinhdang = new SimpleDateFormat(dinhdang24, Locale.getDefault());
-        suangaychi.setText(dinhdang.format(ngaythang.getTime()));
-    }
-
-    // datepicker ngay chi
-    @TargetApi(Build.VERSION_CODES.HONEYCOMB)
-    public void showDatePickerDialogchi(View v) {
-        DialogFragment newFragment = new DatePickerFragmentchi();
-        newFragment.show(getFragmentManager(), "datePicker");
-    }
-
-    // datepicker thu
-    @TargetApi(Build.VERSION_CODES.HONEYCOMB)
-    public void showDatePickerDialog(View v) {
-        DialogFragment newFragment = new DatePickerFragment();
-        newFragment.show(getFragmentManager(), "datePicker");
-    }
-
     public void loadTab() {
         final TabHost tab = (TabHost) findViewById(android.R.id.tabhost);
         // goi cau lenh setup
@@ -221,26 +140,24 @@ public class NgoaiTe extends Activity {
     }
 
     public void danhSachThu() {
-        mDbthu = dbthu.getWritableDatabase();
+        SQLiteDatabase mDbthu = dbthu.getWritableDatabase();
         String query = "select * from " + dbThu.TABLE_NAME;
-        mCursorthu = mDbthu.rawQuery(query, null);
-        arrthu = new ArrayList<>();
-        doingaythu = new DoiNgay();
+        Cursor mCursorthu = mDbthu.rawQuery(query, null);
+        ArrayList<TienThuChi> arrthu = new ArrayList<>();
+        DoiNgay doingaythu = new DoiNgay();
         if (mCursorthu.moveToFirst()) {
             do {
-                objectthu = new TienThuChi();
+                TienThuChi objectthu = new TienThuChi();
                 objectthu.setId(mCursorthu.getString(0));
-                objectthu.setTen(mCursorthu.getString(1));
-                objectthu.setTien(mCursorthu.getString(2));
-                objectthu.setNhom(mCursorthu.getString(3));
-                objectthu.setNgaythang(doingaythu.doiDate(mCursorthu.getString(4)));
-                objectthu.setGhichu(mCursorthu.getString(5));
+                objectthu.setTien(mCursorthu.getString(1));
+                objectthu.setNhom(mCursorthu.getString(2));
+                objectthu.setNgaythang(doingaythu.doiDate(mCursorthu.getString(3)));
+                objectthu.setGhichu(mCursorthu.getString(4));
                 arrthu.add(objectthu);
             } while (mCursorthu.moveToNext());
         }
-        mCursorthu.close();
 
-        sapxepthu = new ArrayList<>();
+        ArrayList<TienThuChi> sapxepthu;
         sapxepthu = doingaythu.sapXep(arrthu);
         for (int i = 0; i < sapxepthu.size(); i++) {
             String strsapxep = doingaythu.ngay(sapxepthu.get(i).getNgaythang());
@@ -252,26 +169,24 @@ public class NgoaiTe extends Activity {
     }
 
     public void danhSachChi() {
-        mDbchi = dbchi.getWritableDatabase();
+        SQLiteDatabase mDbchi = dbchi.getWritableDatabase();
         String querychi = "select * from " + dbChi.TABLE_NAME;
-        mCursorchi = mDbchi.rawQuery(querychi, null);
-        arrchi = new ArrayList<>();
-        doingaychi = new DoiNgay();
+        Cursor mCursorchi = mDbchi.rawQuery(querychi, null);
+        ArrayList<TienThuChi> arrchi = new ArrayList<>();
+        DoiNgay doingaychi = new DoiNgay();
         if (mCursorchi.moveToFirst()) {
             do {
-                objectchi = new TienThuChi();
+                TienThuChi objectchi = new TienThuChi();
                 objectchi.setId(mCursorchi.getString(0));
-                objectchi.setTen(mCursorchi.getString(1));
-                objectchi.setTien(mCursorchi.getString(2));
-                objectchi.setNhom(mCursorchi.getString(3));
-                objectchi.setNgaythang(doingaychi.doiDate(mCursorchi.getString(4)));
-                objectchi.setGhichu(mCursorchi.getString(5));
+                objectchi.setTien(mCursorchi.getString(1));
+                objectchi.setNhom(mCursorchi.getString(2));
+                objectchi.setNgaythang(doingaychi.doiDate(mCursorchi.getString(3)));
+                objectchi.setGhichu(mCursorchi.getString(4));
                 arrchi.add(objectchi);
             } while (mCursorchi.moveToNext());
         }
-        mCursorchi.close();
 
-        sapxepchi = new ArrayList<TienThuChi>();
+        ArrayList<TienThuChi> sapxepchi;
         sapxepchi = doingaychi.sapXep(arrchi);
         for (int i = 0; i < sapxepchi.size(); i++) {
             String strsapxep = doingaychi.ngay(sapxepchi.get(i).getNgaythang());
@@ -280,98 +195,6 @@ public class NgoaiTe extends Activity {
         myadapterchi = new DanhSachTienTeChi(this,
                 R.layout.t_customlayout_chi, sapxepchi);
         listchi.setAdapter(myadapterchi);
-    }
-
-    @SuppressLint({"ValidFragment", "NewApi"})
-    public class DatePickerFragmentchi extends DialogFragment implements
-            DatePickerDialog.OnDateSetListener {
-
-        @TargetApi(Build.VERSION_CODES.HONEYCOMB)
-        @Override
-        public Dialog onCreateDialog(Bundle savedInstanceState) {
-            // Use the current date as the default date in the picker
-            final Calendar c = Calendar.getInstance();
-            int year = c.get(Calendar.YEAR);
-            int month = c.get(Calendar.MONTH);
-            int day = c.get(Calendar.DATE);
-            // Create a new instance of DatePickerDialog and return it
-            return new DatePickerDialog(getActivity(), this, year, month, day);
-        }
-
-        @Override
-        @SuppressWarnings("deprecation")
-        public void onDateSet(DatePicker view, int year, int month, int day) {
-            // Do something with the date chosen by the user
-            month = month + 1;
-            if (day < 10) {
-                if (month < 10) {
-                    datetimesuachi = "0" + String.valueOf(day) + "/" + "0"
-                            + String.valueOf(month) + "/"
-                            + String.valueOf(year);
-                } else {
-                    datetimesuachi = "0" + String.valueOf(day) + "/"
-                            + String.valueOf(month) + "/"
-                            + String.valueOf(year);
-                }
-            } else {
-                if (month < 10) {
-                    datetimesuachi = String.valueOf(day) + "/" + "0"
-                            + String.valueOf(month) + "/"
-                            + String.valueOf(year);
-                } else {
-                    datetimesuachi = String.valueOf(day) + "/"
-                            + String.valueOf(month) + "/"
-                            + String.valueOf(year);
-                }
-            }
-            suangaychi.setText(datetimesuachi);
-        }
-    }
-
-    @SuppressLint({"ValidFragment", "NewApi"})
-    public class DatePickerFragment extends DialogFragment implements
-            DatePickerDialog.OnDateSetListener {
-
-        @TargetApi(Build.VERSION_CODES.HONEYCOMB)
-        @Override
-        public Dialog onCreateDialog(Bundle savedInstanceState) {
-            // Use the current date as the default date in the picker
-            final Calendar c = Calendar.getInstance();
-            int year = c.get(Calendar.YEAR);
-            int month = c.get(Calendar.MONTH);
-            int day = c.get(Calendar.DATE);
-            // Create a new instance of DatePickerDialog and return it
-            return new DatePickerDialog(getActivity(), this, year, month, day);
-        }
-
-        @Override
-        @SuppressWarnings("deprecation")
-        public void onDateSet(DatePicker view, int year, int month, int day) {
-            // Do something with the date chosen by the user
-            month = month + 1;
-            if (day < 10) {
-                if (month < 10) {
-                    datetimesuathu = "0" + String.valueOf(day) + "/" + "0"
-                            + String.valueOf(month) + "/"
-                            + String.valueOf(year);
-                } else {
-                    datetimesuathu = "0" + String.valueOf(day) + "/"
-                            + String.valueOf(month) + "/"
-                            + String.valueOf(year);
-                }
-            } else {
-                if (month < 10) {
-                    datetimesuathu = String.valueOf(day) + "/" + "0"
-                            + String.valueOf(month) + "/"
-                            + String.valueOf(year);
-                } else {
-                    datetimesuathu = String.valueOf(day) + "/"
-                            + String.valueOf(month) + "/"
-                            + String.valueOf(year);
-                }
-            }
-            suangaythu.setText(datetimesuathu);
-        }
     }
 
     public class LoadDataTask extends AsyncTask<Void, Integer, Void> {

@@ -4,7 +4,6 @@ package Objects;
  * Created by Legendary on 27/04/2016.
  */
 public class Item {
-    private String name;
     private String cost;
     private String type;
     private String note;
@@ -14,17 +13,12 @@ public class Item {
     public Item() {
     }
 
-    public Item(String name, String cost, String type, String note, String date, int id) {
-        this.name = name;
+    public Item(String cost, String type, String note, String date, int id) {
         this.cost = cost;
         this.type = type;
         this.note = note;
         this.date = date;
         this.id = id;
-    }
-
-    public String getName() {
-        return name;
     }
 
     public String getCost() {

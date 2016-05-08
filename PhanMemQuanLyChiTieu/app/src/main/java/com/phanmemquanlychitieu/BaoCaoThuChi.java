@@ -50,61 +50,32 @@ import Objects.BaoCao;
 import Objects.TienThuChi;
 
 public class BaoCaoThuChi extends Activity {
-
-    dbThu dbthu;
-    SQLiteDatabase mDbthu;
-    Cursor mCursorthu;
+    private dbThu dbthu;
     //danh sach chi
-    dbChi dbchi;
-    // SimpleCursorAdapter mAdapterthu;
-    SQLiteDatabase mDbchi;
-    Cursor mCursorchi;
-    // private SimpleCursorAdapter mAdapterchi;
-    ListView listhientai;
-    DanhSachThuChi dsthuchi;
-    Object object;
-    String title[] = {"Hôm Nay", "Tháng nay", "Năm Nay"};
-    BaoCao danhsach;
-    BaoCao danhsachthang;
-    BaoCao danhsachnam;
-    BaoCaoHienTai adapterbaocaohientai;
-    BaoCao objectchi2;
-    TienThuChi objectthuchi;
-    //Khai bao nut cho chon bieu do
-    Button btn_chiCot, btn_thuCot, btn_chiTron, btn_thuTron;
+    private dbChi dbchi;
+    private String title[] = {"Hôm Nay", "Tháng nay", "Năm Nay"};
+    private BaoCao objectchi2;
+    private TienThuChi objectthuchi;
     //Khai báo biến báo cáo tháng
-    EditText thangnam;
-    ImageButton img_timnam;
-    ImageButton img_btn_kqbaocaothang;
-    ListView danhsachbaocaothang;
-    BaoCaoThang adapterbaocaothang;
-    String datetimenam = "";
-    ArrayList<Integer> taikhoan;
-    ArrayList<BaoCao> arrbaocaothang;
-    ArrayList<Integer> imageId = null;
-    BaoCao baocaothang;
-    ArrayList<String> arrcalendar;
-    ArrayList<String> arrtitlethang;
+    private EditText thangnam;
+    private ListView danhsachbaocaothang;
+    private BaoCaoThang adapterbaocaothang;
+    private ArrayList<BaoCao> arrbaocaothang;
+    private ArrayList<Integer> imageId = null;
+    private BaoCao baocaothang;
+    private ArrayList<String> arrcalendar;
+    private ArrayList<String> arrtitlethang;
     //khai báo biến báo cáo quý
-    EditText edit_quy;
-    ImageButton img_timquy;
-    ImageButton img_btn_kqbaocaoquy;
-    ListView danhsachbaocaoquy;
-    BaoCaoQuy adapterbaocaoquy;
-    String datetimequy = "";
-    ArrayList<BaoCao> arrbaocaoquy;
-    ArrayList<String> arr;
-    //Khai báo biến báo cáo năm
-    BaoCaoNam adapterbaocaonam;
-    ArrayList<BaoCao> arrnam;
-    BaoCao objectnam;
-    ListView lvnam;
-    BaoCao baocaonam;
-    private ListView listthu;
+    private EditText edit_quy;
+    private ListView danhsachbaocaoquy;
+    private BaoCaoQuy adapterbaocaoquy;
+    private String datetimequy = "";
+    private ArrayList<BaoCao> arrbaocaoquy;
+    private ArrayList<String> arr;
+    private ArrayList<BaoCao> arrnam;
     private ArrayList<BaoCao> arrthu = null;
     private ArrayList<BaoCao> arrchi = null;
     private ArrayList<BaoCao> arrhientai;
-    private DoiNgay doingaythu = null;
     private DoiNgay doingaychi = null;
     private String datehientai = "";
     private String thanghientai = "";
@@ -124,8 +95,8 @@ public class BaoCaoThuChi extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_baocaothuchi);
 
-        listhientai = (ListView) findViewById(R.id.listView_baocaohientai);
-        arrhientai = new ArrayList<BaoCao>();
+        ListView listhientai = (ListView) findViewById(R.id.listView_baocaohientai);
+        arrhientai = new ArrayList<>();
         dbthu = new dbThu(this);
         dbchi = new dbChi(this);
         loadTab();
@@ -154,7 +125,7 @@ public class BaoCaoThuChi extends Activity {
         baoCaoNgayHienTai();
         baoCaoThangHienTai();
         baoCaoNamHienTai();
-        adapterbaocaohientai = new BaoCaoHienTai(this, R.layout.t_custom_danhsachhientai, arrhientai);
+        BaoCaoHienTai adapterbaocaohientai = new BaoCaoHienTai(this, R.layout.t_custom_danhsachhientai, arrhientai);
         listhientai.setAdapter(adapterbaocaohientai);
         //danh sach hien tai
         listhientai.setOnItemClickListener(new OnItemClickListener() {
@@ -213,8 +184,8 @@ public class BaoCaoThuChi extends Activity {
 
         //danh sach theo tháng
         thangnam = (EditText) findViewById(R.id.editText_nhapthang);
-        img_timnam = (ImageButton) findViewById(R.id.imageButton_chonthang);
-        img_btn_kqbaocaothang = (ImageButton) findViewById(R.id.imageButton_baocaothang);
+        ImageButton img_timnam = (ImageButton) findViewById(R.id.imageButton_chonthang);
+        ImageButton img_btn_kqbaocaothang = (ImageButton) findViewById(R.id.imageButton_baocaothang);
         danhsachbaocaothang = (ListView) findViewById(R.id.listView_baocaothang);
         layNamHienTai();
         //lấy du lieu thang
@@ -238,7 +209,7 @@ public class BaoCaoThuChi extends Activity {
                 imageId.add(R.drawable.thang12);
 
                 //ds thang
-                arrcalendar = new ArrayList<String>();
+                arrcalendar = new ArrayList<>();
                 arrcalendar.add("01");
                 arrcalendar.add("02");
                 arrcalendar.add("03");
@@ -253,7 +224,7 @@ public class BaoCaoThuChi extends Activity {
                 arrcalendar.add("12");
 
                 //tieu de thag
-                arrtitlethang = new ArrayList<String>();
+                arrtitlethang = new ArrayList<>();
                 arrtitlethang.add("Tháng 1");
                 arrtitlethang.add("Tháng 2");
                 arrtitlethang.add("Tháng 3");
@@ -267,9 +238,8 @@ public class BaoCaoThuChi extends Activity {
                 arrtitlethang.add("Tháng 11");
                 arrtitlethang.add("Tháng 12");
 
-                arrbaocaothang = new ArrayList<BaoCao>();
+                arrbaocaothang = new ArrayList<>();
                 baocaothang = new BaoCao();
-                DoiNgay doi = new DoiNgay();
                 double thangthu1 = baocaothang.thuThangThu(thangnam.getText().toString(), arrthu, "01");
                 double thangchi1 = baocaothang.thuThangChi(thangnam.getText().toString(), arrchi, "01");
                 baocaothang.setTienthu(String.valueOf(thangthu1));
@@ -390,8 +360,8 @@ public class BaoCaoThuChi extends Activity {
 
         //danh sách theo quý
         edit_quy = (EditText) findViewById(R.id.editText_nhapnamquy);
-        img_timquy = (ImageButton) findViewById(R.id.imageButton_chonquy);
-        img_btn_kqbaocaoquy = (ImageButton) findViewById(R.id.imageButton_baocaoquy);
+        ImageButton img_timquy = (ImageButton) findViewById(R.id.imageButton_chonquy);
+        ImageButton img_btn_kqbaocaoquy = (ImageButton) findViewById(R.id.imageButton_baocaoquy);
         danhsachbaocaoquy = (ListView) findViewById(R.id.listView_baocaoquy);
         edit_quy.setText(datetimequy);
         img_timquy.setOnClickListener(new OnClickListener() {
@@ -405,9 +375,9 @@ public class BaoCaoThuChi extends Activity {
 
             @Override
             public void onClick(View v) {
-                arrbaocaoquy = new ArrayList<BaoCao>();
+                arrbaocaoquy = new ArrayList<>();
                 baocaothang = new BaoCao();
-                arr = new ArrayList<String>();
+                arr = new ArrayList<>();
                 arr.add("Quý I");
                 arr.add("Quý II");
                 arr.add("Quý III");
@@ -526,15 +496,15 @@ public class BaoCaoThuChi extends Activity {
 
 
         DoiNgay doi = new DoiNgay();
-        lvnam = (ListView) findViewById(R.id.listView_baocaonam);
+        ListView lvnam = (ListView) findViewById(R.id.listView_baocaonam);
         double thu = 0;
         double chi = 0;
-        arrnam = new ArrayList<BaoCao>();
+        arrnam = new ArrayList<>();
 
         //code cua loc
-        ArrayList<String> namthu = new ArrayList<String>();
-        ArrayList<String> namchi = new ArrayList<String>();
-        ArrayList<String> locnam = new ArrayList<String>();
+        ArrayList<String> namthu = new ArrayList<>();
+        ArrayList<String> namchi = new ArrayList<>();
+        ArrayList<String> locnam = new ArrayList<>();
         arrchi = doi.sapXep1(arrchi);
         arrthu = doi.sapXep1(arrthu);
         namchi.add(doi.doiNam1(arrchi.get(0).getNgay()));
@@ -568,7 +538,7 @@ public class BaoCaoThuChi extends Activity {
             }
         }
         for (int i = 0; i < locnam.size(); i++) {
-            baocaonam = new BaoCao();
+            BaoCao baocaonam = new BaoCao();
             for (int j = 0; j < arrthu.size(); j++) {
                 if (locnam.get(i).equals(doi.doiNam1(arrthu.get(j).getNgay()))) {
                     thu += Double.parseDouble(arrthu.get(j).getTienthu());
@@ -590,7 +560,7 @@ public class BaoCaoThuChi extends Activity {
         }
 
         arrnam = doi.sapXepnam(arrnam);
-        adapterbaocaonam = new BaoCaoNam(this, R.layout.t_custom_danhsachnam, arrnam);
+        BaoCaoNam adapterbaocaonam = new BaoCaoNam(this, R.layout.t_custom_danhsachnam, arrnam);
         lvnam.setAdapter(adapterbaocaonam);
         lvnam.setOnItemClickListener(new OnItemClickListener() {
 
@@ -633,7 +603,7 @@ public class BaoCaoThuChi extends Activity {
     }
 
     public void baoCaoNgayHienTai() {
-        danhsach = new BaoCao();
+        BaoCao danhsach = new BaoCao();
         doingaychi = new DoiNgay();
         danhsach.setTitle(title[0]);
         danhsach.setNgay(doingaychi.ngay(datehientai));
@@ -656,7 +626,7 @@ public class BaoCaoThuChi extends Activity {
                 sumchithang += Double.parseDouble(a);
             }
         }
-        danhsachthang = new BaoCao();
+        BaoCao danhsachthang = new BaoCao();
         doingaychi = new DoiNgay();
         danhsachthang.setTitle(title[1]);
         danhsachthang.setNgay(doingaychi.thang(datehientai));
@@ -679,7 +649,7 @@ public class BaoCaoThuChi extends Activity {
                 sumchinam += Double.parseDouble(a);
             }
         }
-        danhsachnam = new BaoCao();
+        BaoCao danhsachnam = new BaoCao();
         doingaychi = new DoiNgay();
         danhsachnam.setTitle(title[2]);
         danhsachnam.setNgay(doingaychi.nam(datehientai));
@@ -720,7 +690,7 @@ public class BaoCaoThuChi extends Activity {
         Calendar ngay = Calendar.getInstance();
         //dinh dang 12h
         String dinhdang24 = "dd/MM/yyyy";
-        SimpleDateFormat dinhdang = null;
+        SimpleDateFormat dinhdang;
         dinhdang = new SimpleDateFormat(dinhdang24, Locale.getDefault());
         doingaychi = new DoiNgay();
         datehientai = doingaychi.doiDate(dinhdang.format(ngay.getTime()));
@@ -732,7 +702,7 @@ public class BaoCaoThuChi extends Activity {
         Calendar nam = Calendar.getInstance();
         //dinh dang 12h
         String dinhdang24 = "yyyy";
-        SimpleDateFormat dinhdang = null;
+        SimpleDateFormat dinhdang;
         dinhdang = new SimpleDateFormat(dinhdang24, Locale.getDefault());
         thangnam.setText(dinhdang.format(nam.getTime()));
         datetimequy = dinhdang.format(nam.getTime());
@@ -753,34 +723,34 @@ public class BaoCaoThuChi extends Activity {
     }
 
     public void danhSachThu() {
-        mDbthu = dbthu.getWritableDatabase();
+        SQLiteDatabase mDbthu = dbthu.getReadableDatabase();
         String query = "select * from " + dbThu.TABLE_NAME;
-        mCursorthu = mDbthu.rawQuery(query, null);
-        arrthu = new ArrayList<BaoCao>();
-        doingaythu = new DoiNgay();
+        Cursor mCursorthu = mDbthu.rawQuery(query, null);
+        arrthu = new ArrayList<>();
+        DoiNgay doingaythu = new DoiNgay();
         if (mCursorthu.moveToFirst()) {
             do {
                 objectchi2 = new BaoCao();
-                objectchi2.setTienthu(mCursorthu.getString(2));
-                objectchi2.setNgay(doingaythu.doiDate(mCursorthu.getString(4)));
-                objectchi2.setNhom(mCursorthu.getString(3));
+                objectchi2.setTienthu(mCursorthu.getString(1));
+                objectchi2.setNgay(doingaythu.doiDate(mCursorthu.getString(3)));
+                objectchi2.setNhom(mCursorthu.getString(2));
                 arrthu.add(objectchi2);
             } while (mCursorthu.moveToNext());
         }
     }
 
     public void danhSachChi() {
-        mDbchi = dbchi.getWritableDatabase();
+        SQLiteDatabase mDbchi = dbchi.getWritableDatabase();
         String querychi = "select * from " + dbChi.TABLE_NAME;
-        mCursorchi = mDbchi.rawQuery(querychi, null);
-        arrchi = new ArrayList<BaoCao>();
+        Cursor mCursorchi = mDbchi.rawQuery(querychi, null);
+        arrchi = new ArrayList<>();
         doingaychi = new DoiNgay();
         if (mCursorchi.moveToFirst()) {
             do {
                 objectchi2 = new BaoCao();
-                objectchi2.setTienchi(mCursorchi.getString(2));
-                objectchi2.setNgay(doingaychi.doiDate(mCursorchi.getString(4)));
-                objectchi2.setNhom(mCursorchi.getString(3));
+                objectchi2.setTienchi(mCursorchi.getString(1));
+                objectchi2.setNgay(doingaychi.doiDate(mCursorchi.getString(3)));
+                objectchi2.setNhom(mCursorchi.getString(2));
                 arrchi.add(objectchi2);
             } while (mCursorchi.moveToNext());
         }
@@ -789,7 +759,7 @@ public class BaoCaoThuChi extends Activity {
     public void openPieChartChi(double anuong, double quanao, double chovay, double sinhhoat, double dilai, double trano, double khac) {
 
         // Pie Chart Section Value
-        ArrayList<Double> distribution = new ArrayList<Double>();
+        ArrayList<Double> distribution = new ArrayList<>();
         distribution.add(0, anuong);
         distribution.add(1, quanao);
         distribution.add(2, chovay);
@@ -799,7 +769,7 @@ public class BaoCaoThuChi extends Activity {
         distribution.add(6, khac);
 
         // Color of each Pie Chart Sections
-        ArrayList<String> code = new ArrayList<String>();
+        ArrayList<String> code = new ArrayList<>();
         code.add(0, "Ăn Uống" + ":" + anuong);
         code.add(1, "Quần Áo " + ":" + quanao);
         code.add(2, "Cho vay" + ":" + chovay);
@@ -808,7 +778,7 @@ public class BaoCaoThuChi extends Activity {
         code.add(5, "Trả Nợ" + ":" + trano);
         code.add(6, "Khác" + ":" + khac);
 
-        ArrayList<Integer> colors = new ArrayList<Integer>();
+        ArrayList<Integer> colors = new ArrayList<>();
         colors.add(0, Color.BLUE);
         colors.add(1, Color.MAGENTA);
         colors.add(2, Color.GREEN);
@@ -863,7 +833,7 @@ public class BaoCaoThuChi extends Activity {
     public void openPieChartThu(double tienluong, double doino, double bando, double divay, double khac) {
 
         // Pie Chart Section Value
-        ArrayList<Double> distribution = new ArrayList<Double>();
+        ArrayList<Double> distribution = new ArrayList<>();
         distribution.add(0, tienluong);
         distribution.add(1, doino);
         distribution.add(2, bando);
@@ -871,14 +841,14 @@ public class BaoCaoThuChi extends Activity {
         distribution.add(4, khac);
 
         // Color of each Pie Chart Sections
-        ArrayList<String> code = new ArrayList<String>();
+        ArrayList<String> code = new ArrayList<>();
         code.add(0, "Tiền lương" + ":" + tienluong);
         code.add(1, "Đòi nợ " + ":" + doino);
         code.add(2, "Bán đồ" + ":" + bando);
         code.add(3, "Đi vay" + ":" + divay);
         code.add(4, "Khác" + ":" + khac);
 
-        ArrayList<Integer> colors = new ArrayList<Integer>();
+        ArrayList<Integer> colors = new ArrayList<>();
         colors.add(0, Color.BLUE);
         colors.add(1, Color.MAGENTA);
         colors.add(2, Color.GREEN);
@@ -931,7 +901,7 @@ public class BaoCaoThuChi extends Activity {
     //BIEU DO COT CHI TIEU
     public void openBarChartChi(double anuong, double quanao, double chovay, double sinhhoat, double dilai, double trano, double khac) {
         //Danh sach cot
-        ArrayList<Double> distribution = new ArrayList<Double>();
+        ArrayList<Double> distribution = new ArrayList<>();
         distribution.add(anuong);
         distribution.add(quanao);
         distribution.add(chovay);
@@ -941,7 +911,7 @@ public class BaoCaoThuChi extends Activity {
         distribution.add(khac);
 
 
-        ArrayList<String> code = new ArrayList<String>();
+        ArrayList<String> code = new ArrayList<>();
         code.add("Ăn Uống");
         code.add("Quần Áo ");
         code.add("Cho vay");
@@ -985,14 +955,14 @@ public class BaoCaoThuChi extends Activity {
     //BIEU DO COT THU NHAP
     public void openBarChartThu(double tienluong, double doino, double bando, double divay, double khac) {
         //Danh sach cot
-        ArrayList<Double> distribution = new ArrayList<Double>();
+        ArrayList<Double> distribution = new ArrayList<>();
         distribution.add(tienluong);
         distribution.add(doino);
         distribution.add(bando);
         distribution.add(divay);
         distribution.add(khac);
 
-        ArrayList<String> code = new ArrayList<String>();
+        ArrayList<String> code = new ArrayList<>();
         code.add("Tiền lương");
         code.add("Đòi nợ");
         code.add("Bán đồ");
@@ -1081,10 +1051,10 @@ public class BaoCaoThuChi extends Activity {
         View v = li.inflate(R.layout.select_chart, null, false);
         dialog.setContentView(v);
         dialog.setTitle("Chọn Biểu Đồ");
-        btn_thuCot = (Button) v.findViewById(R.id.btn_thuCot);
-        btn_thuTron = (Button) v.findViewById(R.id.btn_thuTron);
-        btn_chiCot = (Button) v.findViewById(R.id.btn_chiCot);
-        btn_chiTron = (Button) v.findViewById(R.id.btn_chiTron);
+        Button btn_thuCot = (Button) v.findViewById(R.id.btn_thuCot);
+        Button btn_thuTron = (Button) v.findViewById(R.id.btn_thuTron);
+        Button btn_chiCot = (Button) v.findViewById(R.id.btn_chiCot);
+        Button btn_chiTron = (Button) v.findViewById(R.id.btn_chiTron);
         btn_thuCot.setOnClickListener(new ButtonEvent());
         btn_thuTron.setOnClickListener(new ButtonEvent());
         btn_chiCot.setOnClickListener(new ButtonEvent());

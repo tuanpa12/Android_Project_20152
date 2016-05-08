@@ -9,13 +9,13 @@ import android.database.sqlite.SQLiteOpenHelper;
  */
 public class UserDatabase extends SQLiteOpenHelper {
     public static final String TABLE_NAME = "userDB";
-    public static final String COL_NAME = "name";
+    public static final String COL_UID = "uid";
     public static final String COL_EMAIL = "email";
-    public static final String COL_KEY = "key";
+    public static final String COL_KEY = "login";
     private static final String DB_NAME = "user data";
     private static final int DB_VERSION = 1;
     private static final String CREATE = "CREATE TABLE " + TABLE_NAME + " (_id INTEGER PRIMARY KEY AUTOINCREMENT,"
-            + COL_NAME + " TEXT," + COL_EMAIL + " TEXT," + COL_KEY + " TEXT);";
+            + COL_UID + " TEXT," + COL_EMAIL + " TEXT," + COL_KEY + " TEXT);";
 
     public UserDatabase(Context context) {
         super(context, DB_NAME, null, DB_VERSION);

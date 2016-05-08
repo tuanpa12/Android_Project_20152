@@ -10,7 +10,6 @@ import android.widget.TextView;
 
 import com.phanmemquanlychitieu.R;
 
-import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 import Objects.TienThuChi;
@@ -23,7 +22,6 @@ public class DanhSachChi extends ArrayAdapter<TienThuChi> {
     Context context;
     int layoutResourceId;
     ArrayList<TienThuChi> listData = null;
-    DecimalFormat df = new DecimalFormat("###############.##");
 
     public DanhSachChi(Context context, int layoutResourceId, ArrayList<TienThuChi> data) {
         super(context, layoutResourceId, data);
@@ -50,7 +48,7 @@ public class DanhSachChi extends ArrayAdapter<TienThuChi> {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         View row = convertView;
-        ItemHolder holder = null;
+        ItemHolder holder;
         if (row == null) {
             LayoutInflater inflater = ((Activity) context).getLayoutInflater();
             row = inflater.inflate(layoutResourceId, parent, false);

@@ -39,13 +39,11 @@ public class SignUpActivity extends Activity {
                         @Override
                         public void onSuccess() {
                             AlertDialog.Builder dialog = new AlertDialog.Builder(SignUpActivity.this);
-                            dialog.setTitle("Đăng kí tài khoản");
+                            dialog.setTitle("Thông tin");
                             dialog.setMessage("Đăng kí thành công");
                             dialog.setPositiveButton("Đồng ý", new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
-                                    email.setText("");
-                                    password.setText("");
                                     finish();
                                 }
                             });

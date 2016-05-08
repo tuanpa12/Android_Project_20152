@@ -15,6 +15,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -62,21 +63,17 @@ public class MainActivity extends AppCompatActivity
         setContentView(R.layout.activity_bar);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        Firebase.setAndroidContext(this);
+        root = new Firebase("https://expenseproject.firebaseio.com/");
+        usersRef = root.child(getName());
         userDb = new UserDatabase(this);
         dbthu = new dbThu(this);
         dbchi = new dbChi(this);
         laiXuatDb = new dbLaiXuat(this);
         loadControl();
-        Firebase.setAndroidContext(this);
-        root = new Firebase("https://expenseproject.firebaseio.com/");
-        usersRef = root.child(getName());
         danhSachThu();
         danhSachChi();
-
-        TextView userName = (TextView) findViewById(R.id.headerName);
-        if (userName != null) {
-            userName.setText(getName());
-        }
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab_addItem);
         if (fab != null) {
@@ -106,9 +103,15 @@ public class MainActivity extends AppCompatActivity
             });
         }
 
+        LinearLayout header = (LinearLayout) this.findViewById(R.id.nav_header);
+        TextView userName = null;
+        if (header != null) {
+            userName = (TextView) header.findViewById(R.id.headerName);
+            userName.setText(getName());
+        }
+
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         if (drawer != null) {
             drawer.addDrawerListener(toggle);
             toggle.syncState();
@@ -179,10 +182,10 @@ public class MainActivity extends AppCompatActivity
                     mDbchi = dbchi.getWritableDatabase();
                     mDbLaiXuat = laiXuatDb.getWritableDatabase();
 
-                    mSQLite.delete(UserDatabase.TABLE_NAME, null, null);
-                    mDbthu.delete(dbThu.TABLE_NAME, null, null);
-                    mDbchi.delete(dbChi.TABLE_NAME, null, null);
-                    mDbLaiXuat.delete(dbLaiXuat.TABLE_NAME, null, null);
+                    mSQLite.execSQL("delete from " + UserDatabase.TABLE_NAME);
+                    mDbthu.execSQL("delete from " + dbThu.TABLE_NAME);
+                    mDbchi.execSQL("delete from " + dbChi.TABLE_NAME);
+                    mDbLaiXuat.execSQL("delete from " + dbLaiXuat.TABLE_NAME);
                     startActivity(intent);
                     finish();
                 }

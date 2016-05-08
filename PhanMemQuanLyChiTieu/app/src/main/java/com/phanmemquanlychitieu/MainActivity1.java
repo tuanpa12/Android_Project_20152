@@ -36,6 +36,7 @@ public class MainActivity1 extends AppCompatActivity {
     // danh sach thu
     UserDatabase userDb;
     SQLiteDatabase mSQLite;
+    Cursor userCursor;
 
     dbLaiXuat laiXuatDb;
     SQLiteDatabase mDbLaiXuat;
@@ -60,12 +61,11 @@ public class MainActivity1 extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         Firebase.setAndroidContext(this);
         root = new Firebase("https://expenseproject.firebaseio.com/");
-        usersRef = root.child("257a29b4");
-
         userDb = new UserDatabase(this);
         dbthu = new dbThu(this);
         dbchi = new dbChi(this);
         laiXuatDb = new dbLaiXuat(this);
+        usersRef = root.child(getName());
 
         danhSachThu();
         danhSachChi();
@@ -111,7 +111,6 @@ public class MainActivity1 extends AppCompatActivity {
                     exitDialog.setNegativeButton("Có", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
-                            Intent intent = new Intent(MainActivity1.this, LoginActivity.class);
                             mSQLite = userDb.getWritableDatabase();
                             mDbthu = dbthu.getWritableDatabase();
                             mDbchi = dbchi.getWritableDatabase();
@@ -121,6 +120,7 @@ public class MainActivity1 extends AppCompatActivity {
                             mDbthu.execSQL("delete from " + dbThu.TABLE_NAME);
                             mDbchi.execSQL("delete from " + dbChi.TABLE_NAME);
                             mDbLaiXuat.execSQL("delete from " + dbLaiXuat.TABLE_NAME);
+                            Intent intent = new Intent(MainActivity1.this, LoginActivity.class);
                             startActivity(intent);
                             finish();
                         }
@@ -137,15 +137,26 @@ public class MainActivity1 extends AppCompatActivity {
         });
     }
 
-    public void syncData() {
+    public String getName() {
+        String name = "";
+        mSQLite = userDb.getReadableDatabase();
+        String query = "select * from " + UserDatabase.TABLE_NAME;
+        userCursor = mSQLite.rawQuery(query, null);
+        if (userCursor.moveToFirst()) {
+            name = userCursor.getString(1);
+        }
+        userCursor.close();
+        return name;
+    }
+
+    private void syncData() {
         int id;
         Firebase expenseRef = usersRef.child("Expense");
         Firebase incomeRef = usersRef.child("Income");
         expenseRef.setValue(null);
         incomeRef.setValue(null);
-        // ic_sync expense data
         mDbchi = dbchi.getReadableDatabase();
-        String queryChi = "select * from chi";
+        String queryChi = "select * from " + dbChi.TABLE_NAME;
         mCursorchi = mDbchi.rawQuery(queryChi, null);
         Item item;
         if (mCursorchi.moveToFirst()) {
@@ -162,9 +173,8 @@ public class MainActivity1 extends AppCompatActivity {
         }
         mCursorchi.close();
 
-        // ic_sync income data
         mDbthu = dbthu.getReadableDatabase();
-        String queryThu = "select * from thu";
+        String queryThu = "select * from " + dbThu.TABLE_NAME;
         mCursorthu = mDbthu.rawQuery(queryThu, null);
         if (mCursorthu.moveToFirst()) {
             do {
@@ -183,8 +193,8 @@ public class MainActivity1 extends AppCompatActivity {
 
     public void danhSachChi() {
         mDbchi = dbchi.getReadableDatabase();
-        String querychi = "select * from chi";
-        mCursorchi = mDbchi.rawQuery(querychi, null);
+        String queryChi = "select * from " + dbChi.TABLE_NAME;
+        mCursorchi = mDbchi.rawQuery(queryChi, null);
         arrchi = new ArrayList<>();
         if (mCursorchi.moveToFirst()) {
             do {
@@ -200,7 +210,7 @@ public class MainActivity1 extends AppCompatActivity {
 
     public void danhSachThu() {
         mDbthu = dbthu.getReadableDatabase();
-        String query = "select * from thu";
+        String query = "select * from " + dbThu.TABLE_NAME;
         mCursorthu = mDbthu.rawQuery(query, null);
         arrthu = new ArrayList<>();
         if (mCursorthu.moveToFirst()) {

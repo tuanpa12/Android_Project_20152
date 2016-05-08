@@ -113,7 +113,7 @@ public class LoginActivity extends Activity {
                 cv.put(UserDatabase.COL_KEY, "true");
                 mSQLite.insert(UserDatabase.TABLE_NAME, null, cv);
                 syncData(name);
-                Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                Intent intent = new Intent(LoginActivity.this, MainActivity1.class);
                 startActivity(intent);
                 finish();
             }
@@ -134,7 +134,7 @@ public class LoginActivity extends Activity {
         loginForm = (LinearLayout) findViewById(R.id.login_form);
     }
 
-    public void syncData(String name) {
+    private void syncData(String name) {
         Firebase refExpense = root.child(name).child("Expense");
         Query expenseQuery = refExpense.orderByValue();
         expenseQuery.addValueEventListener(new ValueEventListener() {

@@ -13,7 +13,7 @@ public class dbThu extends SQLiteOpenHelper {
     public static final String COL_DATE = "ngaythang";
     public static final String COL_GHICHU = "ghichu";
     private static final String DB_NAME = "chitieu";
-    private static final int DB_VERSION = 2;
+    private static final int DB_VERSION = 1;
     private static final String STRING_CREATE = "CREATE TABLE " + TABLE_NAME + " (_id INTEGER PRIMARY KEY AUTOINCREMENT,"
             + COL_NAME + " TEXT," + COL_TIEN + " TEXT," + COL_NHOM + " TEXT," + COL_DATE + " TEXT," + COL_GHICHU + " TEXT);";
 

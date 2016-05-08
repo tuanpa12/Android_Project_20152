@@ -50,9 +50,8 @@ public class DanhSachThuChi extends Activity {
     private dbThu dbthu;
     private SQLiteDatabase mDbthu;
     // expense
-    dbChi dbchi;
-    SQLiteDatabase mDbchi;
-    Cursor mCursorchi;
+    private dbChi dbchi;
+    private SQLiteDatabase mDbchi;
     private ListView listthu;
     private ListView listchi;
 
@@ -316,6 +315,7 @@ public class DanhSachThuChi extends Activity {
                 arrthu.add(objectthu);
             } while (mCursorthu.moveToNext());
         }
+        mCursorthu.close();
 
         sapxepthu = new ArrayList<>();
         sapxepthu = doingaythu.sapXep(arrthu);
@@ -330,7 +330,7 @@ public class DanhSachThuChi extends Activity {
     public void danhSachChi() {
         mDbchi = dbchi.getReadableDatabase();
         String querychi = "select * from " + dbChi.TABLE_NAME;
-        mCursorchi = mDbchi.rawQuery(querychi, null);
+        Cursor mCursorchi = mDbchi.rawQuery(querychi, null);
         ArrayList<TienThuChi> arrchi = new ArrayList<>();
         DoiNgay doingaychi = new DoiNgay();
         TienThuChi objectchi;
@@ -345,6 +345,7 @@ public class DanhSachThuChi extends Activity {
                 arrchi.add(objectchi);
             } while (mCursorchi.moveToNext());
         }
+        mCursorchi.close();
 
         sapxepchi = new ArrayList<>();
         sapxepchi = doingaychi.sapXep(arrchi);
@@ -412,7 +413,6 @@ public class DanhSachThuChi extends Activity {
         }
 
         @Override
-        @SuppressWarnings("deprecation")
         public void onDateSet(DatePicker view, int year, int month, int day) {
             // Do something with the date chosen by the user
             month = month + 1;

@@ -20,15 +20,14 @@ public class HTMLParser {
         } catch (Exception e) {
             b = Float.parseFloat(e3.text());
         }
-        NgoaiTe m = new NgoaiTe(e1.text(), e2.text(), b);
-        return m;
+        return new NgoaiTe(e1.text(), e2.text(), b);
     }
 
     @SuppressLint("NewApi")
     public ArrayList<NgoaiTe> parseHTML() {
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
-        ArrayList<NgoaiTe> moneys = new ArrayList<NgoaiTe>();
+        ArrayList<NgoaiTe> moneys = new ArrayList<>();
         Document doc;
         try {
             doc = Jsoup.connect("https://www.vietcombank.com.vn/exchangerates/").get();

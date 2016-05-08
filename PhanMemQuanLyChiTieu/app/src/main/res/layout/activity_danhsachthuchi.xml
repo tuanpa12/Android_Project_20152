@@ -35,8 +35,8 @@
 
                     <include
                         layout="@layout/listview_danhsachthu"
-                        android:layout_width="fill_parent"
-                        android:layout_height="fill_parent" />
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -47,8 +47,8 @@
 
                     <include
                         layout="@layout/listview_danhsachchi"
-                        android:layout_width="fill_parent"
-                        android:layout_height="fill_parent" />
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent" />
                 </LinearLayout>
             </FrameLayout>
         </LinearLayout>

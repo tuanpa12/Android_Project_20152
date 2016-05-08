@@ -53,7 +53,7 @@ public class BaoCaoThuChi extends Activity {
     private dbThu dbthu;
     //danh sach chi
     private dbChi dbchi;
-    private String title[] = {"Hôm Nay", "Tháng nay", "Năm Nay"};
+    private String title[] = {"Hôm nay", "Tháng nay", "Năm nay"};
     private BaoCao objectchi2;
     private TienThuChi objectthuchi;
     //Khai báo biến báo cáo tháng
@@ -80,14 +80,14 @@ public class BaoCaoThuChi extends Activity {
     private String datehientai = "";
     private String thanghientai = "";
     private String namhientai = "";
-    private double sumthu;
-    private double sumchi;
-    private double sumthuthang;
-    private double sumchithang;
-    private double sumthunam;
-    private double sumchinam;
+    private int sumthu;
+    private int sumchi;
+    private int sumthuthang;
+    private int sumchithang;
+    private int sumthunam;
+    private int sumchinam;
     //Khai bao bien
-    double a, b, c, d, e, f, g, i, j, k, l, m;
+    int a, b, c, d, e, f, g, i, j, k, l, m;
 
 
     @Override
@@ -111,14 +111,14 @@ public class BaoCaoThuChi extends Activity {
         for (int i = 0; i < arrthu.size(); i++) {
             if (arrthu.get(i).getNgay().equals(datehientai)) {
                 String a = arrthu.get(i).getTienthu();
-                sumthu += Double.parseDouble(a);
+                sumthu += Integer.parseInt(a);
             }
         }
         //tong chi
         for (int i = 0; i < arrchi.size(); i++) {
             if (arrchi.get(i).getNgay().equals(datehientai)) {
                 String a = arrchi.get(i).getTienchi();
-                sumchi += Double.parseDouble(a);
+                sumchi += Integer.parseInt(a);
             }
         }
 
@@ -225,100 +225,100 @@ public class BaoCaoThuChi extends Activity {
 
                 //tieu de thag
                 arrtitlethang = new ArrayList<>();
-                arrtitlethang.add("Tháng 1");
-                arrtitlethang.add("Tháng 2");
-                arrtitlethang.add("Tháng 3");
-                arrtitlethang.add("Tháng 4");
-                arrtitlethang.add("Tháng 5");
-                arrtitlethang.add("Tháng 6");
-                arrtitlethang.add("Tháng 7");
-                arrtitlethang.add("Tháng 8");
-                arrtitlethang.add("Tháng 9");
-                arrtitlethang.add("Tháng 10");
-                arrtitlethang.add("Tháng 11");
-                arrtitlethang.add("Tháng 12");
+                arrtitlethang.add("tháng 1");
+                arrtitlethang.add("tháng 2");
+                arrtitlethang.add("tháng 3");
+                arrtitlethang.add("tháng 4");
+                arrtitlethang.add("tháng 5");
+                arrtitlethang.add("tháng 6");
+                arrtitlethang.add("tháng 7");
+                arrtitlethang.add("tháng 8");
+                arrtitlethang.add("tháng 9");
+                arrtitlethang.add("tháng 10");
+                arrtitlethang.add("tháng 11");
+                arrtitlethang.add("tháng 12");
 
                 arrbaocaothang = new ArrayList<>();
                 baocaothang = new BaoCao();
-                double thangthu1 = baocaothang.thuThangThu(thangnam.getText().toString(), arrthu, "01");
-                double thangchi1 = baocaothang.thuThangChi(thangnam.getText().toString(), arrchi, "01");
+                int thangthu1 = baocaothang.thuThangThu(thangnam.getText().toString(), arrthu, "01");
+                int thangchi1 = baocaothang.thuThangChi(thangnam.getText().toString(), arrchi, "01");
                 baocaothang.setTienthu(String.valueOf(thangthu1));
                 baocaothang.setTienchi(String.valueOf(thangchi1));
                 arrbaocaothang.add(baocaothang);
 
                 BaoCao baocaothang2 = new BaoCao();
-                double thangthu2 = baocaothang2.thuThangThu(thangnam.getText().toString(), arrthu, "02");
-                double thangchi2 = baocaothang2.thuThangChi(thangnam.getText().toString(), arrchi, "02");
+                int thangthu2 = baocaothang2.thuThangThu(thangnam.getText().toString(), arrthu, "02");
+                int thangchi2 = baocaothang2.thuThangChi(thangnam.getText().toString(), arrchi, "02");
                 baocaothang2.setTienthu(String.valueOf(thangthu2));
                 baocaothang2.setTienchi(String.valueOf(thangchi2));
                 arrbaocaothang.add(baocaothang2);
 
                 BaoCao baocaothang3 = new BaoCao();
-                double thangthu3 = baocaothang3.thuThangThu(thangnam.getText().toString(), arrthu, "03");
-                double thangchi3 = baocaothang3.thuThangChi(thangnam.getText().toString(), arrchi, "03");
+                int thangthu3 = baocaothang3.thuThangThu(thangnam.getText().toString(), arrthu, "03");
+                int thangchi3 = baocaothang3.thuThangChi(thangnam.getText().toString(), arrchi, "03");
                 baocaothang3.setTienthu(String.valueOf(thangthu3));
                 baocaothang3.setTienchi(String.valueOf(thangchi3));
                 arrbaocaothang.add(baocaothang3);
 
                 BaoCao baocaothang4 = new BaoCao();
-                double thangthu4 = baocaothang4.thuThangThu(thangnam.getText().toString(), arrthu, "04");
-                double thangchi4 = baocaothang4.thuThangChi(thangnam.getText().toString(), arrchi, "04");
+                int thangthu4 = baocaothang4.thuThangThu(thangnam.getText().toString(), arrthu, "04");
+                int thangchi4 = baocaothang4.thuThangChi(thangnam.getText().toString(), arrchi, "04");
                 baocaothang4.setTienthu(String.valueOf(thangthu4));
                 baocaothang4.setTienchi(String.valueOf(thangchi4));
                 arrbaocaothang.add(baocaothang4);
 
                 BaoCao baocaothang5 = new BaoCao();
-                double thangthu5 = baocaothang5.thuThangThu(thangnam.getText().toString(), arrthu, "05");
-                double thangchi5 = baocaothang5.thuThangChi(thangnam.getText().toString(), arrchi, "05");
+                int thangthu5 = baocaothang5.thuThangThu(thangnam.getText().toString(), arrthu, "05");
+                int thangchi5 = baocaothang5.thuThangChi(thangnam.getText().toString(), arrchi, "05");
                 baocaothang5.setTienthu(String.valueOf(thangthu5));
                 baocaothang5.setTienchi(String.valueOf(thangchi5));
                 arrbaocaothang.add(baocaothang5);
 
                 BaoCao baocaothang6 = new BaoCao();
-                double thangthu6 = baocaothang6.thuThangThu(thangnam.getText().toString(), arrthu, "06");
-                double thangchi6 = baocaothang6.thuThangChi(thangnam.getText().toString(), arrchi, "06");
+                int thangthu6 = baocaothang6.thuThangThu(thangnam.getText().toString(), arrthu, "06");
+                int thangchi6 = baocaothang6.thuThangChi(thangnam.getText().toString(), arrchi, "06");
                 baocaothang6.setTienthu(String.valueOf(thangthu6));
                 baocaothang6.setTienchi(String.valueOf(thangchi6));
                 arrbaocaothang.add(baocaothang6);
 
                 BaoCao baocaothang7 = new BaoCao();
-                double thangthu7 = baocaothang7.thuThangThu(thangnam.getText().toString(), arrthu, "07");
-                double thangchi7 = baocaothang7.thuThangChi(thangnam.getText().toString(), arrchi, "07");
+                int thangthu7 = baocaothang7.thuThangThu(thangnam.getText().toString(), arrthu, "07");
+                int thangchi7 = baocaothang7.thuThangChi(thangnam.getText().toString(), arrchi, "07");
                 baocaothang7.setTienthu(String.valueOf(thangthu7));
                 baocaothang7.setTienchi(String.valueOf(thangchi7));
                 arrbaocaothang.add(baocaothang7);
 
                 BaoCao baocaothang8 = new BaoCao();
-                double thangthu8 = baocaothang8.thuThangThu(thangnam.getText().toString(), arrthu, "08");
-                double thangchi8 = baocaothang8.thuThangChi(thangnam.getText().toString(), arrchi, "08");
+                int thangthu8 = baocaothang8.thuThangThu(thangnam.getText().toString(), arrthu, "08");
+                int thangchi8 = baocaothang8.thuThangChi(thangnam.getText().toString(), arrchi, "08");
                 baocaothang8.setTienthu(String.valueOf(thangthu8));
                 baocaothang8.setTienchi(String.valueOf(thangchi8));
                 arrbaocaothang.add(baocaothang8);
 
                 BaoCao baocaothang9 = new BaoCao();
-                double thangthu9 = baocaothang9.thuThangThu(thangnam.getText().toString(), arrthu, "09");
-                double thangchi9 = baocaothang9.thuThangChi(thangnam.getText().toString(), arrchi, "09");
+                int thangthu9 = baocaothang9.thuThangThu(thangnam.getText().toString(), arrthu, "09");
+                int thangchi9 = baocaothang9.thuThangChi(thangnam.getText().toString(), arrchi, "09");
                 baocaothang9.setTienthu(String.valueOf(thangthu9));
                 baocaothang9.setTienchi(String.valueOf(thangchi9));
                 arrbaocaothang.add(baocaothang9);
 
                 BaoCao baocaothang10 = new BaoCao();
-                double thangthu10 = baocaothang10.thuThangThu(thangnam.getText().toString(), arrthu, "10");
-                double thangchi10 = baocaothang10.thuThangChi(thangnam.getText().toString(), arrchi, "10");
+                int thangthu10 = baocaothang10.thuThangThu(thangnam.getText().toString(), arrthu, "10");
+                int thangchi10 = baocaothang10.thuThangChi(thangnam.getText().toString(), arrchi, "10");
                 baocaothang10.setTienthu(String.valueOf(thangthu10));
                 baocaothang10.setTienchi(String.valueOf(thangchi10));
                 arrbaocaothang.add(baocaothang10);
 
                 BaoCao baocaothang11 = new BaoCao();
-                double thangthu11 = baocaothang11.thuThangThu(thangnam.getText().toString(), arrthu, "11");
-                double thangchi11 = baocaothang11.thuThangChi(thangnam.getText().toString(), arrchi, "11");
+                int thangthu11 = baocaothang11.thuThangThu(thangnam.getText().toString(), arrthu, "11");
+                int thangchi11 = baocaothang11.thuThangChi(thangnam.getText().toString(), arrchi, "11");
                 baocaothang11.setTienthu(String.valueOf(thangthu11));
                 baocaothang11.setTienchi(String.valueOf(thangchi11));
                 arrbaocaothang.add(baocaothang11);
 
                 BaoCao baocaothang12 = new BaoCao();
-                double thangthu12 = baocaothang12.thuThangThu(thangnam.getText().toString(), arrthu, "12");
-                double thangchi12 = baocaothang12.thuThangChi(thangnam.getText().toString(), arrchi, "12");
+                int thangthu12 = baocaothang12.thuThangThu(thangnam.getText().toString(), arrthu, "12");
+                int thangchi12 = baocaothang12.thuThangChi(thangnam.getText().toString(), arrchi, "12");
                 baocaothang12.setTienthu(String.valueOf(thangthu12));
                 baocaothang12.setTienchi(String.valueOf(thangchi12));
                 arrbaocaothang.add(baocaothang12);
@@ -382,29 +382,29 @@ public class BaoCaoThuChi extends Activity {
                 arr.add("Quý II");
                 arr.add("Quý III");
                 arr.add("Quý IV");
-                double quy1 = baocaothang.thuQuy("01", "03", edit_quy.getText().toString(), arrthu);
-                double quy1a = baocaothang.chiQuy("01", "03", edit_quy.getText().toString(), arrchi);
+                int quy1 = baocaothang.thuQuy("01", "03", edit_quy.getText().toString(), arrthu);
+                int quy1a = baocaothang.chiQuy("01", "03", edit_quy.getText().toString(), arrchi);
                 baocaothang.setTienthu(String.valueOf(quy1));
                 baocaothang.setTienchi(String.valueOf(quy1a));
                 arrbaocaoquy.add(baocaothang);
 
                 BaoCao baocaothang1 = new BaoCao();
-                double quy2 = baocaothang1.thuQuy("04", "06", edit_quy.getText().toString(), arrthu);
-                double quy2a = baocaothang1.chiQuy("04", "06", edit_quy.getText().toString(), arrchi);
+                int quy2 = baocaothang1.thuQuy("04", "06", edit_quy.getText().toString(), arrthu);
+                int quy2a = baocaothang1.chiQuy("04", "06", edit_quy.getText().toString(), arrchi);
                 baocaothang1.setTienthu(String.valueOf(quy2));
                 baocaothang1.setTienchi(String.valueOf(quy2a));
                 arrbaocaoquy.add(baocaothang1);
 
                 BaoCao baocaothang2 = new BaoCao();
-                double quy3 = baocaothang2.thuQuy("07", "09", edit_quy.getText().toString(), arrthu);
-                double quy3a = baocaothang2.chiQuy("07", "09", edit_quy.getText().toString(), arrchi);
+                int quy3 = baocaothang2.thuQuy("07", "09", edit_quy.getText().toString(), arrthu);
+                int quy3a = baocaothang2.chiQuy("07", "09", edit_quy.getText().toString(), arrchi);
                 baocaothang2.setTienthu(String.valueOf(quy3));
                 baocaothang2.setTienchi(String.valueOf(quy3a));
                 arrbaocaoquy.add(baocaothang2);
 
                 BaoCao baocaothang3 = new BaoCao();
-                double quy4 = baocaothang3.thuQuy("10", "12", edit_quy.getText().toString(), arrthu);
-                double quy4a = baocaothang3.chiQuy("10", "12", edit_quy.getText().toString(), arrchi);
+                int quy4 = baocaothang3.thuQuy("10", "12", edit_quy.getText().toString(), arrthu);
+                int quy4a = baocaothang3.chiQuy("10", "12", edit_quy.getText().toString(), arrchi);
                 baocaothang3.setTienthu(String.valueOf(quy4));
                 baocaothang3.setTienchi(String.valueOf(quy4a));
                 arrbaocaoquy.add(baocaothang3);
@@ -497,8 +497,8 @@ public class BaoCaoThuChi extends Activity {
 
         DoiNgay doi = new DoiNgay();
         ListView lvnam = (ListView) findViewById(R.id.listView_baocaonam);
-        double thu = 0;
-        double chi = 0;
+        int thu = 0;
+        int chi = 0;
         arrnam = new ArrayList<>();
 
         //code cua loc
@@ -541,14 +541,14 @@ public class BaoCaoThuChi extends Activity {
             BaoCao baocaonam = new BaoCao();
             for (int j = 0; j < arrthu.size(); j++) {
                 if (locnam.get(i).equals(doi.doiNam1(arrthu.get(j).getNgay()))) {
-                    thu += Double.parseDouble(arrthu.get(j).getTienthu());
+                    thu += Integer.parseInt(arrthu.get(j).getTienthu());
                 }
             }
 
             baocaonam.setTienthu(String.valueOf(thu));
             for (int k = 0; k < arrchi.size(); k++) {
                 if (locnam.get(i).equals(doi.doiNam1(arrchi.get(k).getNgay()))) {
-                    chi += Double.parseDouble(arrchi.get(k).getTienchi());
+                    chi += Integer.parseInt(arrchi.get(k).getTienchi());
                 }
             }
 
@@ -591,7 +591,7 @@ public class BaoCaoThuChi extends Activity {
     public void dsThang() {
         if (arrbaocaothang.size() != 0) {
             for (int i = 0; i < arrbaocaothang.size(); i++) {
-                if (Double.parseDouble(arrbaocaothang.get(i).getTienchi()) == 0 && Double.parseDouble(arrbaocaothang.get(i).getTienthu()) == 0) {
+                if (Integer.parseInt(arrbaocaothang.get(i).getTienchi()) == 0 && Integer.parseInt(arrbaocaothang.get(i).getTienthu()) == 0) {
                     arrbaocaothang.remove(i);
                     imageId.remove(i);
                     arrcalendar.remove(i);
@@ -617,13 +617,13 @@ public class BaoCaoThuChi extends Activity {
         for (int i = 0; i < arrthu.size(); i++) {
             if (doingaychi.doiThang1(arrthu.get(i).getNgay()).equals(thanghientai)) {
                 String a = arrthu.get(i).getTienthu();
-                sumthuthang += Double.parseDouble(a);
+                sumthuthang += Integer.parseInt(a);
             }
         }
         for (int i = 0; i < arrchi.size(); i++) {
             if (doingaychi.doiThang1(arrchi.get(i).getNgay()).equals(thanghientai)) {
                 String a = arrchi.get(i).getTienchi();
-                sumchithang += Double.parseDouble(a);
+                sumchithang += Integer.parseInt(a);
             }
         }
         BaoCao danhsachthang = new BaoCao();
@@ -640,13 +640,13 @@ public class BaoCaoThuChi extends Activity {
         for (int i = 0; i < arrthu.size(); i++) {
             if (doingaychi.doiNam1(arrthu.get(i).getNgay()).equals(namhientai)) {
                 String a = arrthu.get(i).getTienthu();
-                sumthunam += Double.parseDouble(a);
+                sumthunam += Integer.parseInt(a);
             }
         }
         for (int i = 0; i < arrchi.size(); i++) {
             if (doingaychi.doiNam1(arrchi.get(i).getNgay()).equals(namhientai)) {
                 String a = arrchi.get(i).getTienchi();
-                sumchinam += Double.parseDouble(a);
+                sumchinam += Integer.parseInt(a);
             }
         }
         BaoCao danhsachnam = new BaoCao();
@@ -737,6 +737,7 @@ public class BaoCaoThuChi extends Activity {
                 arrthu.add(objectchi2);
             } while (mCursorthu.moveToNext());
         }
+        mCursorthu.close();
     }
 
     public void danhSachChi() {
@@ -754,12 +755,13 @@ public class BaoCaoThuChi extends Activity {
                 arrchi.add(objectchi2);
             } while (mCursorchi.moveToNext());
         }
+        mCursorchi.close();
     }
 
-    public void openPieChartChi(double anuong, double quanao, double chovay, double sinhhoat, double dilai, double trano, double khac) {
+    public void openPieChartChi(int anuong, int quanao, int chovay, int sinhhoat, int dilai, int trano, int khac) {
 
         // Pie Chart Section Value
-        ArrayList<Double> distribution = new ArrayList<>();
+        ArrayList<Integer> distribution = new ArrayList<>();
         distribution.add(0, anuong);
         distribution.add(1, quanao);
         distribution.add(2, chovay);
@@ -830,10 +832,10 @@ public class BaoCaoThuChi extends Activity {
     }
 
     //BIEU DO TRON THU NHAP
-    public void openPieChartThu(double tienluong, double doino, double bando, double divay, double khac) {
+    public void openPieChartThu(int tienluong, int doino, int bando, int divay, int khac) {
 
         // Pie Chart Section Value
-        ArrayList<Double> distribution = new ArrayList<>();
+        ArrayList<Integer> distribution = new ArrayList<>();
         distribution.add(0, tienluong);
         distribution.add(1, doino);
         distribution.add(2, bando);
@@ -899,9 +901,9 @@ public class BaoCaoThuChi extends Activity {
     }
 
     //BIEU DO COT CHI TIEU
-    public void openBarChartChi(double anuong, double quanao, double chovay, double sinhhoat, double dilai, double trano, double khac) {
+    public void openBarChartChi(int anuong, int quanao, int chovay, int sinhhoat, int dilai, int trano, int khac) {
         //Danh sach cot
-        ArrayList<Double> distribution = new ArrayList<>();
+        ArrayList<Integer> distribution = new ArrayList<>();
         distribution.add(anuong);
         distribution.add(quanao);
         distribution.add(chovay);
@@ -953,9 +955,9 @@ public class BaoCaoThuChi extends Activity {
     }
 
     //BIEU DO COT THU NHAP
-    public void openBarChartThu(double tienluong, double doino, double bando, double divay, double khac) {
+    public void openBarChartThu(int tienluong, int doino, int bando, int divay, int khac) {
         //Danh sach cot
-        ArrayList<Double> distribution = new ArrayList<>();
+        ArrayList<Integer> distribution = new ArrayList<>();
         distribution.add(tienluong);
         distribution.add(doino);
         distribution.add(bando);

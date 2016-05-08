@@ -54,7 +54,6 @@ public class DanhSachThu extends ArrayAdapter<TienThuChi> {
             LayoutInflater inflater = ((Activity) context).getLayoutInflater();
             row = inflater.inflate(layoutResourceId, parent, false);
             holder = new ItemHolder();
-            holder.ten = (TextView) row.findViewById(R.id.textView_tenkhoanthu_custom);
             holder.nhom = (TextView) row.findViewById(R.id.textView_nhomkhoanthu_custom);
             holder.ngaythang = (TextView) row.findViewById(R.id.textView_ngaykhoanthu_custom);
             holder.tien = (TextView) row.findViewById(R.id.textView_tienkhoanthu_custom);
@@ -63,7 +62,6 @@ public class DanhSachThu extends ArrayAdapter<TienThuChi> {
             holder = (ItemHolder) row.getTag();
         }
         TienThuChi item = listData.get(position);
-        holder.ten.setText(item.getTen());
         holder.nhom.setText(item.getNhom());
         holder.ngaythang.setText(item.getNgaythang());
         holder.tien.setText(item.getVND());
@@ -71,7 +69,6 @@ public class DanhSachThu extends ArrayAdapter<TienThuChi> {
     }
 
     static class ItemHolder {
-        TextView ten;
         TextView nhom;
         TextView ngaythang;
         TextView tien;

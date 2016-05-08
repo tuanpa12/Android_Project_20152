@@ -5,40 +5,9 @@
     android:padding="5dp">
 
     <LinearLayout
-        android:id="@+id/linearLayout1"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <TextView
-            android:id="@+id/textViewsuachi31"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Tên:"
-            android:textAppearance="?android:attr/textAppearanceMedium" />
-
-        <EditText
-            android:id="@+id/editTextsuachi_tenkhoanthu"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:ems="10"
-            android:hint="có thể để trống">
-
-            <requestFocus />
-        </EditText>
-    </LinearLayout>
-
-    <ImageView
-        android:id="@+id/textViewsuachi50"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/linearLayout1"
-        android:src="@drawable/division" />
-
-    <LinearLayout
         android:id="@+id/linearLayout2"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/textViewsuachi50">
+        android:layout_height="wrap_content">
 
         <TextView
             android:id="@+id/textViewsuachi5"
@@ -70,7 +39,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/linearLayout2"
-        android:src="@drawable/division" />
+        android:background="@drawable/division" />
 
     <LinearLayout
         android:id="@+id/linearLayout3"
@@ -97,7 +66,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/linearLayout3"
-        android:src="@drawable/division" />
+        android:background="@drawable/division" />
 
     <LinearLayout
         android:id="@+id/linearLayout4"
@@ -133,7 +102,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/linearLayout4"
-        android:src="@drawable/division" />
+        android:background="@drawable/division" />
 
     <LinearLayout
         android:id="@+id/linearLayout5"
@@ -160,7 +129,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_above="@+id/imageButtonsuachi_luukhoanthu"
-        android:src="@drawable/division" />
+        android:background="@drawable/division" />
 
     <ImageButton
         android:id="@+id/imageButtonsuachi_luukhoanthu"
@@ -168,6 +137,6 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/linearLayout5"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="16dp"
         android:background="@drawable/save" />
 </RelativeLayout>

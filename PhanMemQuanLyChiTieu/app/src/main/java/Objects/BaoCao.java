@@ -51,51 +51,51 @@ public class BaoCao {
         this.nhom = nhom;
     }
 
-    public double thuThangThu(String nam, ArrayList<BaoCao> a, String thang) {
+    public int thuThangThu(String nam, ArrayList<BaoCao> a, String thang) {
         DoiNgay doi = new DoiNgay();
-        double sum = 0;
+        int sum = 0;
         String thangnam = nam + thang;
         for (int i = 0; i < a.size(); i++) {
             if (doi.doiThang1(a.get(i).getNgay()).equals(thangnam)) {
-                sum += Double.parseDouble(a.get(i).getTienthu());
+                sum += Integer.parseInt(a.get(i).getTienthu());
             }
         }
         return sum;
     }
 
-    public double thuThangChi(String nam, ArrayList<BaoCao> a, String thang) {
+    public int thuThangChi(String nam, ArrayList<BaoCao> a, String thang) {
         DoiNgay doi = new DoiNgay();
-        double sum = 0;
+        int sum = 0;
         String thangnam = nam + thang;
         for (int i = 0; i < a.size(); i++) {
             if (doi.doiThang1(a.get(i).getNgay()).equals(thangnam)) {
-                sum += Double.parseDouble(a.get(i).getTienchi());
+                sum += Integer.parseInt(a.get(i).getTienchi());
             }
         }
         return sum;
     }
 
-    public double thuQuy(String thangdau, String thangcuoi, String nam, ArrayList<BaoCao> a) {
-        double thu = 0;
+    public int thuQuy(String thangdau, String thangcuoi, String nam, ArrayList<BaoCao> a) {
+        int thu = 0;
         DoiNgay doi = new DoiNgay();
         String dau = nam + thangdau;
         String cuoi = nam + thangcuoi;
         for (int i = 0; i < a.size(); i++) {
             if (Integer.parseInt(doi.doiThang1(a.get(i).getNgay())) >= Integer.parseInt(dau) && Integer.parseInt(doi.doiThang1(a.get(i).getNgay())) <= Integer.parseInt(cuoi)) {
-                thu += Double.parseDouble(a.get(i).getTienthu());
+                thu += Integer.parseInt(a.get(i).getTienthu());
             }
         }
         return thu;
     }
 
-    public double chiQuy(String thangdau, String thangcuoi, String nam, ArrayList<BaoCao> a) {
-        double thu = 0;
+    public int chiQuy(String thangdau, String thangcuoi, String nam, ArrayList<BaoCao> a) {
+        int thu = 0;
         DoiNgay doi = new DoiNgay();
         String dau = nam + thangdau;
         String cuoi = nam + thangcuoi;
         for (int i = 0; i < a.size(); i++) {
             if (Integer.parseInt(doi.doiThang1(a.get(i).getNgay())) >= Integer.parseInt(dau) && Integer.parseInt(doi.doiThang1(a.get(i).getNgay())) <= Integer.parseInt(cuoi)) {
-                thu += Double.parseDouble(a.get(i).getTienchi());
+                thu += Integer.parseInt(a.get(i).getTienchi());
             }
         }
         return thu;

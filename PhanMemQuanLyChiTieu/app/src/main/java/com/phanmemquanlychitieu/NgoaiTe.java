@@ -23,8 +23,8 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
-import Adapter.DanhSachTienTe;
 import Adapter.DanhSachTienTeChi;
+import Adapter.DanhSachTienTeThu;
 import Adapter.DoiNgay;
 import Database.dbChi;
 import Database.dbThu;
@@ -49,7 +49,7 @@ public class NgoaiTe extends Activity {
     private TextView txttygia;
     private ListView listthu;
     private ListView listchi;
-    private DanhSachTienTe myadapterthu = null;
+    private DanhSachTienTeThu myadapterthu = null;
     private DanhSachTienTeChi myadapterchi = null;
 
     @Override
@@ -110,15 +110,14 @@ public class NgoaiTe extends Activity {
     public boolean checkConn() {
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
-        ConnectivityManager managerConn = (ConnectivityManager) getSystemService(CONNECTIVITY_SERVICE);
-        NetworkInfo inforWIFI = managerConn.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
-        NetworkInfo inforMOBILE = managerConn.getNetworkInfo(ConnectivityManager.TYPE_MOBILE);
-        if (inforWIFI != null && inforMOBILE != null) {
-            if (!inforWIFI.isConnected() && !inforMOBILE.isConnected()) {
-                return false;
+        ConnectivityManager managerConn = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo info = managerConn.getActiveNetworkInfo();
+        if (info != null) { // connected to the internet
+            if (info.getType() == ConnectivityManager.TYPE_WIFI || info.getType() == ConnectivityManager.TYPE_MOBILE) {
+                return true;
             }
         }
-        return true;
+        return false;
     }
 
     public void loadTab() {
@@ -156,6 +155,7 @@ public class NgoaiTe extends Activity {
                 arrthu.add(objectthu);
             } while (mCursorthu.moveToNext());
         }
+        mCursorthu.close();
 
         ArrayList<TienThuChi> sapxepthu;
         sapxepthu = doingaythu.sapXep(arrthu);
@@ -163,7 +163,7 @@ public class NgoaiTe extends Activity {
             String strsapxep = doingaythu.ngay(sapxepthu.get(i).getNgaythang());
             sapxepthu.get(i).setNgaythang(strsapxep);
         }
-        myadapterthu = new DanhSachTienTe(this,
+        myadapterthu = new DanhSachTienTeThu(this,
                 R.layout.t_customlayout_thu, sapxepthu);
         listthu.setAdapter(myadapterthu);
     }
@@ -185,6 +185,7 @@ public class NgoaiTe extends Activity {
                 arrchi.add(objectchi);
             } while (mCursorchi.moveToNext());
         }
+        mCursorchi.close();
 
         ArrayList<TienThuChi> sapxepchi;
         sapxepchi = doingaychi.sapXep(arrchi);

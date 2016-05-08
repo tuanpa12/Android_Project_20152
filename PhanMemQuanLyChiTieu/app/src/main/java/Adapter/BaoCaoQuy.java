@@ -62,7 +62,7 @@ public class BaoCaoQuy extends ArrayAdapter<BaoCao> {
         }
         //Object_BaoCaoHienTai item=listData.get(position);
         holder.title.setText(a.get(position));
-        holder.hieuthuchi.setText(String.valueOf(Double.parseDouble(listData.get(position).getTienthu()) - Double.parseDouble(listData.get(position).getTienchi())));
+        holder.hieuthuchi.setText(String.valueOf(Integer.parseInt(listData.get(position).getTienthu()) - Integer.parseInt(listData.get(position).getTienchi())));
         holder.tienthu.setText(listData.get(position).getTienthu());
         holder.tienchi.setText(listData.get(position).getTienchi());
         return row;
